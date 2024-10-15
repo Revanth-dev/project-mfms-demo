@@ -55,4 +55,21 @@ public class GlobalExceptionHandler {
         
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
+    @ExceptionHandler(MerchantDeviceNotAssignedException.class)
+    public ResponseEntity<ErrorDetails> handleMerchnatDeviceNotAssignedException(MerchantDeviceNotAssignedException e,
+    		WebRequest request){
+    	ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(),
+                String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR), request.getDescription(false));
+        
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(EmployeePasswordUpdationFailedException.class)
+    public ResponseEntity<ErrorDetails> handleEmployeePasswordUpdationFailedException(EmployeePasswordUpdationFailedException e,
+    		WebRequest request){
+    	ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(),
+                String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR), request.getDescription(false));
+        
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

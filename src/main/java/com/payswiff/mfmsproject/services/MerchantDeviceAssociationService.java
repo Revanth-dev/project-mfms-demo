@@ -1,5 +1,8 @@
 package com.payswiff.mfmsproject.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,4 +51,32 @@ public class MerchantDeviceAssociationService {
         // Save the association
         return associationRepository.save(association);
     }
+    
+    public List<Device> getDevicesByMerchantId(Long merchantId) throws ResourceNotFoundException {
+        // Check if the merchant exists
+        Merchant merchant = merchantRepository.findById(merchantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Merchant", "ID", merchantId.toString()));
+
+        // Find associations for the merchant
+        List<MerchantDeviceAssociation> associations = associationRepository.findAllByMerchant(merchant);
+
+        // Extract devices from associations
+        return associations.stream()
+                .map(MerchantDeviceAssociation::getDevice)
+                .collect(Collectors.toList());
+    }
+    
+    public boolean isDeviceAssociatedWithMerchant(Long merchantId, Long deviceId) throws ResourceNotFoundException {
+        // Check if the merchant exists
+        Merchant merchant = merchantRepository.findById(merchantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Merchant", "ID", merchantId.toString()));
+
+        // Check if the device exists
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new ResourceNotFoundException("Device", "ID", deviceId.toString()));
+
+        // Check if the association exists
+        return associationRepository.existsByMerchantAndDevice(merchant, device);
+    }
+
 }

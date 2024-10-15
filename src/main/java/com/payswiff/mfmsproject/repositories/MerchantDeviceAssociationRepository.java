@@ -1,8 +1,12 @@
 package com.payswiff.mfmsproject.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.payswiff.mfmsproject.models.Device;
+import com.payswiff.mfmsproject.models.Merchant;
 import com.payswiff.mfmsproject.models.MerchantDeviceAssociation;
 
 /**
@@ -16,4 +20,7 @@ public interface MerchantDeviceAssociationRepository extends JpaRepository<Merch
      * You can define additional query methods here if needed.
      * For example, methods to find associations by merchant or device.
      */
+    List<MerchantDeviceAssociation> findAllByMerchant(Merchant merchant);
+    boolean existsByMerchantAndDevice(Merchant merchant, Device device);
+
 }

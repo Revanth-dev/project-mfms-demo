@@ -44,4 +44,65 @@ public class Question {
      */
     @Column(name = "question_description", nullable = false, unique = true)
     private String questionDescription;
+
+	/**
+	 * @return the questionId
+	 */
+	public Long getQuestionId() {
+		return questionId;
+	}
+
+	/**
+	 * @param questionId the questionId to set
+	 */
+	public void setQuestionId(Long questionId) {
+		this.questionId = questionId;
+	}
+
+	/**
+	 * @return the questionUuid
+	 */
+	public String getQuestionUuid() {
+		return questionUuid;
+	}
+
+	/**
+	 * @param questionUuid the questionUuid to set
+	 */
+	public void setQuestionUuid(String questionUuid) {
+		this.questionUuid = questionUuid;
+	}
+
+	/**
+	 * @return the questionDescription
+	 */
+	public String getQuestionDescription() {
+		return questionDescription;
+	}
+
+	/**
+	 * @param questionDescription the questionDescription to set
+	 */
+	public void setQuestionDescription(String questionDescription) {
+		this.questionDescription = questionDescription;
+	}
+
+	/**
+	 * @param questionId
+	 * @param questionUuid
+	 * @param questionDescription
+	 */
+	public Question(Long questionId, String questionUuid, String questionDescription) {
+		this.questionId = questionId;
+		this.questionUuid = questionUuid;
+		this.questionDescription = questionDescription;
+	}
+
+	/**
+	 * 
+	 */
+	public Question() {
+	}
+    
+    
 }

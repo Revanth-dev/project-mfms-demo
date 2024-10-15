@@ -54,10 +54,31 @@ public class SecurityConfig {
 	    httpSecurity
 	        .csrf(csrf -> csrf.disable()) // Disable CSRF protection
 	        .authorizeHttpRequests((authorize) -> authorize
-	            // Allow POST requests to "api/devices/**" only for users with the "ADMIN" role
-	            .requestMatchers(HttpMethod.POST, "api/devices/**").hasRole("admin")
-	            // Allow all other requests without authentication
-	            .anyRequest().permitAll()
+	        		// Allow access to all employees without authentication
+	                .requestMatchers(HttpMethod.POST, "/api/authentication/login").permitAll()
+	                .requestMatchers(HttpMethod.POST, "/api/authentication/forgotpassword").permitAll()
+	                .requestMatchers(HttpMethod.POST, "/api/employees/create").permitAll()
+	                // Allow access to admin-only endpoints
+	                .requestMatchers(HttpMethod.POST, "/api/devices/create").hasRole("admin")
+	                .requestMatchers(HttpMethod.POST, "/api/merchants/create").hasRole("admin")
+	                .requestMatchers(HttpMethod.POST, "/api/MerchantDeviceAssociation/assign").hasRole("admin")
+	                .requestMatchers(HttpMethod.POST, "/api/questions/create").hasRole("admin")
+	                .requestMatchers(HttpMethod.GET, "/api/MerchantDeviceAssociation/get/merchantdeviceslist").hasRole("admin")
+	                .requestMatchers(HttpMethod.GET, "/api/MerchantDeviceAssociation/check/merchant-device").hasRole("admin")
+	                // Access to employee endpoints with authentication
+	                .requestMatchers(HttpMethod.POST, "/api/feedback/create").hasRole("employee")
+	                // Access to endpoints requiring either admin or employee authentication
+	                .requestMatchers(HttpMethod.GET, "/api/devices/get").authenticated()
+	                .requestMatchers(HttpMethod.GET, "/api/devices/all").authenticated()
+	                .requestMatchers(HttpMethod.GET, "/api/employees/get").authenticated()
+	                .requestMatchers(HttpMethod.GET, "/api/feedback/getallfeedbacks").authenticated()
+	                .requestMatchers(HttpMethod.GET, "/api/merchants/get").authenticated()
+	                .requestMatchers(HttpMethod.GET, "/api/merchants/all").authenticated()
+	                .requestMatchers(HttpMethod.GET, "/api/questions/get").authenticated()
+	                .requestMatchers(HttpMethod.GET, "/api/questions/getbydesc").authenticated()
+	                .requestMatchers(HttpMethod.GET, "/api/questions/all").authenticated()
+	                // Permit all other requests
+	                .anyRequest().permitAll()
 	        )
 	        .httpBasic(Customizer.withDefaults())
 	        .exceptionHandling(exception->exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))

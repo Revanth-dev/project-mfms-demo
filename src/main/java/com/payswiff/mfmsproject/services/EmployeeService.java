@@ -56,7 +56,7 @@ public class EmployeeService {
         Role employeeRole;
 
         // Check the employee type and assign the correct role
-        if ("admin".equals(employee.getEmployeeType())) {
+        if ("admin".equals(employee.getEmployeeType().name().toLowerCase())) {
             // Find role "ROLE_admin" in the database
             employeeRole = roleRepository.findByName("ROLE_admin")
                 .orElseThrow(() -> new ResourceNotFoundException("Role" ,"Name","ROLE_admin"));
@@ -117,5 +117,25 @@ public class EmployeeService {
      */
     public boolean existsById(Long employeeId) {
         return employeeId != null && employeeRepository.existsById(employeeId); // Use repository to check if employee exists
+    }
+    
+    public boolean updateEmployeePassword(String email,String newPassword) throws ResourceNotFoundException {
+    	
+    	// Fetch the employee by email
+        Employee employee = employeeRepository.findByEmployeeEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "Email", email));
+
+        // Hash the new password
+        String hashedPassword = passwordEncoder.encode(newPassword);
+
+        // Update the employee's password
+        employee.setEmployeePassword(hashedPassword);
+
+        // Save the updated employee entity
+        employeeRepository.save(employee);
+        
+        return true; // Indicate success
+		
+    	
     }
 }

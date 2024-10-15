@@ -89,4 +89,147 @@ public class Merchant {
     @UpdateTimestamp
     @Column(name = "merchant_updation_time")
     private LocalDateTime merchantUpdationTime;
+
+	/**
+	 * @return the merchantId
+	 */
+	public Integer getMerchantId() {
+		return merchantId;
+	}
+
+	/**
+	 * @param merchantId the merchantId to set
+	 */
+	public void setMerchantId(Integer merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	/**
+	 * @return the merchantUuid
+	 */
+	public String getMerchantUuid() {
+		return merchantUuid;
+	}
+
+	/**
+	 * @param merchantUuid the merchantUuid to set
+	 */
+	public void setMerchantUuid(String merchantUuid) {
+		this.merchantUuid = merchantUuid;
+	}
+
+	/**
+	 * @return the merchantEmail
+	 */
+	public String getMerchantEmail() {
+		return merchantEmail;
+	}
+
+	/**
+	 * @param merchantEmail the merchantEmail to set
+	 */
+	public void setMerchantEmail(String merchantEmail) {
+		this.merchantEmail = merchantEmail;
+	}
+
+	/**
+	 * @return the merchantPhone
+	 */
+	public String getMerchantPhone() {
+		return merchantPhone;
+	}
+
+	/**
+	 * @param merchantPhone the merchantPhone to set
+	 */
+	public void setMerchantPhone(String merchantPhone) {
+		this.merchantPhone = merchantPhone;
+	}
+
+	/**
+	 * @return the merchantBusinessName
+	 */
+	public String getMerchantBusinessName() {
+		return merchantBusinessName;
+	}
+
+	/**
+	 * @param merchantBusinessName the merchantBusinessName to set
+	 */
+	public void setMerchantBusinessName(String merchantBusinessName) {
+		this.merchantBusinessName = merchantBusinessName;
+	}
+
+	/**
+	 * @return the merchantBusinessType
+	 */
+	public String getMerchantBusinessType() {
+		return merchantBusinessType;
+	}
+
+	/**
+	 * @param merchantBusinessType the merchantBusinessType to set
+	 */
+	public void setMerchantBusinessType(String merchantBusinessType) {
+		this.merchantBusinessType = merchantBusinessType;
+	}
+
+	/**
+	 * @return the merchantCreationTime
+	 */
+	public LocalDateTime getMerchantCreationTime() {
+		return merchantCreationTime;
+	}
+
+	/**
+	 * @param merchantCreationTime the merchantCreationTime to set
+	 */
+	public void setMerchantCreationTime(LocalDateTime merchantCreationTime) {
+		this.merchantCreationTime = merchantCreationTime;
+	}
+
+	/**
+	 * @return the merchantUpdationTime
+	 */
+	public LocalDateTime getMerchantUpdationTime() {
+		return merchantUpdationTime;
+	}
+
+	/**
+	 * @param merchantUpdationTime the merchantUpdationTime to set
+	 */
+	public void setMerchantUpdationTime(LocalDateTime merchantUpdationTime) {
+		this.merchantUpdationTime = merchantUpdationTime;
+	}
+
+	/**
+	 * @param merchantId
+	 * @param merchantUuid
+	 * @param merchantEmail
+	 * @param merchantPhone
+	 * @param merchantBusinessName
+	 * @param merchantBusinessType
+	 * @param merchantCreationTime
+	 * @param merchantUpdationTime
+	 */
+	public Merchant(Integer merchantId, String merchantUuid, String merchantEmail, String merchantPhone,
+			String merchantBusinessName, String merchantBusinessType, LocalDateTime merchantCreationTime,
+			LocalDateTime merchantUpdationTime) {
+		this.merchantId = merchantId;
+		this.merchantUuid = merchantUuid;
+		this.merchantEmail = merchantEmail;
+		this.merchantPhone = merchantPhone;
+		this.merchantBusinessName = merchantBusinessName;
+		this.merchantBusinessType = merchantBusinessType;
+		this.merchantCreationTime = merchantCreationTime;
+		this.merchantUpdationTime = merchantUpdationTime;
+	}
+
+	/**
+	 * 
+	 */
+	public Merchant() {
+	}
+    
+    
 }

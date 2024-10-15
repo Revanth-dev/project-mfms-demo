@@ -51,4 +51,67 @@ public class MerchantDeviceAssociation {
     @ManyToOne
     @JoinColumn(name = "device_id", nullable = false)
     private Device device;  // Foreign key referencing the device
+
+	/**
+	 * @param id
+	 * @param merchant
+	 * @param device
+	 */
+	public MerchantDeviceAssociation(Integer id, Merchant merchant, Device device) {
+		this.id = id;
+		this.merchant = merchant;
+		this.device = device;
+	}
+
+	public MerchantDeviceAssociation() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the merchant
+	 */
+	public Merchant getMerchant() {
+		return merchant;
+	}
+
+	/**
+	 * @param merchant the merchant to set
+	 */
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
+	}
+
+	/**
+	 * @return the device
+	 */
+	public Device getDevice() {
+		return device;
+	}
+
+	/**
+	 * @param device the device to set
+	 */
+	public void setDevice(Device device) {
+		this.device = device;
+	}
+
+	/**
+	 * 
+	 */
+	
+    
 }

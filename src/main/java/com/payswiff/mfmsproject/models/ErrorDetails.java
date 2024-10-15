@@ -42,4 +42,42 @@ public class ErrorDetails {
      * that can help diagnose the problem.
      */
     private String details;
+
+	public Date getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(Date timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public ErrorDetails(Date timeStamp, String message, String statusCode, String details) {
+		super();
+		this.timeStamp = timeStamp;
+		this.message = message;
+		this.statusCode = statusCode;
+		this.details = details;
+	}
+
+	/**
+	 * 
+	 */
+	public ErrorDetails() {
+	}
 }

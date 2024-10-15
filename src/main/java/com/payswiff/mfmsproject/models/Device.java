@@ -46,4 +46,111 @@ public class Device {
     @UpdateTimestamp // Automatically updates this field to the current timestamp upon updates
     @Column(name = "device_updation_time") // Timestamp of the last update to the device
     private LocalDateTime deviceUpdationTime;
+
+	/**
+	 * @return the deviceId
+	 */
+	public Long getDeviceId() {
+		return deviceId;
+	}
+
+	/**
+	 * @param deviceId the deviceId to set
+	 */
+	public void setDeviceId(Long deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	/**
+	 * @return the deviceUuid
+	 */
+	public String getDeviceUuid() {
+		return deviceUuid;
+	}
+
+	/**
+	 * @param deviceUuid the deviceUuid to set
+	 */
+	public void setDeviceUuid(String deviceUuid) {
+		this.deviceUuid = deviceUuid;
+	}
+
+	/**
+	 * @return the deviceModel
+	 */
+	public String getDeviceModel() {
+		return deviceModel;
+	}
+
+	/**
+	 * @param deviceModel the deviceModel to set
+	 */
+	public void setDeviceModel(String deviceModel) {
+		this.deviceModel = deviceModel;
+	}
+
+	/**
+	 * @return the deviceManufacturer
+	 */
+	public String getDeviceManufacturer() {
+		return deviceManufacturer;
+	}
+
+	/**
+	 * @param deviceManufacturer the deviceManufacturer to set
+	 */
+	public void setDeviceManufacturer(String deviceManufacturer) {
+		this.deviceManufacturer = deviceManufacturer;
+	}
+
+	/**
+	 * @return the deviceCreationTime
+	 */
+	public LocalDateTime getDeviceCreationTime() {
+		return deviceCreationTime;
+	}
+
+	/**
+	 * @param deviceCreationTime the deviceCreationTime to set
+	 */
+	public void setDeviceCreationTime(LocalDateTime deviceCreationTime) {
+		this.deviceCreationTime = deviceCreationTime;
+	}
+
+	/**
+	 * @return the deviceUpdationTime
+	 */
+	public LocalDateTime getDeviceUpdationTime() {
+		return deviceUpdationTime;
+	}
+
+	/**
+	 * @param deviceUpdationTime the deviceUpdationTime to set
+	 */
+	public void setDeviceUpdationTime(LocalDateTime deviceUpdationTime) {
+		this.deviceUpdationTime = deviceUpdationTime;
+	}
+
+	/**
+	 * @param deviceId
+	 * @param deviceUuid
+	 * @param deviceModel
+	 * @param deviceManufacturer
+	 * @param deviceCreationTime
+	 * @param deviceUpdationTime
+	 */
+	public Device(Long deviceId, String deviceUuid, String deviceModel, String deviceManufacturer,
+			LocalDateTime deviceCreationTime, LocalDateTime deviceUpdationTime) {
+		this.deviceId = deviceId;
+		this.deviceUuid = deviceUuid;
+		this.deviceModel = deviceModel;
+		this.deviceManufacturer = deviceManufacturer;
+		this.deviceCreationTime = deviceCreationTime;
+		this.deviceUpdationTime = deviceUpdationTime;
+	}
+
+	public Device() {
+		
+	}
+    
 }

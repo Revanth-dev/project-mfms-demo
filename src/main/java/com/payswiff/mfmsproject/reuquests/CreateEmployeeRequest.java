@@ -12,6 +12,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
+
+
 /**
  * Represents a request to create a new Employee.
  * This class holds the necessary information to create an Employee entity.
@@ -27,7 +32,7 @@ public class CreateEmployeeRequest {
     /**
      * The Payswiff ID assigned to the employee.
      */
-    private String employeePayswiffId;
+    private long employeePayswiffId;
 
     /**
      * The name of the employee.
@@ -66,15 +71,148 @@ public class CreateEmployeeRequest {
      *         including a randomly generated UUID for the employee.
      */
     public Employee toEmployee() {
-        return Employee.builder()
-                .employeeEmail(this.employeeEmail)
-                .employeeUuid(UUID.randomUUID().toString())
-                .employeeDesignation(this.employeeDesignation)
-                .employeeName(this.employeeName)
-                .employeePassword(this.employeePassword)
-                .employeePayswiffId(this.employeePayswiffId)
-                .employeePhoneNumber(this.employeePhoneNumber)
-                .employeeType(EmployeeType.valueOf(this.employeeType))
-                .build();
+    	
+//        return Employee.builder()
+////                .employeeEmail(this.employeeEmail)
+//                .employeeUuid(UUID.randomUUID().toString())
+//                .employeeDesignation(this.employeeDesignation)
+//                .employeeName(this.employeeName)
+//                .employeePassword(this.employeePassword)
+//                .employeePayswiffId(this.employeePayswiffId)
+//                .employeePhoneNumber(this.employeePhoneNumber)
+//                .employeeType(EmployeeType.valueOf(this.employeeType))
+//                .build();
+    	 ModelMapper modelMapper = new ModelMapper();
+    	 
+//    	 Add your custom converter here
+         modelMapper.addConverter(new Converter<String, Long>() {
+             public Long convert(MappingContext<String, Long> context) {
+                 return Long.valueOf(context.getSource());
+             }
+         });
+    	    Employee employee = modelMapper.map(this, Employee.class);
+    	    employee.setEmployeeUuid(UUID.randomUUID().toString()); // Set UUID separately
+    	    
+    	    return employee;
+    
     }
+
+	/**
+	 * @return the employeePayswiffId
+	 */
+	public long getEmployeePayswiffId() {
+		return employeePayswiffId;
+	}
+
+	/**
+	 * @param employeePayswiffId the employeePayswiffId to set
+	 */
+	public void setEmployeePayswiffId(long employeePayswiffId) {
+		this.employeePayswiffId = employeePayswiffId;
+	}
+
+	/**
+	 * @return the employeeName
+	 */
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	/**
+	 * @param employeeName the employeeName to set
+	 */
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	/**
+	 * @return the employeeEmail
+	 */
+	public String getEmployeeEmail() {
+		return employeeEmail;
+	}
+
+	/**
+	 * @param employeeEmail the employeeEmail to set
+	 */
+	public void setEmployeeEmail(String employeeEmail) {
+		this.employeeEmail = employeeEmail;
+	}
+
+	/**
+	 * @return the employeePassword
+	 */
+	public String getEmployeePassword() {
+		return employeePassword;
+	}
+
+	/**
+	 * @param employeePassword the employeePassword to set
+	 */
+	public void setEmployeePassword(String employeePassword) {
+		this.employeePassword = employeePassword;
+	}
+
+	/**
+	 * @return the employeePhoneNumber
+	 */
+	public String getEmployeePhoneNumber() {
+		return employeePhoneNumber;
+	}
+
+	/**
+	 * @param employeePhoneNumber the employeePhoneNumber to set
+	 */
+	public void setEmployeePhoneNumber(String employeePhoneNumber) {
+		this.employeePhoneNumber = employeePhoneNumber;
+	}
+
+	/**
+	 * @return the employeeDesignation
+	 */
+	public String getEmployeeDesignation() {
+		return employeeDesignation;
+	}
+
+	/**
+	 * @param employeeDesignation the employeeDesignation to set
+	 */
+	public void setEmployeeDesignation(String employeeDesignation) {
+		this.employeeDesignation = employeeDesignation;
+	}
+
+	/**
+	 * @return the employeeType
+	 */
+	public String getEmployeeType() {
+		return employeeType;
+	}
+
+	/**
+	 * @param employeeType the employeeType to set
+	 */
+	public void setEmployeeType(String employeeType) {
+		this.employeeType = employeeType;
+	}
+
+	/**
+	 * @param employeePayswiffId
+	 * @param employeeName
+	 * @param employeeEmail
+	 * @param employeePassword
+	 * @param employeePhoneNumber
+	 * @param employeeDesignation
+	 * @param employeeType
+	 */
+	public CreateEmployeeRequest(long employeePayswiffId, String employeeName, String employeeEmail,
+			String employeePassword, String employeePhoneNumber, String employeeDesignation, String employeeType) {
+		this.employeePayswiffId = employeePayswiffId;
+		this.employeeName = employeeName;
+		this.employeeEmail = employeeEmail;
+		this.employeePassword = employeePassword;
+		this.employeePhoneNumber = employeePhoneNumber;
+		this.employeeDesignation = employeeDesignation;
+		this.employeeType = employeeType;
+	}
+	
 }

@@ -39,4 +39,80 @@ public class FeedbackQuestionsAssociation {
     @Column(name = "answer", nullable = false)
     private String answer;  // The answer associated with the feedback question
 
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the feedback
+	 */
+	public Feedback getFeedback() {
+		return feedback;
+	}
+
+	/**
+	 * @param feedback the feedback to set
+	 */
+	public void setFeedback(Feedback feedback) {
+		this.feedback = feedback;
+	}
+
+	/**
+	 * @return the question
+	 */
+	public Question getQuestion() {
+		return question;
+	}
+
+	/**
+	 * @param question the question to set
+	 */
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+	/**
+	 * @return the answer
+	 */
+	public String getAnswer() {
+		return answer;
+	}
+
+	/**
+	 * @param answer the answer to set
+	 */
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+	/**
+	 * @param id
+	 * @param feedback
+	 * @param question
+	 * @param answer
+	 */
+	public FeedbackQuestionsAssociation(Integer id, Feedback feedback, Question question, String answer) {
+		this.id = id;
+		this.feedback = feedback;
+		this.question = question;
+		this.answer = answer;
+	}
+
+	/**
+	 * 
+	 */
+	public FeedbackQuestionsAssociation() {
+	}
+    
+    
 }

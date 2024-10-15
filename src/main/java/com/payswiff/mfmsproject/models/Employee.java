@@ -117,4 +117,214 @@ public class Employee {
 	inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "role_id"))
 	private Set<Role> roles;
 
+	/**
+	 * @return the employeeId
+	 */
+	public Long getEmployeeId() {
+		return employeeId;
+	}
+
+	/**
+	 * @param employeeId the employeeId to set
+	 */
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	/**
+	 * @return the employeeUuid
+	 */
+	public String getEmployeeUuid() {
+		return employeeUuid;
+	}
+
+	/**
+	 * @param employeeUuid the employeeUuid to set
+	 */
+	public void setEmployeeUuid(String employeeUuid) {
+		this.employeeUuid = employeeUuid;
+	}
+
+	/**
+	 * @return the employeePayswiffId
+	 */
+	public String getEmployeePayswiffId() {
+		return employeePayswiffId;
+	}
+
+	/**
+	 * @param employeePayswiffId the employeePayswiffId to set
+	 */
+	public void setEmployeePayswiffId(String employeePayswiffId) {
+		this.employeePayswiffId = employeePayswiffId;
+	}
+
+	/**
+	 * @return the employeeName
+	 */
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	/**
+	 * @param employeeName the employeeName to set
+	 */
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	/**
+	 * @return the employeeEmail
+	 */
+	public String getEmployeeEmail() {
+		return employeeEmail;
+	}
+
+	/**
+	 * @param employeeEmail the employeeEmail to set
+	 */
+	public void setEmployeeEmail(String employeeEmail) {
+		this.employeeEmail = employeeEmail;
+	}
+
+	/**
+	 * @return the employeePassword
+	 */
+	public String getEmployeePassword() {
+		return employeePassword;
+	}
+
+	/**
+	 * @param employeePassword the employeePassword to set
+	 */
+	public void setEmployeePassword(String employeePassword) {
+		this.employeePassword = employeePassword;
+	}
+
+	/**
+	 * @return the employeePhoneNumber
+	 */
+	public String getEmployeePhoneNumber() {
+		return employeePhoneNumber;
+	}
+
+	/**
+	 * @param employeePhoneNumber the employeePhoneNumber to set
+	 */
+	public void setEmployeePhoneNumber(String employeePhoneNumber) {
+		this.employeePhoneNumber = employeePhoneNumber;
+	}
+
+	/**
+	 * @return the employeeDesignation
+	 */
+	public String getEmployeeDesignation() {
+		return employeeDesignation;
+	}
+
+	/**
+	 * @param employeeDesignation the employeeDesignation to set
+	 */
+	public void setEmployeeDesignation(String employeeDesignation) {
+		this.employeeDesignation = employeeDesignation;
+	}
+
+	/**
+	 * @return the employeeType
+	 */
+	public EmployeeType getEmployeeType() {
+		return employeeType;
+	}
+
+	/**
+	 * @param employeeType the employeeType to set
+	 */
+	public void setEmployeeType(EmployeeType employeeType) {
+		this.employeeType = employeeType;
+	}
+
+	/**
+	 * @return the employeeCreationTime
+	 */
+	public LocalDateTime getEmployeeCreationTime() {
+		return employeeCreationTime;
+	}
+
+	/**
+	 * @param employeeCreationTime the employeeCreationTime to set
+	 */
+	public void setEmployeeCreationTime(LocalDateTime employeeCreationTime) {
+		this.employeeCreationTime = employeeCreationTime;
+	}
+
+	/**
+	 * @return the employeeUpdationTime
+	 */
+	public LocalDateTime getEmployeeUpdationTime() {
+		return employeeUpdationTime;
+	}
+
+	/**
+	 * @param employeeUpdationTime the employeeUpdationTime to set
+	 */
+	public void setEmployeeUpdationTime(LocalDateTime employeeUpdationTime) {
+		this.employeeUpdationTime = employeeUpdationTime;
+	}
+
+	/**
+	 * @return the roles
+	 */
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	/**
+	 * @param employeeId
+	 * @param employeeUuid
+	 * @param employeePayswiffId
+	 * @param employeeName
+	 * @param employeeEmail
+	 * @param employeePassword
+	 * @param employeePhoneNumber
+	 * @param employeeDesignation
+	 * @param employeeType
+	 * @param employeeCreationTime
+	 * @param employeeUpdationTime
+	 * @param roles
+	 */
+	public Employee(Long employeeId, String employeeUuid, String employeePayswiffId, String employeeName,
+			String employeeEmail, String employeePassword, String employeePhoneNumber, String employeeDesignation,
+			EmployeeType employeeType, LocalDateTime employeeCreationTime, LocalDateTime employeeUpdationTime,
+			Set<Role> roles) {
+		this.employeeId = employeeId;
+		this.employeeUuid = employeeUuid;
+		this.employeePayswiffId = employeePayswiffId;
+		this.employeeName = employeeName;
+		this.employeeEmail = employeeEmail;
+		this.employeePassword = employeePassword;
+		this.employeePhoneNumber = employeePhoneNumber;
+		this.employeeDesignation = employeeDesignation;
+		this.employeeType = employeeType;
+		this.employeeCreationTime = employeeCreationTime;
+		this.employeeUpdationTime = employeeUpdationTime;
+		this.roles = roles;
+	}
+
+	/**
+	 * 
+	 */
+	public Employee() {
+	}
+
+	
+
+	
+
 }

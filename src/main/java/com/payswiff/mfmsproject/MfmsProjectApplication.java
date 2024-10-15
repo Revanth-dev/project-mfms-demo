@@ -9,5 +9,5 @@ public class MfmsProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MfmsProjectApplication.class, args);
 	}
-
+    
 }

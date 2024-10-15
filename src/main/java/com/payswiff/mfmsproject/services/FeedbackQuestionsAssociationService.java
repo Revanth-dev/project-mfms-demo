@@ -1,4 +1,5 @@
 package com.payswiff.mfmsproject.services;
+import org.modelmapper.ModelMapper;
 
 import com.payswiff.mfmsproject.exceptions.ResourceAlreadyExists;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
@@ -54,12 +55,16 @@ public class FeedbackQuestionsAssociationService {
 
         
         // Create the association
-        FeedbackQuestionsAssociation association = FeedbackQuestionsAssociation.builder()
-                .feedback(feedback)
-                .question(question)
-                .answer(request.getAnswer())
-                .build();
-
+//        FeedbackQuestionsAssociation association = FeedbackQuestionsAssociation.builder()
+//                .feedback(feedback)
+//                .question(question)
+//                .answer(request.getAnswer())
+//                .build();
+        ModelMapper modelMapper = new ModelMapper();
+        FeedbackQuestionsAssociation association = modelMapper.map(this, FeedbackQuestionsAssociation.class);
+        association.setFeedback(feedback);  // Set the feedback object
+        association.setQuestion(question);    // Set the question object
+        association.setAnswer(request.getAnswer());         // Set the answer from the request
         return associationRepository.save(association);
     }
 }
