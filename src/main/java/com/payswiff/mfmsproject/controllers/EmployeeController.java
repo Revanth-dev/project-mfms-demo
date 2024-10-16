@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.payswiff.mfmsproject.exceptions.ResourceAlreadyExists;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
+import com.payswiff.mfmsproject.exceptions.UnableSentEmail;
 import com.payswiff.mfmsproject.models.Employee;
 import com.payswiff.mfmsproject.reuquests.CreateEmployeeRequest;
 import com.payswiff.mfmsproject.services.EmployeeService;
@@ -27,10 +28,11 @@ public class EmployeeController {
      * @return ResponseEntity containing the created employee.
      * @throws ResourceAlreadyExists if an employee with the same Payswiff ID, email, or phone already exists.
      * @throws ResourceNotFoundException 
+     * @throws UnableSentEmail 
      */
     @PostMapping("/create")
     public ResponseEntity<Employee> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) 
-            throws ResourceAlreadyExists, ResourceNotFoundException {
+            throws ResourceAlreadyExists, ResourceNotFoundException, UnableSentEmail {
         Employee employee = request.toEmployee();
         Employee createdEmployee = employeeService.saveEmployee(employee);
         return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);

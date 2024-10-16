@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.payswiff.mfmsproject.dtos.EmailSendDto;
 import com.payswiff.mfmsproject.exceptions.ResourceAlreadyExists;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 import com.payswiff.mfmsproject.models.Employee;
@@ -26,6 +27,9 @@ public class EmployeeService {
     
     @Autowired
     RoleRepository roleRepository;
+    
+    @Autowired
+    EmailService emailService;
 
     /**
      * Saves a new Employee after checking if an employee with the same Payswiff ID, email, or phone number already exists.
@@ -50,6 +54,7 @@ public class EmployeeService {
             throw new ResourceAlreadyExists("Employee", "Phone Number", employee.getEmployeePhoneNumber());
         }
         //encrypt the employee password
+        String password=employee.getEmployeePassword();
         employee.setEmployeePassword(passwordEncoder.encode(employee.getEmployeePassword()));
         
         Set<Role> roles = new HashSet<>();
@@ -75,7 +80,20 @@ public class EmployeeService {
         // Save the employee (if necessary)
        
         
-        return employeeRepository.save(employee);
+        Employee createdEmployee = employeeRepository.save(employee);
+        
+        EmailSendDto emailSendDto = new EmailSendDto();
+        emailSendDto.setTo(employee.getEmployeeEmail());
+        emailSendDto.setSubject("Merchant Feedback Management System");
+        emailSendDto.setText("You Account has been created successfully.\n"
+        		+ "Your Login Credentials are:\n"
+        		+ "Email: "+employee.getEmployeeEmail()+"\n"
+        				+ "Password:"+password);
+        
+        boolean emailSent = emailService.sendEmail(emailSendDto.getTo(), emailSendDto.getSubject(), emailSendDto.getText());
+
+        
+        return createdEmployee;
     }
 
     /**
