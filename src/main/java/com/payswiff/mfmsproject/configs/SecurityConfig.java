@@ -58,13 +58,18 @@ public class SecurityConfig {
 	                .requestMatchers(HttpMethod.POST, "/api/authentication/login").permitAll()
 	                .requestMatchers(HttpMethod.POST, "/api/authentication/forgotpassword").permitAll()
 	                .requestMatchers(HttpMethod.POST, "/api/employees/create").permitAll()
-	                // Allow access to admin-only endpoints
+	                // Allow access to admin-only endpoints	
 	                .requestMatchers(HttpMethod.POST, "/api/devices/create").hasRole("admin")
 	                .requestMatchers(HttpMethod.POST, "/api/merchants/create").hasRole("admin")
 	                .requestMatchers(HttpMethod.POST, "/api/MerchantDeviceAssociation/assign").hasRole("admin")
 	                .requestMatchers(HttpMethod.POST, "/api/questions/create").hasRole("admin")
 	                .requestMatchers(HttpMethod.GET, "/api/MerchantDeviceAssociation/get/merchantdeviceslist").hasRole("admin")
 	                .requestMatchers(HttpMethod.GET, "/api/MerchantDeviceAssociation/check/merchant-device").hasRole("admin")
+	                .requestMatchers(HttpMethod.GET,"/api/feedback/allfeedbackscount").hasRole("admin")
+	                .requestMatchers(HttpMethod.GET,"/api/feedback/average-rating-by-device").hasRole("admin")
+	                .requestMatchers(HttpMethod.GET,"/api/MerchantDeviceAssociation/device-count").hasRole("admin")
+	                .requestMatchers(HttpMethod.GET,"/api/feedback/device-count").hasRole("admin")
+	                .requestMatchers(HttpMethod.GET,"/api/employees/all").hasRole("admin")
 	                // Access to employee endpoints with authentication
 	                .requestMatchers(HttpMethod.POST, "/api/feedback/create").hasRole("employee")
 	                // Access to endpoints requiring either admin or employee authentication

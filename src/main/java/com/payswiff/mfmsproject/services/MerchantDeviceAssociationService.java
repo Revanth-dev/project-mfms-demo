@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.payswiff.mfmsproject.dtos.MerchantDeviceCountDTO;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 import com.payswiff.mfmsproject.models.Device;
 import com.payswiff.mfmsproject.models.Merchant;
@@ -78,5 +79,14 @@ public class MerchantDeviceAssociationService {
         // Check if the association exists
         return associationRepository.existsByMerchantAndDevice(merchant, device);
     }
-
+    
+    public List<MerchantDeviceCountDTO> getDeviceCountByMerchant() {
+        List<Object[]> results = associationRepository.countDevicesByMerchant();
+        return results.stream()
+                .map(result -> new MerchantDeviceCountDTO(
+                        (Long) result[0],
+                        (Long) result[1]
+                ))
+                .collect(Collectors.toList());
+    }
 }

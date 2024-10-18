@@ -7,12 +7,14 @@ import org.springframework.stereotype.Service;
 import com.payswiff.mfmsproject.dtos.EmailSendDto;
 import com.payswiff.mfmsproject.exceptions.ResourceAlreadyExists;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
+import com.payswiff.mfmsproject.exceptions.UnableSentEmail;
 import com.payswiff.mfmsproject.models.Employee;
 import com.payswiff.mfmsproject.models.Role;
 import com.payswiff.mfmsproject.repositories.EmployeeRepository;
 import com.payswiff.mfmsproject.repositories.RoleRepository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,8 +40,9 @@ public class EmployeeService {
      * @return The saved Employee object.
      * @throws ResourceAlreadyExists If an employee with the same Payswiff ID, email, or phone number already exists.
      * @throws ResourceNotFoundException 
+     * @throws UnableSentEmail 
      */
-    public Employee saveEmployee(Employee employee) throws ResourceAlreadyExists, ResourceNotFoundException {
+    public Employee saveEmployee(Employee employee) throws ResourceAlreadyExists, ResourceNotFoundException, UnableSentEmail {
         // Check for existing employee with the same Payswiff ID
         if (employeeRepository.findByEmployeePayswiffId(employee.getEmployeePayswiffId()).isPresent()) {
             throw new ResourceAlreadyExists("Employee", "Payswiff ID", employee.getEmployeePayswiffId());
@@ -83,6 +86,7 @@ public class EmployeeService {
         Employee createdEmployee = employeeRepository.save(employee);
         
         EmailSendDto emailSendDto = new EmailSendDto();
+        
         emailSendDto.setTo(employee.getEmployeeEmail());
         emailSendDto.setSubject("Merchant Feedback Management System");
         emailSendDto.setText("You Account has been created successfully.\n"
@@ -91,7 +95,11 @@ public class EmployeeService {
         				+ "Password:"+password);
         
         boolean emailSent = emailService.sendEmail(emailSendDto.getTo(), emailSendDto.getSubject(), emailSendDto.getText());
-
+        
+        if(!emailSent) {
+        	//Email sending failed
+        	throw new UnableSentEmail(employee.getEmployeeEmail());
+        }
         
         return createdEmployee;
     }
@@ -155,5 +163,9 @@ public class EmployeeService {
         return true; // Indicate success
 		
     	
+    }
+    
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 }

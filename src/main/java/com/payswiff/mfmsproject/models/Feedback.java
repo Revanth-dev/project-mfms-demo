@@ -59,7 +59,7 @@ public class Feedback {
     private LocalDateTime feedbackUpdationTime;  // Update timestamp
 
     @Column(name = "feedback_rating", nullable = false)
-    private Integer feedbackRating;  // Rating for the feedback
+    private Double feedbackRating;  // Rating for the feedback
 
     @Column(name = "feedback", nullable = false)
     private String feedback;  // Additional feedback text
@@ -78,7 +78,7 @@ public class Feedback {
 	 */
 	public Feedback(Integer feedbackId, String feedbackUuid, Employee feedbackEmployee, Merchant feedbackMerchant,
 			Device feedbackDevice, String feedbackImage1, LocalDateTime feedbackCreationTime,
-			LocalDateTime feedbackUpdationTime, Integer feedbackRating, String feedback) {
+			LocalDateTime feedbackUpdationTime, Double feedbackRating, String feedback) {
 		this.feedbackId = feedbackId;
 		this.feedbackUuid = feedbackUuid;
 		this.feedbackEmployee = feedbackEmployee;
@@ -206,15 +206,15 @@ public class Feedback {
 	/**
 	 * @return the feedbackRating
 	 */
-	public Integer getFeedbackRating() {
+	public Double getFeedbackRating() {
 		return feedbackRating;
 	}
 
 	/**
-	 * @param feedbackRating the feedbackRating to set
+	 * @param integer the feedbackRating to set
 	 */
-	public void setFeedbackRating(Integer feedbackRating) {
-		this.feedbackRating = feedbackRating;
+	public void setFeedbackRating(Double integer) {
+		this.feedbackRating = integer;
 	}
 
 	/**

@@ -17,6 +17,8 @@ import com.payswiff.mfmsproject.services.DeviceService;
 
 @RestController
 @RequestMapping("/api/devices") // Base URL for all device-related APIs
+@CrossOrigin(origins = "http://localhost:5173") // Allow specific origin
+
 public class DeviceController {
 
     @Autowired

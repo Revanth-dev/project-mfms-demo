@@ -1,5 +1,7 @@
 package com.payswiff.mfmsproject.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/employees")
+@CrossOrigin(origins = "http://localhost:5173") // Allow specific origin
+
 public class EmployeeController {
 
     @Autowired
@@ -55,5 +59,11 @@ public class EmployeeController {
             throws ResourceNotFoundException {
         Employee employee = employeeService.getEmployee(payswiffId, phoneNumber, email);
         return new ResponseEntity<>(employee, HttpStatus.OK);
+    }
+    
+    @GetMapping("/all")
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        List<Employee> employees = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employees);
     }
 }

@@ -16,6 +16,8 @@ import com.payswiff.mfmsproject.services.MerchantService;
 
 @RestController
 @RequestMapping("/api/merchants")
+@CrossOrigin(origins = "http://localhost:5173") // Allow specific origin
+
 public class MerchantController {
 
     @Autowired

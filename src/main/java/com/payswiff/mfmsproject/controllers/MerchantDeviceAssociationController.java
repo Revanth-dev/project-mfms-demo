@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.payswiff.mfmsproject.dtos.MerchantDeviceCountDTO;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 import com.payswiff.mfmsproject.models.Device;
 import com.payswiff.mfmsproject.models.MerchantDeviceAssociation;
@@ -15,6 +16,8 @@ import com.payswiff.mfmsproject.services.MerchantDeviceAssociationService;
 
 @RestController
 @RequestMapping("/api/MerchantDeviceAssociation")
+@CrossOrigin(origins = "http://localhost:5173") // Allow specific origin
+
 public class MerchantDeviceAssociationController {
 
 	@Autowired
@@ -48,5 +51,14 @@ public class MerchantDeviceAssociationController {
 	    boolean exists = associationService.isDeviceAssociatedWithMerchant(merchantId, deviceId);
 	    return new ResponseEntity<>(exists, HttpStatus.OK);
 	}
+	
+	@GetMapping("/device-count")
+    public ResponseEntity<List<MerchantDeviceCountDTO>> getDeviceCountByMerchant() {
+        List<MerchantDeviceCountDTO> deviceCounts = associationService.getDeviceCountByMerchant();
+
+       
+
+        return new ResponseEntity<>(deviceCounts, HttpStatus.OK);
+    }
 
 }

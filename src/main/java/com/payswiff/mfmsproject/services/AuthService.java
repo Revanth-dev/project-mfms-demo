@@ -45,26 +45,34 @@ public class AuthService {
 	EmployeeService employeeService;
 
 	public LoginResponseDto login(LoginDto loginDto) {
-		// Authenticate the user
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginDto.getEmailOrPhone(), loginDto.getPassword()));
+	    // Authenticate the user
+	    Authentication authentication = authenticationManager.authenticate(
+	            new UsernamePasswordAuthenticationToken(loginDto.getEmailOrPhone(), loginDto.getPassword()));
 
-		// If authentication is successful, store the authentication in the security
-		// context
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+	    // Store the authentication in the security context
+	    SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		String token = jwtTokenProvider.generateToken(authentication);
+	    String token = jwtTokenProvider.generateToken(authentication);
 
-		// Retrieve user details (email and roles)
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	    // Retrieve user details (email and roles)
+	    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-		String userEmail = userDetails.getUsername();
-		String role = userDetails.getAuthorities().stream().findFirst() // Assuming a single role for simplicity
-				.orElseThrow(() -> new RuntimeException("No roles assigned")).getAuthority();
+	    String userEmail = userDetails.getUsername();
+	    String role = userDetails.getAuthorities().stream()
+	            .findFirst()
+	            .orElseThrow(() -> new RuntimeException("No roles assigned"))
+	            .getAuthority();
+	    
+	    // Retrieve employee by email
+	    Optional<Employee> employeeOptional = employeeRepository.findByEmployeeEmail(userEmail);
+	    
+	    // Ensure employee exists
+	    Employee employee = employeeOptional.orElseThrow(() -> new RuntimeException("Employee not found"));
 
-		// Return the response with email and role
-		return new LoginResponseDto(userEmail, role, token);
+	    // Return the response with email, role, and employee ID
+	    return new LoginResponseDto(userEmail, role, employee.getEmployeeId(), token);
 	}
+
 
 	public boolean forgotPassword(ForgotPasswordDto forgotPasswordDto) throws ResourceNotFoundException, EmployeePasswordUpdationFailedException {
 		String emailOrPhone = forgotPasswordDto.getEmailOrPhone();

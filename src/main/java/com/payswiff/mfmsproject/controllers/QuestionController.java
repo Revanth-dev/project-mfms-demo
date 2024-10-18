@@ -16,6 +16,8 @@ import com.payswiff.mfmsproject.services.QuestionService;
 
 @RestController
 @RequestMapping("/api/questions")
+@CrossOrigin(origins = "http://localhost:5173") // Allow specific origin
+
 public class QuestionController {
 
 	@Autowired

@@ -3,6 +3,7 @@ package com.payswiff.mfmsproject.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.payswiff.mfmsproject.models.Device;
@@ -22,5 +23,10 @@ public interface MerchantDeviceAssociationRepository extends JpaRepository<Merch
      */
     List<MerchantDeviceAssociation> findAllByMerchant(Merchant merchant);
     boolean existsByMerchantAndDevice(Merchant merchant, Device device);
-
+    
+    @Query("SELECT m.id AS merchantId, COUNT(md.device.id) AS deviceCount " +
+            "FROM MerchantDeviceAssociation md " +
+            "JOIN md.merchant m " +
+            "GROUP BY m.id")
+     List<Object[]> countDevicesByMerchant();
 }

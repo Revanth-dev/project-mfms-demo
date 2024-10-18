@@ -15,6 +15,7 @@ public class LoginResponseDto {
 	private String userEmailOrPhone;
     private String role;
     private String token;
+    private long id;
 	/**
 	 * @return the userEmailOrPhone
 	 */
@@ -54,12 +55,38 @@ public class LoginResponseDto {
 	/**
 	 * @param userEmailOrPhone
 	 * @param role
+	 * @param id 
 	 * @param token
 	 */
-	public LoginResponseDto(String userEmailOrPhone, String role, String token) {
+	public LoginResponseDto(String userEmailOrPhone, String role, Long id, String token) {
 		this.userEmailOrPhone = userEmailOrPhone;
 		this.role = role;
 		this.token = token;
+		this.id=id;
+	}
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+	/**
+	 * @param userEmailOrPhone
+	 * @param role
+	 * @param token
+	 * @param id
+	 */
+	public LoginResponseDto(String userEmailOrPhone, String role, String token, long id) {
+		this.userEmailOrPhone = userEmailOrPhone;
+		this.role = role;
+		this.token = token;
+		this.id = id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
 	}
     
 }

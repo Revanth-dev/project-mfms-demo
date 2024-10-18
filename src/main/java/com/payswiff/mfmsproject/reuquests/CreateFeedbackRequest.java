@@ -48,7 +48,7 @@ public class CreateFeedbackRequest {
 	/**
      * The rating given in the feedback.
      */
-    private Integer feedbackRating; // Rating for the feedback
+    private Double feedbackRating; // Rating for the feedback
 
     /**
      * The actual feedback text provided by the user.
@@ -56,7 +56,7 @@ public class CreateFeedbackRequest {
     private String feedback; // Additional feedback text
 
     public CreateFeedbackRequest(Long feedbackEmployeeId, Long feedbackMerchantId, Long feedbackDeviceId,
-			String feedbackImage1, Integer feedbackRating, String feedback) {
+			String feedbackImage1, Double feedbackRating, String feedback) {
 		
 		this.feedbackEmployeeId = feedbackEmployeeId;
 		this.feedbackMerchantId = feedbackMerchantId;
@@ -125,14 +125,14 @@ public class CreateFeedbackRequest {
 	/**
 	 * @return the feedbackRating
 	 */
-	public Integer getFeedbackRating() {
+	public Double getFeedbackRating() {
 		return feedbackRating;
 	}
 
 	/**
 	 * @param feedbackRating the feedbackRating to set
 	 */
-	public void setFeedbackRating(Integer feedbackRating) {
+	public void setFeedbackRating(Double feedbackRating) {
 		this.feedbackRating = feedbackRating;
 	}
 

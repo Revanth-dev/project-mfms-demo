@@ -6,6 +6,9 @@ import com.payswiff.mfmsproject.services.FeedbackService;
 
 import jakarta.validation.Valid;
 
+import com.payswiff.mfmsproject.dtos.AverageRatingResponseDTO;
+import com.payswiff.mfmsproject.dtos.DeviceFeedbackCountDTO;
+import com.payswiff.mfmsproject.dtos.EmployeeFeedbackCountDto;
 import com.payswiff.mfmsproject.exceptions.MerchantDeviceNotAssignedException;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/feedback")
+@CrossOrigin(origins = "http://localhost:5173") // Allow specific origin
+
 public class FeedbackController {
 
 	@Autowired
@@ -59,5 +64,24 @@ public class FeedbackController {
         
         List<Feedback> feedbacks = feedbackService.getFeedbacksByFilters(employeeId, deviceId, rating, merchantId);
         return new ResponseEntity<>(feedbacks, HttpStatus.OK);
+    }
+    
+    @GetMapping("/allfeedbackscount")
+    @CrossOrigin(origins = "http://localhost:5173")
+    public ResponseEntity<List<EmployeeFeedbackCountDto>> getAllFeedbacksCount() {
+        List<EmployeeFeedbackCountDto> feedbackCounts = feedbackService.countFeedbacksForAllEmployees();
+        return ResponseEntity.ok(feedbackCounts);
+    }
+    
+    @GetMapping("/average-rating-by-device")
+    public ResponseEntity<List<AverageRatingResponseDTO>> getAverageRatingByDevice() {
+        List<AverageRatingResponseDTO> averageRatings = feedbackService.getAverageRatingByDevice();
+        return ResponseEntity.ok(averageRatings);
+    }
+    
+    @GetMapping("/device-count")
+    public ResponseEntity<List<DeviceFeedbackCountDTO>> getFeedbackCountByDevice() {
+        List<DeviceFeedbackCountDTO> feedbackCounts = feedbackService.getFeedbackCountByDevice();
+        return ResponseEntity.ok(feedbackCounts);
     }
 }

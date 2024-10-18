@@ -46,7 +46,6 @@ public class CreateEmployeeRequest {
 
     /**
      * The password for the employee account.
-     */
     private String employeePassword;
 
     /**
@@ -63,6 +62,8 @@ public class CreateEmployeeRequest {
      * The type of employee (e.g., admin, employee).
      */
     private String employeeType;
+    
+    private String employeePassword;
 
     /**
      * Converts this CreateEmployeeRequest to an Employee entity.

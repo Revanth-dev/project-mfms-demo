@@ -37,7 +37,7 @@ public class Merchant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "merchant_id")
-    private Integer merchantId;
+    private Long merchantId;
 
     /**
      * The unique UUID of the merchant.
@@ -93,14 +93,14 @@ public class Merchant {
 	/**
 	 * @return the merchantId
 	 */
-	public Integer getMerchantId() {
+	public Long getMerchantId() {
 		return merchantId;
 	}
 
 	/**
 	 * @param merchantId the merchantId to set
 	 */
-	public void setMerchantId(Integer merchantId) {
+	public void setMerchantId(Long merchantId) {
 		this.merchantId = merchantId;
 	}
 
@@ -212,7 +212,7 @@ public class Merchant {
 	 * @param merchantCreationTime
 	 * @param merchantUpdationTime
 	 */
-	public Merchant(Integer merchantId, String merchantUuid, String merchantEmail, String merchantPhone,
+	public Merchant(Long merchantId, String merchantUuid, String merchantEmail, String merchantPhone,
 			String merchantBusinessName, String merchantBusinessType, LocalDateTime merchantCreationTime,
 			LocalDateTime merchantUpdationTime) {
 		this.merchantId = merchantId;

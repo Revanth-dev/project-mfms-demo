@@ -16,10 +16,14 @@ import com.payswiff.mfmsproject.repositories.DeviceRepository;
 import com.payswiff.mfmsproject.repositories.MerchantRepository;
 import com.payswiff.mfmsproject.repositories.QuestionRepository; // Import the Question repository
 import com.payswiff.mfmsproject.reuquests.CreateFeedbackRequest;
+import com.payswiff.mfmsproject.dtos.AverageRatingResponseDTO;
+import com.payswiff.mfmsproject.dtos.DeviceFeedbackCountDTO;
+import com.payswiff.mfmsproject.dtos.EmployeeFeedbackCountDto;
 import com.payswiff.mfmsproject.exceptions.MerchantDeviceNotAssignedException;
 import com.payswiff.mfmsproject.exceptions.ResourceAlreadyExists;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -215,5 +219,49 @@ public class FeedbackService {
             return feedbacks;
         }
 	 }
+    
+    
+    public List<EmployeeFeedbackCountDto> countFeedbacksForAllEmployees() {
+        List<Object[]> results = feedbackRepository.countFeedbacksByEmployee();
+        List<EmployeeFeedbackCountDto> feedbackCounts = new ArrayList<>();
 
+        for (Object[] result : results) {
+            Long employeeId = (Long) result[0];
+            Long feedbackCount = (Long) result[1]; // Make sure to cast to Long
+
+            // Optionally, you can retrieve the employee name or other details
+            Employee employee = employeeRepository.findById(employeeId).orElse(null);
+            String employeeEmail = (employee != null) ? employee.getEmployeeEmail() : "Unknown";
+
+            feedbackCounts.add(new EmployeeFeedbackCountDto(employeeId, employeeEmail, feedbackCount.longValue()));
+        }
+
+        return feedbackCounts;
+    }
+    
+    public List<AverageRatingResponseDTO> getAverageRatingByDevice() {
+        List<Object[]> results = feedbackRepository.avgRatingByDevice();
+        List<AverageRatingResponseDTO> averageRatings = new ArrayList<>();
+        
+        for (Object[] result : results) {
+            Long deviceId =(Long) result[0]; // Ensure this is correct type
+            Double averageRating = ((Number) result[1]).doubleValue(); // Cast to Number, then to Double
+            averageRatings.add(new AverageRatingResponseDTO(deviceId, averageRating));
+        }
+        
+        return averageRatings;
+    }
+    
+    public List<DeviceFeedbackCountDTO> getFeedbackCountByDevice() {
+        List<Object[]> results = feedbackRepository.countFeedbacksByDevice();
+        List<DeviceFeedbackCountDTO> feedbackCounts = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Long deviceId = (Long) result[0]; // Assuming deviceId is a String
+            Long count = (Long) result[1]; // Count is a Long
+            feedbackCounts.add(new DeviceFeedbackCountDTO(deviceId, count));
+        }
+
+        return feedbackCounts;
+    }
 }

@@ -2,9 +2,12 @@ package com.payswiff.mfmsproject.security;
 
 import java.security.Key;
 import java.sql.Date;
+import java.util.Iterator;
 
 import javax.crypto.SecretKey;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -23,6 +26,7 @@ public class JwtTokenProvider {
 	private String jwtSecretKey;
 	@Value("${app-jwt-expiration-milliseconds}")
 	private Long jwtExpiration;
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
 	// generate jwt token
 	public String generateToken(Authentication authentication) {
@@ -57,14 +61,23 @@ public class JwtTokenProvider {
 	//validate jwt token
 	public boolean validate(String token) throws Exception
 	{
+		
 		try {
 			Jwts.parser()
 			.verifyWith((SecretKey) key())
 			.build()
 			.parse(token);
 			
+			
+			
 		} catch (MalformedJwtException e) {
 			// TODO: handle exception
+			
+			if (token instanceof String) {
+			    logger.info("Your token is: {}", token);
+			} else {
+			    logger.info("Token is not a string, it is of type: {}", token.getClass().getName());
+			}
 			throw new Exception("Invalid jwt token");
 		}
 		catch (ExpiredJwtException e) {
