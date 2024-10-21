@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
  * This class is used to encapsulate error information returned to the client
  * in case of exceptions or issues during API calls.
  */
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Builder
 @Data
 public class ErrorDetails {

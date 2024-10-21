@@ -2,14 +2,16 @@ package com.payswiff.mfmsproject.controllers;
 
 import com.payswiff.mfmsproject.models.Feedback;
 import com.payswiff.mfmsproject.reuquests.CreateFeedbackRequest;
+import com.payswiff.mfmsproject.reuquests.FeedbackRequestWrapper;
 import com.payswiff.mfmsproject.services.FeedbackService;
 
+import jakarta.persistence.Id;
 import jakarta.validation.Valid;
 
 import com.payswiff.mfmsproject.dtos.AverageRatingResponseDTO;
 import com.payswiff.mfmsproject.dtos.DeviceFeedbackCountDTO;
 import com.payswiff.mfmsproject.dtos.EmployeeFeedbackCountDto;
-import com.payswiff.mfmsproject.exceptions.MerchantDeviceNotAssignedException;
+import com.payswiff.mfmsproject.dtos.FeedbackQuestionAnswerAssignDto;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 
 import java.util.List;
@@ -34,16 +36,38 @@ public class FeedbackController {
 	 *
 	 * @param feedbackRequest The request object containing feedback data.
 	 * @return ResponseEntity containing the created Feedback and HTTP status.
-	 * @throws ResourceNotFoundException
-	 * @throws MerchantDeviceNotAssignedException 
+	 * @throws Exception 
 	 */
+//	@PostMapping("/create")
+//	public ResponseEntity<HttpStatus> createFeedback(@Valid @RequestBody CreateFeedbackRequest feedbackRequest)
+//	       throws ResourceNotFoundException, MerchantDeviceNotAssignedException {
+//
+//	    boolean isFeedbackCreated = (boolean) feedbackService.createFeedback(feedbackRequest);
+//	    // Return 201 if feedback is created, else return 500 (internal server error)
+//	    return isFeedbackCreated ? new ResponseEntity<>(HttpStatus.CREATED) 
+//	                             : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//	}
+	
 	@PostMapping("/create")
-	public ResponseEntity<Feedback> createFeedback(@Valid @RequestBody CreateFeedbackRequest feedbackRequest)
-			throws ResourceNotFoundException, MerchantDeviceNotAssignedException {
+	public ResponseEntity<HttpStatus> createFeedback(
+	        @Valid @RequestBody FeedbackRequestWrapper requestWrapper)
+	        throws Exception {
 
-		Feedback feedback = feedbackService.createFeedback(feedbackRequest);
-		return new ResponseEntity<Feedback>(feedback, HttpStatus.CREATED);
+	    CreateFeedbackRequest feedbackRequest = requestWrapper.getFeedbackRequest();
+	    List<FeedbackQuestionAnswerAssignDto> questionAnswers = requestWrapper.getQuestionAnswers();
+
+	    // Ensure that 10 questions are passed
+	    if (questionAnswers.size() != 10) {
+	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Return bad request if not exactly 10 questions
+	    }
+
+	    boolean isFeedbackCreated = feedbackService.createFeedback(feedbackRequest, questionAnswers);
+
+	    return isFeedbackCreated ? new ResponseEntity<>(HttpStatus.CREATED)
+	                             : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+
 	
 	/**
      * Retrieves feedback based on provided filters.

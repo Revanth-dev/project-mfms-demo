@@ -23,8 +23,8 @@ import org.modelmapper.ModelMapper;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Builder
 public class CreateMerchantRequest {
 

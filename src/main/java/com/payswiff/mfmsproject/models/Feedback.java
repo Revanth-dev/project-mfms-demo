@@ -25,8 +25,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 public class Feedback {
 
     @Id

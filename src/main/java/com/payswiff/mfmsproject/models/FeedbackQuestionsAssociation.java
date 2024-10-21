@@ -16,8 +16,8 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "feedback_questions_association")
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Getter
 @Setter
 @Builder

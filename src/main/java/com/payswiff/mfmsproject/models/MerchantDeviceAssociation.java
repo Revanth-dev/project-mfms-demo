@@ -20,8 +20,8 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "merchant_device_association")
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Getter
 @Setter
 @Builder

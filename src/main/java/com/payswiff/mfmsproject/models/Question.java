@@ -17,8 +17,8 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Builder
 public class Question {
 

@@ -26,8 +26,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Data // Generates getter and setter methods, toString, equals, and hashCode
 @Getter // Generates getter methods for all fields
 @Setter // Generates setter methods for all fields
-@AllArgsConstructor // Generates a constructor with all fields
-@NoArgsConstructor // Generates a no-arguments constructor
+//@AllArgsConstructor // Generates a constructor with all fields
+//@NoArgsConstructor // Generates a no-arguments constructor
 @Builder // Enables the Builder pattern for this class
 public class Employee {
 

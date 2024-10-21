@@ -24,7 +24,7 @@ import org.modelmapper.spi.MappingContext;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class CreateEmployeeRequest {

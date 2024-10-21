@@ -19,7 +19,7 @@ import lombok.Setter;
  */
 @Data
 @Builder
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter

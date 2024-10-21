@@ -1,6 +1,8 @@
 package com.payswiff.mfmsproject.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +20,21 @@ import com.payswiff.mfmsproject.repositories.QuestionRepository; // Import the Q
 import com.payswiff.mfmsproject.reuquests.CreateFeedbackRequest;
 import com.payswiff.mfmsproject.dtos.AverageRatingResponseDTO;
 import com.payswiff.mfmsproject.dtos.DeviceFeedbackCountDTO;
+import com.payswiff.mfmsproject.dtos.EmailSendDto;
 import com.payswiff.mfmsproject.dtos.EmployeeFeedbackCountDto;
+import com.payswiff.mfmsproject.dtos.FeedbackQuestionAnswerAssignDto;
 import com.payswiff.mfmsproject.exceptions.MerchantDeviceNotAssignedException;
 import com.payswiff.mfmsproject.exceptions.ResourceAlreadyExists;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
+import com.payswiff.mfmsproject.exceptions.UnableSentEmail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 
 @Service
@@ -62,113 +70,202 @@ public class FeedbackService {
 	@Autowired
 	private MerchantDeviceAssociationService merchantDeviceAssociationService;
 
+	@Autowired
+	private EmailService emailService;
+
 	/**
-     * Method to create feedback if all associated entities are available.
-     *
-     * @param feedbackRequest The request object containing feedback data.
-     * @return The created Feedback object if successful.
-     * @throws ResourceNotFoundException if any of the entities are not found.
-	 * @throws MerchantDeviceNotAssignedException 
-     * @throws ResourceAlreadyExists 
-     */
-    public Feedback createFeedback(CreateFeedbackRequest feedbackRequest) throws ResourceNotFoundException, MerchantDeviceNotAssignedException{
-        // Check if the employee exists
-        Optional<Employee> employeeOptional = employeeRepository.findById(feedbackRequest.getFeedbackEmployeeId());
-        if (employeeOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Employee", "ID", feedbackRequest.getFeedbackEmployeeId().toString());
-        }
-        Employee employee = employeeOptional.get();
+	 * Method to create feedback if all associated entities are available.
+	 *
+	 * @param feedbackRequest The request object containing feedback data.
+	 * @param questionAnswers List of feedback question answers to associate with the feedback.
+	 * @return true if feedback creation is successful.
+	 * @throws Exception 
+	 */
+	public boolean createFeedback(CreateFeedbackRequest feedbackRequest,
+	                              List<FeedbackQuestionAnswerAssignDto> questionAnswers)
+	        throws Exception {
 
-        // Check if the merchant exists
-        Optional<Merchant> merchantOptional = merchantRepository.findById(feedbackRequest.getFeedbackMerchantId());
-        if (merchantOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Merchant", "ID", feedbackRequest.getFeedbackMerchantId().toString());
-        }
-        Merchant merchant = merchantOptional.get();
+	    try {
+	        // Check if the employee exists
+	        Optional<Employee> employeeOptional = employeeRepository.findById(feedbackRequest.getFeedbackEmployeeId());
+	        if (employeeOptional.isEmpty()) {
+	            throw new ResourceNotFoundException("Employee", "ID", feedbackRequest.getFeedbackEmployeeId().toString());
+	        }
+	        Employee employee = employeeOptional.get();
 
-        // Check if the device exists
-        Optional<Device> deviceOptional = deviceRepository.findById(feedbackRequest.getFeedbackDeviceId());
-        if (deviceOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Device", "ID", feedbackRequest.getFeedbackDeviceId().toString());
-        }
-        Device device = deviceOptional.get();
-        
-        //check whether the merchant has the given device or not
-        if(!merchantDeviceAssociationService.isDeviceAssociatedWithMerchant(feedbackRequest.getFeedbackMerchantId(),
-        		feedbackRequest.getFeedbackDeviceId() 
-        		)) {
-        	throw new MerchantDeviceNotAssignedException("Device","ID",String.valueOf(feedbackRequest.getFeedbackDeviceId()),
-        			"Merchant", "ID",String.valueOf(feedbackRequest.getFeedbackMerchantId()) );
-        }
-        
-        // If all checks pass, create feedback
-//        Feedback feedback = Feedback.builder()
-//                .feedbackEmployee(employee)
-//                .feedbackMerchant(merchant)
-//                .feedbackDevice(device)
-//                .feedbackImage1(feedbackRequest.getFeedbackImage1())
-//                .feedbackRating(feedbackRequest.getFeedbackRating())
-//                .feedback(feedbackRequest.getFeedback())
-//                .feedbackUuid(UUID.randomUUID().toString())
-//                .build();
-//        ModelMapper modelMapper = new ModelMapper();
-//        Feedback feedback = modelMapper.map(feedbackRequest, Feedback.class);
-//        feedback.setFeedbackEmployee(employee);    // Set the employee
-//        feedback.setFeedbackMerchant(merchant);     // Set the merchant
-//        feedback.setFeedbackDevice(device);          // Set the device
-//        feedback.setFeedbackUuid(UUID.randomUUID().toString()); // Set UUID
-        
-        
-        Feedback feedback = new Feedback();
-        
-        feedback.setFeedbackEmployee(employee);
-        feedback.setFeedbackDevice(device);
-        feedback.setFeedbackMerchant(merchant);
-        feedback.setFeedbackRating(feedbackRequest.getFeedbackRating());
-        feedback.setFeedbackUuid(UUID.randomUUID().toString());
-        feedback.setFeedbackImage1(feedbackRequest.getFeedbackImage1());
-        feedback.setFeedback(feedbackRequest.getFeedback());
+	        // Check if the merchant exists
+	        Optional<Merchant> merchantOptional = merchantRepository.findById(feedbackRequest.getFeedbackMerchantId());
+	        if (merchantOptional.isEmpty()) {
+	            throw new ResourceNotFoundException("Merchant", "ID", feedbackRequest.getFeedbackMerchantId().toString());
+	        }
+	        Merchant merchant = merchantOptional.get();
 
-        // Save feedback to the repository
-        Feedback savedFeedback = feedbackRepository.save(feedback);
+	        // Check if the device exists
+	        Optional<Device> deviceOptional = deviceRepository.findById(feedbackRequest.getFeedbackDeviceId());
+	        if (deviceOptional.isEmpty()) {
+	            throw new ResourceNotFoundException("Device", "ID", feedbackRequest.getFeedbackDeviceId().toString());
+	        }
+	        Device device = deviceOptional.get();
 
-        associateFeedbackWithQuestions(savedFeedback);
+	        // Check whether the merchant has the given device or not
+	        if (!merchantDeviceAssociationService.isDeviceAssociatedWithMerchant(feedbackRequest.getFeedbackMerchantId(),
+	                feedbackRequest.getFeedbackDeviceId())) {
+	            throw new MerchantDeviceNotAssignedException("Device", "ID",
+	                    String.valueOf(feedbackRequest.getFeedbackDeviceId()), "Merchant", "ID",
+	                    String.valueOf(feedbackRequest.getFeedbackMerchantId()));
+	        }
 
-        return savedFeedback;
-    }
+	        // If all checks pass, create feedback
+	        Feedback feedback = new Feedback();
+	        feedback.setFeedbackEmployee(employee);
+	        feedback.setFeedbackDevice(device);
+	        feedback.setFeedbackMerchant(merchant);
+	        feedback.setFeedbackRating(feedbackRequest.getFeedbackRating());
+	        feedback.setFeedbackUuid(UUID.randomUUID().toString());
+	        feedback.setFeedbackImage1(feedbackRequest.getFeedbackImage1());
+	        feedback.setFeedback(feedbackRequest.getFeedback());
+
+	        // Save feedback to the repository
+	        Feedback savedFeedback = feedbackRepository.save(feedback);
+
+	        // Associate questions with created feedback
+	        associateFeedbackWithQuestions(savedFeedback, questionAnswers);
+
+	        // Send email to employee for feedback status and feedback details
+	        sendSuccessEmail(employee, savedFeedback);
+
+	        return true;
+
+	    } catch (ResourceNotFoundException | MerchantDeviceNotAssignedException | UnableSentEmail e) {
+	        // Send failure email to inform about the error
+	    	Optional<Employee> employeeOptional = employeeRepository.findById(feedbackRequest.getFeedbackEmployeeId());
+	        if (employeeOptional.isEmpty()) {
+	            throw new ResourceNotFoundException("Employee", "ID", feedbackRequest.getFeedbackEmployeeId().toString());
+	        }
+	        Employee employee = employeeOptional.get();
+	        sendFailureEmail(feedbackRequest,employee ,e);
+
+	        // Rethrow the exception to maintain the original behavior
+	        throw e;
+	    }
+	}
+
+	/**
+	 * Method to send a success email to the employee once feedback is successfully created.
+	 *
+	 * @param employee The employee to send the email to.
+	 * @param feedback The feedback details to include in the email.
+	 */
+	private void sendSuccessEmail(Employee employee, Feedback feedback) throws UnableSentEmail {
+	    EmailSendDto emailSendDto = new EmailSendDto();
+	    emailSendDto.setTo(employee.getEmployeeEmail());
+	    emailSendDto.setSubject("Merchant Feedback Management System");
+
+	    String emailContent = "Feedback Creation Status: Created\n" +
+	            "\n" +
+	            "---------------------------------------------------\n" +
+	            "Feedback Details\n" +
+	            "---------------------------------------------------\n" +
+	            "Feedback ID: " + feedback.getFeedbackId() + "\n" +
+	            "Feedback UUID: " + feedback.getFeedbackUuid() + "\n" +
+	            "Employee: " + feedback.getFeedbackEmployee().getEmployeeName() + "\n" +
+	            "Feedback Rating: " + feedback.getFeedbackRating() + "\n" +
+	            "Feedback: " + feedback.getFeedback() + "\n" +
+	            "Feedback Image: " + (feedback.getFeedbackImage1() != null ? "Available" : "Not Provided") + "\n" +
+	            "\n" +
+	            "---------------------------------------------------\n" +
+	            "Device Details\n" +
+	            "---------------------------------------------------\n" +
+	            "Device ID: " + feedback.getFeedbackDevice().getDeviceId() + "\n" +
+	            "Device UUID: " + feedback.getFeedbackDevice().getDeviceUuid() + "\n" +
+	            "Device Model: " + feedback.getFeedbackDevice().getDeviceModel() + "\n" +
+	            "Device Manufacturer: " + feedback.getFeedbackDevice().getDeviceManufacturer() + "\n" +
+	            "\n" +
+	            "---------------------------------------------------\n" +
+	            "Merchant Details\n" +
+	            "---------------------------------------------------\n" +
+	            "Merchant UUID: " + feedback.getFeedbackMerchant().getMerchantUuid() + "\n" +
+	            "Merchant Email: " + feedback.getFeedbackMerchant().getMerchantEmail() + "\n" +
+	            "Merchant Phone: " + feedback.getFeedbackMerchant().getMerchantPhone() + "\n" +
+	            "Merchant Business Name: " + feedback.getFeedbackMerchant().getMerchantBusinessName() + "\n" +
+	            "Merchant Business Type: " + feedback.getFeedbackMerchant().getMerchantBusinessType() + "\n";
+
+	    emailSendDto.setText(emailContent);
+
+	    boolean emailSent = emailService.sendEmail(emailSendDto.getTo(), emailSendDto.getSubject(),
+	            emailSendDto.getText());
+
+	    if (!emailSent) {
+	        throw new UnableSentEmail(employee.getEmployeeEmail());
+	    }
+	}
+
+	/**
+	 * Method to send a failure email in case feedback creation fails.
+	 *
+	 * @param feedbackRequest The feedback request object.
+	 * @param employee 
+	 * @param e              The exception that occurred.
+	 * @throws Exception 
+	 */
+	private void sendFailureEmail(CreateFeedbackRequest feedbackRequest, Employee employee, Exception e) throws Exception {
+	    EmailSendDto emailSendDto = new EmailSendDto();
+	    emailSendDto.setTo(employee.getEmployeeEmail());  // Send email to admin or appropriate address
+	    emailSendDto.setSubject("Feedback Creation Failed");
+
+	    String emailContent = "Dear Admin,\n\n" +
+	            "We encountered an error while creating feedback.\n" +
+	            "Error: " + e.getClass().getSimpleName() + "\n" +
+	            "Details: " + e.getMessage() + "\n\n" +
+	            "Feedback Request Details:\n" +
+	            "Employee ID: " + feedbackRequest.getFeedbackEmployeeId() + "\n" +
+	            "Merchant ID: " + feedbackRequest.getFeedbackMerchantId() + "\n" +
+	            "Device ID: " + feedbackRequest.getFeedbackDeviceId() + "\n" +
+	            "Rating: " + feedbackRequest.getFeedbackRating() + "\n";
+
+	    emailSendDto.setText(emailContent);
+
+	    try {
+	        emailService.sendEmail(emailSendDto.getTo(), emailSendDto.getSubject(), emailSendDto.getText());
+	    } catch (Exception emailException) {
+	        // Log the error if email fails to send
+	        throw new Exception("failed to send email: "+emailException.getMessage());
+	    }
+	}
+
 
 	/**
 	 * Method to associate feedback with predefined questions and their answers.
 	 *
-	 * @param feedback The feedback object to associate with questions.
+	 * @param feedback        The feedback object to associate with questions.
+	 * @param questionAnswers
 	 * @throws ResourceNotFoundException
 	 * @throws ResourceAlreadyExists
 	 */
-	private void associateFeedbackWithQuestions(Feedback feedback) throws ResourceNotFoundException {
-		// Fetch the predefined questions from the database (you can customize this as
-		// per your needs)
-		List<Question> predefinedQuestions = questionRepository.findAll(); // Or any specific method to fetch fixed
-																			// questions
+	private void associateFeedbackWithQuestions(Feedback feedback,
+			List<FeedbackQuestionAnswerAssignDto> questionAnswers) throws ResourceNotFoundException {
 
+		// Fetch the predefined questions from the database
+		List<Question> predefinedQuestions = questionRepository.findAll();
+
+		// Convert the list of questionAnswers to a map for faster lookups (questionId
+		// -> questionAnswer)
+		Map<Long, String> questionAnswerMap = questionAnswers.stream().collect(Collectors.toMap(
+				FeedbackQuestionAnswerAssignDto::getQuestionId, FeedbackQuestionAnswerAssignDto::getQuestionAnswer));
+
+		// Iterate over the predefined questions
 		for (Question question : predefinedQuestions) {
-			// Here, we're assuming that each question has a fixed answer; you might want to
-			// customize this.
-			String fixedAnswer = "Default answer"; // Replace with the actual logic for fetching the answer
+			// Get the answer for the current question from the map, if it exists
+			String answerForQuestion = questionAnswerMap.getOrDefault(question.getQuestionId(), "No answer provided");
 
 			// Create the association and save it
-//            FeedbackQuestionsAssociation association = FeedbackQuestionsAssociation.builder()
-//                    .feedback(feedback)
-//                    .question(question)
-//                    .answer(fixedAnswer)
-//                    .build();
-			ModelMapper modelMapper = new ModelMapper();
-			FeedbackQuestionsAssociation association = modelMapper.map(this, FeedbackQuestionsAssociation.class);
+			FeedbackQuestionsAssociation association = new FeedbackQuestionsAssociation();
 			association.setFeedback(feedback); // Set the feedback object
 			association.setQuestion(question); // Set the question object
-			association.setAnswer(fixedAnswer); // Set the fixed answer
+			association.setAnswer(answerForQuestion); // Set the actual answer or default value
+
 			// Save the association using the association service
-			feedbackQuestionsAssociationService.createAssociation(association); // Make sure to implement this in your
-																				// service
+			feedbackQuestionsAssociationService.createAssociation(association);
 		}
 	}
 
@@ -185,83 +282,83 @@ public class FeedbackService {
 	 * @throws ResourceNotFoundException If the employee, device, or merchant does
 	 *                                   not exist.
 	 */
-    public List<Feedback> getFeedbacksByFilters(Long employeeId, Long deviceId, Integer rating, Long merchantId) throws ResourceNotFoundException {
+	public List<Feedback> getFeedbacksByFilters(Long employeeId, Long deviceId, Integer rating, Long merchantId)
+			throws ResourceNotFoundException {
 
-        if (merchantId != null) {
-            // Check if merchant exists using MerchantService
-            if (!merchantService.existsById(merchantId)) {
-                throw new ResourceNotFoundException("Merchant", "ID", String.valueOf(merchantId));
-            }
-            Optional<Merchant> merchantFromDb = merchantRepository.findById(merchantId);
-            
-            return feedbackRepository.findByFeedbackMerchant(merchantFromDb);
-        } else if (employeeId != null) {
-            // Check if employee exists using EmployeeService
-            if (!employeeService.existsById(employeeId)) {
-                throw new ResourceNotFoundException("Employee","ID", String.valueOf(employeeId));
-            }
-            Optional<Employee> employeeFromDb = employeeRepository.findById(employeeId);
-            
-            return feedbackRepository.findByFeedbackEmployee(employeeFromDb);
-        } else if (deviceId != null) {
-            // Check if device exists using DeviceService
-            if (!deviceService.existsById(deviceId)) {
-                throw new ResourceNotFoundException("Device", "ID", String.valueOf(deviceId));
-            }
-            Optional<Device> deviceFromDb = deviceRepository.findById(deviceId);
-            return feedbackRepository.findByFeedbackDevice(deviceFromDb);
-        } else if (rating != null) {
-            // Find feedback by rating
-            return feedbackRepository.findByFeedbackRating(rating);
-        } else {
-            List<Feedback> feedbacks = feedbackRepository.findAll();
-           
-            return feedbacks;
-        }
-	 }
-    
-    
-    public List<EmployeeFeedbackCountDto> countFeedbacksForAllEmployees() {
-        List<Object[]> results = feedbackRepository.countFeedbacksByEmployee();
-        List<EmployeeFeedbackCountDto> feedbackCounts = new ArrayList<>();
+		if (merchantId != null) {
+			// Check if merchant exists using MerchantService
+			if (!merchantService.existsById(merchantId)) {
+				throw new ResourceNotFoundException("Merchant", "ID", String.valueOf(merchantId));
+			}
+			Optional<Merchant> merchantFromDb = merchantRepository.findById(merchantId);
 
-        for (Object[] result : results) {
-            Long employeeId = (Long) result[0];
-            Long feedbackCount = (Long) result[1]; // Make sure to cast to Long
+			return feedbackRepository.findByFeedbackMerchant(merchantFromDb);
+		} else if (employeeId != null) {
+			// Check if employee exists using EmployeeService
+			if (!employeeService.existsById(employeeId)) {
+				throw new ResourceNotFoundException("Employee", "ID", String.valueOf(employeeId));
+			}
+			Optional<Employee> employeeFromDb = employeeRepository.findById(employeeId);
 
-            // Optionally, you can retrieve the employee name or other details
-            Employee employee = employeeRepository.findById(employeeId).orElse(null);
-            String employeeEmail = (employee != null) ? employee.getEmployeeEmail() : "Unknown";
+			return feedbackRepository.findByFeedbackEmployee(employeeFromDb);
+		} else if (deviceId != null) {
+			// Check if device exists using DeviceService
+			if (!deviceService.existsById(deviceId)) {
+				throw new ResourceNotFoundException("Device", "ID", String.valueOf(deviceId));
+			}
+			Optional<Device> deviceFromDb = deviceRepository.findById(deviceId);
+			return feedbackRepository.findByFeedbackDevice(deviceFromDb);
+		} else if (rating != null) {
+			// Find feedback by rating
+			return feedbackRepository.findByFeedbackRating(rating);
+		} else {
+			List<Feedback> feedbacks = feedbackRepository.findAll();
 
-            feedbackCounts.add(new EmployeeFeedbackCountDto(employeeId, employeeEmail, feedbackCount.longValue()));
-        }
+			return feedbacks;
+		}
+	}
 
-        return feedbackCounts;
-    }
-    
-    public List<AverageRatingResponseDTO> getAverageRatingByDevice() {
-        List<Object[]> results = feedbackRepository.avgRatingByDevice();
-        List<AverageRatingResponseDTO> averageRatings = new ArrayList<>();
-        
-        for (Object[] result : results) {
-            Long deviceId =(Long) result[0]; // Ensure this is correct type
-            Double averageRating = ((Number) result[1]).doubleValue(); // Cast to Number, then to Double
-            averageRatings.add(new AverageRatingResponseDTO(deviceId, averageRating));
-        }
-        
-        return averageRatings;
-    }
-    
-    public List<DeviceFeedbackCountDTO> getFeedbackCountByDevice() {
-        List<Object[]> results = feedbackRepository.countFeedbacksByDevice();
-        List<DeviceFeedbackCountDTO> feedbackCounts = new ArrayList<>();
+	public List<EmployeeFeedbackCountDto> countFeedbacksForAllEmployees() {
+		List<Object[]> results = feedbackRepository.countFeedbacksByEmployee();
+		List<EmployeeFeedbackCountDto> feedbackCounts = new ArrayList<>();
 
-        for (Object[] result : results) {
-            Long deviceId = (Long) result[0]; // Assuming deviceId is a String
-            Long count = (Long) result[1]; // Count is a Long
-            feedbackCounts.add(new DeviceFeedbackCountDTO(deviceId, count));
-        }
+		for (Object[] result : results) {
+			Long employeeId = (Long) result[0];
+			Long feedbackCount = (Long) result[1]; // Make sure to cast to Long
 
-        return feedbackCounts;
-    }
+			// Optionally, you can retrieve the employee name or other details
+			Employee employee = employeeRepository.findById(employeeId).orElse(null);
+			String employeeEmail = (employee != null) ? employee.getEmployeeEmail() : "Unknown";
+
+			feedbackCounts.add(new EmployeeFeedbackCountDto(employeeId, employeeEmail, feedbackCount.longValue()));
+		}
+
+		return feedbackCounts;
+	}
+
+	public List<AverageRatingResponseDTO> getAverageRatingByDevice() {
+		List<Object[]> results = feedbackRepository.avgRatingByDevice();
+		List<AverageRatingResponseDTO> averageRatings = new ArrayList<>();
+
+		for (Object[] result : results) {
+			Long deviceId = (Long) result[0]; // Ensure this is correct type
+			Double averageRating = ((Number) result[1]).doubleValue(); // Cast to Number, then to Double
+			averageRatings.add(new AverageRatingResponseDTO(deviceId, averageRating));
+		}
+
+		return averageRatings;
+	}
+
+	public List<DeviceFeedbackCountDTO> getFeedbackCountByDevice() {
+		List<Object[]> results = feedbackRepository.countFeedbacksByDevice();
+		List<DeviceFeedbackCountDTO> feedbackCounts = new ArrayList<>();
+
+		for (Object[] result : results) {
+			Long deviceId = (Long) result[0]; // Assuming deviceId is a String
+			Long count = (Long) result[1]; // Count is a Long
+			feedbackCounts.add(new DeviceFeedbackCountDTO(deviceId, count));
+		}
+
+		return feedbackCounts;
+	}
 }

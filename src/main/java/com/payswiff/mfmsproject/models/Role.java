@@ -13,8 +13,8 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "roles")
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Builder
 @Getter
 @Setter

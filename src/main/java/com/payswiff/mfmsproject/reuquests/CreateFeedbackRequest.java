@@ -17,8 +17,8 @@ import com.payswiff.mfmsproject.models.Employee;
  */
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Getter
 @Setter
 public class CreateFeedbackRequest {

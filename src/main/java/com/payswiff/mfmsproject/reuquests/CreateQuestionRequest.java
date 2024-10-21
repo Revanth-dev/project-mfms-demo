@@ -17,8 +17,8 @@ import org.modelmapper.ModelMapper;
  * This class holds the necessary information to create a Question entity.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Getter
 @Setter
 @Builder

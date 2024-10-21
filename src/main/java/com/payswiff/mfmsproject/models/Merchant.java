@@ -25,8 +25,8 @@ import java.time.LocalDateTime;
 @Table(name = "merchant")
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Builder
 public class Merchant {
 

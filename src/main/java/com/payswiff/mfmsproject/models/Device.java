@@ -20,8 +20,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Getter
 @Setter
 @Builder // Lombok annotation to provide a builder pattern for creating Device objects
-@AllArgsConstructor // Lombok annotation to generate a constructor with all fields
-@NoArgsConstructor // Lombok annotation to generate a default constructor
+//@AllArgsConstructor // Lombok annotation to generate a constructor with all fields
+//@NoArgsConstructor // Lombok annotation to generate a default constructor
 @Table(name = "device") // Specifies the name of the table in the database
 public class Device {
 
