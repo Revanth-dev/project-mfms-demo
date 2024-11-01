@@ -1,30 +1,39 @@
 package com.payswiff.mfmsproject.exceptions;
 
-public class UnableSentEmail extends Exception{
+/**
+ * Exception thrown when an email fails to send.
+ * This exception provides information about the email address
+ * to which the sending attempt was made.
+ */
+public class UnableSentEmail extends Exception {
 
-	private String email;
+    private String email; // The email address that could not be sent
 
-	/**
-	 * @param email
-	 */
-	public UnableSentEmail(String email) {
+    /**
+     * Constructs an UnableSentEmail exception with the specified email address.
+     *
+     * @param email The email address that could not be sent.
+     */
+    public UnableSentEmail(String email) {
         super(String.format("Email is unable to send to %s", email));
-		this.email = email;
-	}
+        this.email = email; // Initialize the email field
+    }
 
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
+    /**
+     * Gets the email address that could not be sent.
+     *
+     * @return The email address.
+     */
+    public String getEmail() {
+        return email;
+    }
 
-	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	
+    /**
+     * Sets the email address for this exception.
+     *
+     * @param email The email address to set.
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

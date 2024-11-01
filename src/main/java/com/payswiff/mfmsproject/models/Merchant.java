@@ -27,7 +27,6 @@ import java.time.LocalDateTime;
 @Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
-@Builder
 public class Merchant {
 
     /**
@@ -45,6 +44,13 @@ public class Merchant {
      */
     @Column(name = "merchant_uuid", nullable = false, unique = true, length = 36)
     private String merchantUuid;
+
+    /**
+     * The email address of the merchant.
+     * This must be unique and is used for communication and identification.
+     */
+    @Column(name = "merchant_name", nullable = false, unique = false)
+    private String merchantName;
 
     /**
      * The email address of the merchant.
@@ -118,6 +124,19 @@ public class Merchant {
 		this.merchantUuid = merchantUuid;
 	}
 
+	/**
+	 * @return the merchantEmail
+	 */
+	public String getmerchantName() {
+		return merchantName;
+	}
+
+	/**
+	 * @param merchantEmail the merchantEmail to set
+	 */
+	public void setmerchantName(String merchantName) {
+		this.merchantName =merchantName;
+	}
 	/**
 	 * @return the merchantEmail
 	 */
@@ -202,9 +221,11 @@ public class Merchant {
 		this.merchantUpdationTime = merchantUpdationTime;
 	}
 
+
 	/**
 	 * @param merchantId
 	 * @param merchantUuid
+	 * @param merchantName
 	 * @param merchantEmail
 	 * @param merchantPhone
 	 * @param merchantBusinessName
@@ -212,11 +233,12 @@ public class Merchant {
 	 * @param merchantCreationTime
 	 * @param merchantUpdationTime
 	 */
-	public Merchant(Long merchantId, String merchantUuid, String merchantEmail, String merchantPhone,
-			String merchantBusinessName, String merchantBusinessType, LocalDateTime merchantCreationTime,
-			LocalDateTime merchantUpdationTime) {
+	public Merchant(Long merchantId, String merchantUuid, String merchantName, String merchantEmail,
+			String merchantPhone, String merchantBusinessName, String merchantBusinessType,
+			LocalDateTime merchantCreationTime, LocalDateTime merchantUpdationTime) {
 		this.merchantId = merchantId;
 		this.merchantUuid = merchantUuid;
+		this.merchantName = merchantName;
 		this.merchantEmail = merchantEmail;
 		this.merchantPhone = merchantPhone;
 		this.merchantBusinessName = merchantBusinessName;

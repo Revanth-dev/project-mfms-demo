@@ -19,7 +19,6 @@ import lombok.Setter;
  */
 @Data
 @Builder
-//@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -42,50 +41,21 @@ public class CreateDeviceRequest {
      *         including a randomly generated UUID for the device.
      */
     public Device toDevice() {
-//        return Device.builder()
-//                .deviceManufacturer(this.deviceManufacturer)
-//                .deviceModel(this.deviceModel)
-//                .deviceUuid(UUID.randomUUID().toString())
-//                .build();
-    	ModelMapper modelMapper = new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
         Device device = modelMapper.map(this, Device.class);
         device.setDeviceUuid(UUID.randomUUID().toString()); // Set UUID separately
         return device;
     }
 
-	public CreateDeviceRequest(String deviceModel, String deviceManufacturer) {
-		
-		this.deviceModel = deviceModel;
-		this.deviceManufacturer = deviceManufacturer;
-	}
-
-	/**
-	 * @return the deviceModel
-	 */
-	public String getDeviceModel() {
-		return deviceModel;
-	}
-
-	/**
-	 * @param deviceModel the deviceModel to set
-	 */
-	public void setDeviceModel(String deviceModel) {
-		this.deviceModel = deviceModel;
-	}
-
-	/**
-	 * @return the deviceManufacturer
-	 */
-	public String getDeviceManufacturer() {
-		return deviceManufacturer;
-	}
-
-	/**
-	 * @param deviceManufacturer the deviceManufacturer to set
-	 */
-	public void setDeviceManufacturer(String deviceManufacturer) {
-		this.deviceManufacturer = deviceManufacturer;
-	}
-
-	
+    /**
+     * Constructs a new CreateDeviceRequest with the specified device model
+     * and manufacturer.
+     *
+     * @param deviceModel The model of the device.
+     * @param deviceManufacturer The manufacturer of the device.
+     */
+    public CreateDeviceRequest(String deviceModel, String deviceManufacturer) {
+        this.deviceModel = deviceModel;
+        this.deviceManufacturer = deviceManufacturer;
+    }
 }

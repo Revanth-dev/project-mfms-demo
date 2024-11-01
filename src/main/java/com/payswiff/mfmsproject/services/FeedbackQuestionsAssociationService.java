@@ -1,6 +1,7 @@
 package com.payswiff.mfmsproject.services;
 import org.modelmapper.ModelMapper;
 
+import com.payswiff.mfmsproject.dtos.FeedbackQuestionDTO;
 import com.payswiff.mfmsproject.exceptions.ResourceAlreadyExists;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 import com.payswiff.mfmsproject.models.Feedback;
@@ -13,7 +14,9 @@ import com.payswiff.mfmsproject.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service class to handle operations related to Feedback-Question Associations.
@@ -55,16 +58,41 @@ public class FeedbackQuestionsAssociationService {
 
         
         // Create the association
-//        FeedbackQuestionsAssociation association = FeedbackQuestionsAssociation.builder()
-//                .feedback(feedback)
-//                .question(question)
-//                .answer(request.getAnswer())
-//                .build();
         ModelMapper modelMapper = new ModelMapper();
         FeedbackQuestionsAssociation association = modelMapper.map(this, FeedbackQuestionsAssociation.class);
         association.setFeedback(feedback);  // Set the feedback object
         association.setQuestion(question);    // Set the question object
         association.setAnswer(request.getAnswer());         // Set the answer from the request
         return associationRepository.save(association);
+    }
+
+    
+    /**
+     * Retrieves a list of FeedbackQuestionDTOs by feedback ID.
+     *
+     * @param feedbackId The ID of the feedback for which to retrieve associations.
+     * @return A list of FeedbackQuestionDTOs associated with the given feedback ID.
+     * @throws ResourceNotFoundException if the feedback or its associations are not found.
+     */
+    public List<FeedbackQuestionDTO> getFeedbackQuestionsByFeedbackId(Integer feedbackId) throws ResourceNotFoundException {
+        // Retrieve feedback by ID
+        Feedback feedback = feedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new ResourceNotFoundException("Feedback", "ID", feedbackId.toString()));
+
+        // Fetch associations using the feedback object
+        List<FeedbackQuestionsAssociation> associations = associationRepository.findByFeedback(feedback);
+
+        if (associations.isEmpty()) {
+            throw new ResourceNotFoundException("FeedbackQuestionsAssociation", "Feedback ID", feedbackId.toString());
+        }
+
+        // Map to DTOs
+        return associations.stream()
+                .map(association -> new FeedbackQuestionDTO(
+                        association.getQuestion().getQuestionId(),
+                        association.getQuestion().getQuestionDescription(),
+                        association.getAnswer()))
+                .collect(Collectors.toList());
+        
     }
 }

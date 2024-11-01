@@ -15,27 +15,37 @@ import org.springframework.stereotype.Service;
 import com.payswiff.mfmsproject.models.Employee;
 import com.payswiff.mfmsproject.repositories.EmployeeRepository;
 
-
+/**
+ * Custom UserDetailsService implementation that retrieves user-specific data
+ * from the database and converts it into a UserDetails object used by Spring Security.
+ */
 @Service
 public class CustomeUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	EmployeeRepository employeeRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String emailOrPhone) throws UsernameNotFoundException {
-		
-		Employee dbEmployee=employeeRepository.findByEmployeeEmailOrEmployeePhoneNumber(emailOrPhone,emailOrPhone)
-		.orElseThrow(()->new UsernameNotFoundException("Employee not found with email or phone :"+emailOrPhone));
-		// TODO Auto-generated method stub
-		
-		Set<GrantedAuthority> grantedAuthorities = dbEmployee.getRoles()
-				.stream()
-				.map((role)->new SimpleGrantedAuthority(role.getName()))
-				.collect(Collectors.toSet());
-		
-		
-		return new User(dbEmployee.getEmployeeEmail(),dbEmployee.getEmployeePassword(),grantedAuthorities);
-	}
+    /**
+     * Loads user-specific data given an email or phone number.
+     *
+     * @param emailOrPhone the email or phone number of the user.
+     * @return a UserDetails object containing the user information.
+     * @throws UsernameNotFoundException if the user is not found in the database.
+     */
+    @Override
+    public UserDetails loadUserByUsername(String emailOrPhone) throws UsernameNotFoundException {
+        
+        // Fetch the employee from the database using the provided email or phone number.
+        Employee dbEmployee = employeeRepository.findByEmployeeEmailOrEmployeePhoneNumber(emailOrPhone, emailOrPhone)
+            .orElseThrow(() -> new UsernameNotFoundException("Employee not found with email or phone: " + emailOrPhone));
 
+        // Map employee roles to granted authorities.
+        Set<GrantedAuthority> grantedAuthorities = dbEmployee.getRoles()
+            .stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName()))
+            .collect(Collectors.toSet());
+        
+        // Return a UserDetails object with the employee's email, password, and roles.
+        return new User(dbEmployee.getEmployeeEmail(), dbEmployee.getEmployeePassword(), grantedAuthorities);
+    }
 }

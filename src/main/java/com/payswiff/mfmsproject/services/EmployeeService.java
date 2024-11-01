@@ -22,16 +22,16 @@ import java.util.Set;
 public class EmployeeService {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository; // Repository for Employee entity
     
     @Autowired
-    PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder; // For encoding passwords
     
     @Autowired
-    RoleRepository roleRepository;
+    RoleRepository roleRepository; // Repository for Role entity
     
     @Autowired
-    EmailService emailService;
+    EmailService emailService; // Service for sending emails
 
     /**
      * Saves a new Employee after checking if an employee with the same Payswiff ID, email, or phone number already exists.
@@ -39,8 +39,8 @@ public class EmployeeService {
      * @param employee The employee entity to be saved.
      * @return The saved Employee object.
      * @throws ResourceAlreadyExists If an employee with the same Payswiff ID, email, or phone number already exists.
-     * @throws ResourceNotFoundException 
-     * @throws UnableSentEmail 
+     * @throws ResourceNotFoundException If the specified role does not exist.
+     * @throws UnableSentEmail If there is an issue sending the email.
      */
     public Employee saveEmployee(Employee employee) throws ResourceAlreadyExists, ResourceNotFoundException, UnableSentEmail {
         // Check for existing employee with the same Payswiff ID
@@ -56,22 +56,23 @@ public class EmployeeService {
             employeeRepository.findByEmployeePhoneNumber(employee.getEmployeePhoneNumber()).isPresent()) {
             throw new ResourceAlreadyExists("Employee", "Phone Number", employee.getEmployeePhoneNumber());
         }
-        //encrypt the employee password
-        String password=employee.getEmployeePassword();
-        employee.setEmployeePassword(passwordEncoder.encode(employee.getEmployeePassword()));
-        
-        Set<Role> roles = new HashSet<>();
+
+        // Encrypt the employee password before saving
+        String password = employee.getEmployeePassword(); // Store the raw password for email
+        employee.setEmployeePassword(passwordEncoder.encode(employee.getEmployeePassword())); // Encode and set the password
+
+        Set<Role> roles = new HashSet<>(); // Set to hold employee roles
         Role employeeRole;
 
         // Check the employee type and assign the correct role
         if ("admin".equals(employee.getEmployeeType().name().toLowerCase())) {
             // Find role "ROLE_admin" in the database
             employeeRole = roleRepository.findByName("ROLE_admin")
-                .orElseThrow(() -> new ResourceNotFoundException("Role" ,"Name","ROLE_admin"));
+                .orElseThrow(() -> new ResourceNotFoundException("Role", "Name", "ROLE_admin"));
         } else {
             // Find role "ROLE_employee" in the database
             employeeRole = roleRepository.findByName("ROLE_employee")
-                .orElseThrow(() -> new ResourceNotFoundException("Role" ,"Name","ROLE_employee"));
+                .orElseThrow(() -> new ResourceNotFoundException("Role", "Name", "ROLE_employee"));
         }
 
         // Add the role to the employee's role set
@@ -80,28 +81,28 @@ public class EmployeeService {
         // Assign roles to the employee
         employee.setRoles(roles);
 
-        // Save the employee (if necessary)
-       
-        
+        // Save the employee in the database
         Employee createdEmployee = employeeRepository.save(employee);
         
+        // Prepare email details
         EmailSendDto emailSendDto = new EmailSendDto();
-        
         emailSendDto.setTo(employee.getEmployeeEmail());
         emailSendDto.setSubject("Merchant Feedback Management System");
-        emailSendDto.setText("You Account has been created successfully.\n"
+        emailSendDto.setText("Your Account has been created successfully.\n"
         		+ "Your Login Credentials are:\n"
-        		+ "Email: "+employee.getEmployeeEmail()+"\n"
-        				+ "Password:"+password);
-        
+        		+ "Email: " + employee.getEmployeeEmail() + "\n"
+        		+ "Password: " + password); // Use raw password for the email
+
+        // Send email notification
         boolean emailSent = emailService.sendEmail(emailSendDto.getTo(), emailSendDto.getSubject(), emailSendDto.getText());
         
-        if(!emailSent) {
-        	//Email sending failed
+        // Check if the email was sent successfully
+        if (!emailSent) {
+        	// Email sending failed, throw an exception
         	throw new UnableSentEmail(employee.getEmployeeEmail());
         }
         
-        return createdEmployee;
+        return createdEmployee; // Return the created employee object
     }
 
     /**
@@ -135,6 +136,7 @@ public class EmployeeService {
         // If none of the parameters are provided, throw an exception
         throw new ResourceNotFoundException("Employee", "Parameters", "None provided");
     }
+
     /**
      * Checks if an employee exists by its ID.
      *
@@ -142,12 +144,20 @@ public class EmployeeService {
      * @return true if an employee with the given ID exists, false otherwise.
      */
     public boolean existsById(Long employeeId) {
-        return employeeId != null && employeeRepository.existsById(employeeId); // Use repository to check if employee exists
+        // Use repository to check if employee exists
+        return employeeId != null && employeeRepository.existsById(employeeId);
     }
     
-    public boolean updateEmployeePassword(String email,String newPassword) throws ResourceNotFoundException {
-    	
-    	// Fetch the employee by email
+    /**
+     * Updates the password of an employee identified by their email.
+     *
+     * @param email The email of the employee whose password is to be updated.
+     * @param newPassword The new password to be set.
+     * @return true if the password was updated successfully.
+     * @throws ResourceNotFoundException If no employee is found with the given email.
+     */
+    public boolean updateEmployeePassword(String email, String newPassword) throws ResourceNotFoundException {
+        // Fetch the employee by email
         Employee employee = employeeRepository.findByEmployeeEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "Email", email));
 
@@ -161,11 +171,15 @@ public class EmployeeService {
         employeeRepository.save(employee);
         
         return true; // Indicate success
-		
-    	
     }
     
+    /**
+     * Retrieves all employees from the database.
+     *
+     * @return A list of all Employee objects.
+     */
     public List<Employee> getAllEmployees() {
+        // Retrieve all employees
         return employeeRepository.findAll();
     }
 }

@@ -73,16 +73,6 @@ public class CreateEmployeeRequest {
      */
     public Employee toEmployee() {
     	
-//        return Employee.builder()
-////                .employeeEmail(this.employeeEmail)
-//                .employeeUuid(UUID.randomUUID().toString())
-//                .employeeDesignation(this.employeeDesignation)
-//                .employeeName(this.employeeName)
-//                .employeePassword(this.employeePassword)
-//                .employeePayswiffId(this.employeePayswiffId)
-//                .employeePhoneNumber(this.employeePhoneNumber)
-//                .employeeType(EmployeeType.valueOf(this.employeeType))
-//                .build();
     	 ModelMapper modelMapper = new ModelMapper();
     	 
 //    	 Add your custom converter here

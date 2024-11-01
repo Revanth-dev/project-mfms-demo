@@ -318,47 +318,73 @@ public class FeedbackService {
 		}
 	}
 
-	public List<EmployeeFeedbackCountDto> countFeedbacksForAllEmployees() {
-		List<Object[]> results = feedbackRepository.countFeedbacksByEmployee();
-		List<EmployeeFeedbackCountDto> feedbackCounts = new ArrayList<>();
+	 /**
+     * Counts the number of feedbacks for all employees.
+     *
+     * @return A list of EmployeeFeedbackCountDto containing employee ID, email, and feedback count.
+     */
+    public List<EmployeeFeedbackCountDto> countFeedbacksForAllEmployees() {
+        // Retrieve feedback counts grouped by employee from the repository
+        List<Object[]> results = feedbackRepository.countFeedbacksByEmployee();
+        List<EmployeeFeedbackCountDto> feedbackCounts = new ArrayList<>();
 
-		for (Object[] result : results) {
-			Long employeeId = (Long) result[0];
-			Long feedbackCount = (Long) result[1]; // Make sure to cast to Long
+        // Iterate over the results and map them to DTOs
+        for (Object[] result : results) {
+            Long employeeId = (Long) result[0]; // Extract the employee ID from the result
+            Long feedbackCount = (Long) result[1]; // Extract the feedback count from the result
 
-			// Optionally, you can retrieve the employee name or other details
-			Employee employee = employeeRepository.findById(employeeId).orElse(null);
-			String employeeEmail = (employee != null) ? employee.getEmployeeEmail() : "Unknown";
+            // Optionally retrieve the employee details for email
+            Employee employee = employeeRepository.findById(employeeId).orElse(null);
+            String employeeEmail = (employee != null) ? employee.getEmployeeEmail() : "Unknown"; // Default to "Unknown" if not found
 
-			feedbackCounts.add(new EmployeeFeedbackCountDto(employeeId, employeeEmail, feedbackCount.longValue()));
-		}
+            // Create a new DTO and add it to the list
+            feedbackCounts.add(new EmployeeFeedbackCountDto(employeeId, employeeEmail, feedbackCount.longValue()));
+        }
 
-		return feedbackCounts;
-	}
+        return feedbackCounts; // Return the list of feedback counts
+    }
 
-	public List<AverageRatingResponseDTO> getAverageRatingByDevice() {
-		List<Object[]> results = feedbackRepository.avgRatingByDevice();
-		List<AverageRatingResponseDTO> averageRatings = new ArrayList<>();
+    /**
+     * Retrieves the average rating of feedback grouped by device.
+     *
+     * @return A list of AverageRatingResponseDTO containing device ID and average rating.
+     */
+    public List<AverageRatingResponseDTO> getAverageRatingByDevice() {
+        // Retrieve average ratings grouped by device from the repository
+        List<Object[]> results = feedbackRepository.avgRatingByDevice();
+        List<AverageRatingResponseDTO> averageRatings = new ArrayList<>();
 
-		for (Object[] result : results) {
-			Long deviceId = (Long) result[0]; // Ensure this is correct type
-			Double averageRating = ((Number) result[1]).doubleValue(); // Cast to Number, then to Double
-			averageRatings.add(new AverageRatingResponseDTO(deviceId, averageRating));
-		}
+        // Iterate over the results and map them to DTOs
+        for (Object[] result : results) {
+            Long deviceId = (Long) result[0]; // Extract the device ID from the result
+            Double averageRating = ((Number) result[1]).doubleValue(); // Cast to Number and then to Double
+            
+            // Create a new DTO and add it to the list
+            averageRatings.add(new AverageRatingResponseDTO(deviceId, averageRating));
+        }
 
-		return averageRatings;
-	}
+        return averageRatings; // Return the list of average ratings
+    }
 
-	public List<DeviceFeedbackCountDTO> getFeedbackCountByDevice() {
-		List<Object[]> results = feedbackRepository.countFeedbacksByDevice();
-		List<DeviceFeedbackCountDTO> feedbackCounts = new ArrayList<>();
+    /**
+     * Counts the number of feedbacks for each device.
+     *
+     * @return A list of DeviceFeedbackCountDTO containing device ID and feedback count.
+     */
+    public List<DeviceFeedbackCountDTO> getFeedbackCountByDevice() {
+        // Retrieve feedback counts grouped by device from the repository
+        List<Object[]> results = feedbackRepository.countFeedbacksByDevice();
+        List<DeviceFeedbackCountDTO> feedbackCounts = new ArrayList<>();
 
-		for (Object[] result : results) {
-			Long deviceId = (Long) result[0]; // Assuming deviceId is a String
-			Long count = (Long) result[1]; // Count is a Long
-			feedbackCounts.add(new DeviceFeedbackCountDTO(deviceId, count));
-		}
+        // Iterate over the results and map them to DTOs
+        for (Object[] result : results) {
+            Long deviceId = (Long) result[0]; // Extract the device ID from the result
+            Long count = (Long) result[1]; // Extract the feedback count from the result
+            
+            // Create a new DTO and add it to the list
+            feedbackCounts.add(new DeviceFeedbackCountDTO(deviceId, count));
+        }
 
-		return feedbackCounts;
-	}
+        return feedbackCounts; // Return the list of feedback counts
+    }
 }

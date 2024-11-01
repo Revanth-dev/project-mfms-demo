@@ -1,92 +1,108 @@
 package com.payswiff.mfmsproject.dtos;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Builder
+/**
+ * LoginResponseDto is a Data Transfer Object used to encapsulate the 
+ * response data returned upon successful user login.
+ */
+@NoArgsConstructor  // No-argument constructor for deserialization or default instantiation
+@Getter             // Lombok annotation to generate getter methods for the fields
+@Setter             // Lombok annotation to generate setter methods for the fields
 public class LoginResponseDto {
-	private String userEmailOrPhone;
-    private String role;
-    private String token;
-    private long id;
+	
+	private String userEmailOrPhone; // The email or phone number of the user
+	private String role;              // The role of the user in the system
+	private String token;             // The JWT or session token for the user
+	private long id;                  // Unique identifier for the user
+
 	/**
-	 * @return the userEmailOrPhone
+	 * Constructs a LoginResponseDto with the specified parameters.
+	 *
+	 * @param userEmailOrPhone The user's email or phone number.
+	 * @param role The user's role.
+	 * @param id The unique identifier for the user.
+	 * @param token The token associated with the user's session.
+	 */
+	public LoginResponseDto(String userEmailOrPhone, String role, long id, String token) {
+		this.userEmailOrPhone = userEmailOrPhone;
+		this.role = role;
+		this.token = token;
+		this.id = id;
+	}
+
+	/**
+	 * Gets the user's email or phone number.
+	 *
+	 * @return The user's email or phone number as a String.
 	 */
 	public String getUserEmailOrPhone() {
 		return userEmailOrPhone;
 	}
+
 	/**
-	 * @param userEmailOrPhone the userEmailOrPhone to set
+	 * Sets the user's email or phone number.
+	 *
+	 * @param userEmailOrPhone The user's email or phone number to set.
 	 */
 	public void setUserEmailOrPhone(String userEmailOrPhone) {
 		this.userEmailOrPhone = userEmailOrPhone;
 	}
+
 	/**
-	 * @return the role
+	 * Gets the user's role.
+	 *
+	 * @return The user's role as a String.
 	 */
 	public String getRole() {
 		return role;
 	}
+
 	/**
-	 * @param role the role to set
+	 * Sets the user's role.
+	 *
+	 * @param role The user's role to set.
 	 */
 	public void setRole(String role) {
 		this.role = role;
 	}
+
 	/**
-	 * @return the token
+	 * Gets the token associated with the user's session.
+	 *
+	 * @return The token as a String.
 	 */
 	public String getToken() {
 		return token;
 	}
+
 	/**
-	 * @param token the token to set
+	 * Sets the token associated with the user's session.
+	 *
+	 * @param token The token to set.
 	 */
 	public void setToken(String token) {
 		this.token = token;
 	}
+
 	/**
-	 * @param userEmailOrPhone
-	 * @param role
-	 * @param id 
-	 * @param token
-	 */
-	public LoginResponseDto(String userEmailOrPhone, String role, Long id, String token) {
-		this.userEmailOrPhone = userEmailOrPhone;
-		this.role = role;
-		this.token = token;
-		this.id=id;
-	}
-	/**
-	 * @return the id
+	 * Gets the unique identifier for the user.
+	 *
+	 * @return The user's ID as a long.
 	 */
 	public long getId() {
 		return id;
 	}
+
 	/**
-	 * @param userEmailOrPhone
-	 * @param role
-	 * @param token
-	 * @param id
-	 */
-	public LoginResponseDto(String userEmailOrPhone, String role, String token, long id) {
-		this.userEmailOrPhone = userEmailOrPhone;
-		this.role = role;
-		this.token = token;
-		this.id = id;
-	}
-	/**
-	 * @param id the id to set
+	 * Sets the unique identifier for the user.
+	 *
+	 * @param id The ID to set.
 	 */
 	public void setId(long id) {
 		this.id = id;
 	}
-    
 }
