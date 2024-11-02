@@ -21,30 +21,42 @@ public class MerchantService {
     /**
      * Creates a new merchant if no existing merchant with the same email or phone exists.
      *
-     * @param merchant The Merchant entity to be created.
+     * @param merchant The Merchant entity to be created. Must not be null and must have 
+     *                 non-empty email and phone values.
      * @return The created Merchant object.
      * @throws ResourceAlreadyExists if a merchant with the same email or phone number exists.
-     * @throws ResourceUnableToCreate if any error occurs during the merchant creation process.
+     * @throws ResourceUnableToCreate if the merchant is null, if either email or phone 
+     *                                  is empty, or if any error occurs during the merchant 
+     *                                  creation process.
      */
     public Merchant createMerchant(Merchant merchant) throws ResourceAlreadyExists, ResourceUnableToCreate {
+        // Validate merchant email and phone
+        if (merchant == null || 
+            (merchant.getMerchantEmail() == null || merchant.getMerchantEmail().isEmpty()) || 
+            (merchant.getMerchantPhone() == null || merchant.getMerchantPhone().isEmpty())) {
+            throw new ResourceUnableToCreate("Merchant", "Email/Phone", 
+                    "Email or Phone cannot be null or empty.");
+        }
+
+        // Check if merchant with the same email or phone already exists
+        Optional<Merchant> existingMerchant = Optional.ofNullable(merchantRepository.findByMerchantEmailOrMerchantPhone(
+            merchant.getMerchantEmail(), merchant.getMerchantPhone()));
+
+        if (existingMerchant.isPresent()) {
+            throw new ResourceAlreadyExists("Merchant", "Email/Phone", 
+                    merchant.getMerchantEmail() + "/" + merchant.getMerchantPhone());
+        }
+
         try {
-            // Check if merchant with the same email or phone already exists
-            Optional<Merchant> existingMerchant = Optional.ofNullable(merchantRepository.findByMerchantEmailOrMerchantPhone(
-                merchant.getMerchantEmail(), merchant.getMerchantPhone()));
-
-            if (existingMerchant.isPresent()) {
-                throw new ResourceAlreadyExists("Merchant", "Email/Phone", 
-                        merchant.getMerchantEmail() + "/" + merchant.getMerchantPhone());
-            }
-
-            // Save the new merchant
+            // Save the new merchant and return it
             return merchantRepository.save(merchant);
-
         } catch (Exception e) {
+            // Handle any exception during the save operation
             throw new ResourceUnableToCreate("Merchant", "Email/Phone", 
                     merchant.getMerchantEmail() + "/" + merchant.getMerchantPhone());
         }
     }
+
     /**
      * Retrieves a Merchant by its email or phone.
      *

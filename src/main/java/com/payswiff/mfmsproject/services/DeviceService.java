@@ -22,26 +22,34 @@ public class DeviceService {
 	private DeviceRepository deviceRepository;
 
 	/**
-	 * Saves a new Device into the database after checking if a device with the same model already exists.
-	 * 
-	 * @param device The device entity to be saved.
+	 * Saves a new device if no existing device with the same model already exists.
+	 *
+	 * @param device The Device entity to be saved. Must not be null and the device model 
+	 *               must not be empty.
 	 * @return The saved Device object.
-	 * @throws ResourceAlreadyExists If a device with the same model already exists in the database.
-	 * @throws ResourceUnableToCreate If any error occurs while saving the device.
+	 * @throws ResourceAlreadyExists if a device with the same model already exists.
+	 * @throws ResourceUnableToCreate if the device is null, if the device model is empty, 
+	 *                                 or if any error occurs during the device saving process.
 	 */
 	public Device saveDevice(Device device) throws ResourceAlreadyExists, ResourceUnableToCreate {
+	    // Validate that the device is not null and the device model is not empty
+	    if (device == null || 
+	        (device.getDeviceModel() == null || device.getDeviceModel().isEmpty())) {
+	        throw new ResourceUnableToCreate("Device", "Model", 
+	                "Device cannot be null and the device model cannot be empty.");
+	    }
+
+	    // Check if a device with the same model already exists
+	    Optional<Device> existingDevice = Optional.ofNullable(deviceRepository.findByModel(device.getDeviceModel()));
+
+	    // If a device with the same model is found, throw a ResourceAlreadyExists exception
+	    if (existingDevice.isPresent()) {
+	        throw new ResourceAlreadyExists("Device", "Model", device.getDeviceModel());
+	    }
+
 	    try {
-	        // Check if a device with the same model already exists
-	        Optional<Device> existingDevice = Optional.ofNullable(deviceRepository.findByModel(device.getDeviceModel()));
-	        
-	        // If a device with the same model is found, throw a ResourceAlreadyExists exception
-	        if (existingDevice.isPresent()) {
-	            throw new ResourceAlreadyExists("Device", "Model", device.getDeviceModel());
-	        }
-	        
-	        // Try to save the new device
+	        // Try to save the new device and return it
 	        return deviceRepository.save(device);
-	        
 	    } catch (Exception e) {
 	        // If any exception occurs during the save process, throw ResourceUnableToCreate
 	        throw new ResourceUnableToCreate("Device", "Model", device.getDeviceModel());

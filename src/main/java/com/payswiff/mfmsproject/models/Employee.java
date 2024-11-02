@@ -323,6 +323,17 @@ public class Employee {
 	public Employee() {
 	}
 
+	public Employee(String payswiffId, String email, String password, String type, String phonenumber) {
+		// TODO Auto-generated constructor stub
+		this.employeeEmail=email;
+		this.employeePassword=password;
+		this.employeePayswiffId=payswiffId;
+		this.employeePhoneNumber=phonenumber;
+		this.employeeType=EmployeeType.valueOf(type);
+		
+	}
+
+	
 	
 
 	

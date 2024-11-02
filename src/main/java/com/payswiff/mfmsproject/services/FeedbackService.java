@@ -26,6 +26,7 @@ import com.payswiff.mfmsproject.dtos.FeedbackQuestionAnswerAssignDto;
 import com.payswiff.mfmsproject.exceptions.MerchantDeviceNotAssignedException;
 import com.payswiff.mfmsproject.exceptions.ResourceAlreadyExists;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
+import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
 import com.payswiff.mfmsproject.exceptions.UnableSentEmail;
 
 import java.util.ArrayList;
@@ -240,10 +241,11 @@ public class FeedbackService {
 	 * @param feedback        The feedback object to associate with questions.
 	 * @param questionAnswers
 	 * @throws ResourceNotFoundException
+	 * @throws ResourceUnableToCreate 
 	 * @throws ResourceAlreadyExists
 	 */
 	private void associateFeedbackWithQuestions(Feedback feedback,
-			List<FeedbackQuestionAnswerAssignDto> questionAnswers) throws ResourceNotFoundException {
+			List<FeedbackQuestionAnswerAssignDto> questionAnswers) throws ResourceNotFoundException, ResourceUnableToCreate {
 
 		// Fetch the predefined questions from the database
 		List<Question> predefinedQuestions = questionRepository.findAll();
