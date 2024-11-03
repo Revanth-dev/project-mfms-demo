@@ -67,6 +67,12 @@ public class MerchantDeviceAssociation {
 		// TODO Auto-generated constructor stub
 	}
 
+	public MerchantDeviceAssociation(Merchant merchant2, Device device1) {
+		// TODO Auto-generated constructor stub
+		this.merchant=merchant2;
+		this.device=device1;
+	}
+
 	/**
 	 * @return the id
 	 */

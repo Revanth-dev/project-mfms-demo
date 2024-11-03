@@ -1,6 +1,7 @@
 package com.payswiff.mfmsproject.controllers;
 
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
+import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
 import com.payswiff.mfmsproject.services.FeedbackQuestionsAssociationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,10 @@ public class FeedbackQuestionsAssociationController {
      *
      * @param feedbackId The ID of the feedback.
      * @return A ResponseEntity containing a list of FeedbackQuestionDTOs or an error message.
+     * @throws ResourceUnableToCreate 
      */
     @GetMapping("/feedback/questions/{feedbackId}")
-    public ResponseEntity<List<FeedbackQuestionDTO>> getFeedbackQuestionsByFeedbackId(@PathVariable Integer feedbackId) {
+    public ResponseEntity<List<FeedbackQuestionDTO>> getFeedbackQuestionsByFeedbackId(@PathVariable Integer feedbackId) throws ResourceUnableToCreate {
         try {
             List<FeedbackQuestionDTO> feedbackQuestions = feedbackQuestionsAssociationService.getFeedbackQuestionsByFeedbackId(feedbackId);
             return new ResponseEntity<>(feedbackQuestions, HttpStatus.OK);

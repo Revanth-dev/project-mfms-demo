@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*; // Importing Spring web annota
 
 import com.payswiff.mfmsproject.exceptions.ResourceAlreadyExists; // Importing exception for handling resource existence conflicts
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException; // Importing exception for handling resource not found
+import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
 import com.payswiff.mfmsproject.exceptions.UnableSentEmail; // Importing exception for handling email sending failures
 import com.payswiff.mfmsproject.models.Employee; // Importing Employee model
 import com.payswiff.mfmsproject.reuquests.CreateEmployeeRequest; // Importing DTO for employee creation request
@@ -38,10 +39,11 @@ public class EmployeeController {
      *                               email, or phone already exists.
      * @throws ResourceNotFoundException if a related resource is not found.
      * @throws UnableSentEmail if there was an issue sending an email.
+     * @throws ResourceUnableToCreate 
      */
     @PostMapping("/create") // Endpoint to create a new employee
     public ResponseEntity<Employee> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) 
-            throws ResourceAlreadyExists, ResourceNotFoundException, UnableSentEmail {
+            throws ResourceAlreadyExists, ResourceNotFoundException, UnableSentEmail, ResourceUnableToCreate {
         // Convert CreateEmployeeRequest to Employee model
         Employee employee = request.toEmployee();
         // Save the employee using the service and return the created employee

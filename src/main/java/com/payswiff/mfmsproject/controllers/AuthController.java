@@ -13,6 +13,7 @@ import com.payswiff.mfmsproject.dtos.LoginDto; // Importing DTO for login reques
 import com.payswiff.mfmsproject.dtos.LoginResponseDto; // Importing DTO for login response
 import com.payswiff.mfmsproject.exceptions.EmployeePasswordUpdationFailedException; // Importing custom exception for password update failures
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException; // Importing custom exception for resource not found scenarios
+import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
 import com.payswiff.mfmsproject.services.AuthService; // Importing service for authentication operations
 import com.payswiff.mfmsproject.services.EmployeeService; // Importing service for employee operations
 
@@ -33,9 +34,10 @@ public class AuthController {
      *
      * @param loginDto the login data transfer object containing username and password
      * @return ResponseEntity containing the login response
+     * @throws ResourceUnableToCreate 
      */
     @PostMapping("/login") // Maps POST requests to /api/authentication/login
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto) throws ResourceUnableToCreate {
         // Use the AuthService to perform login and retrieve the response
         LoginResponseDto response = authService.login(loginDto); // Authenticate user and get response
         return ResponseEntity.ok(response); // Return HTTP 200 OK with the response body
@@ -48,9 +50,10 @@ public class AuthController {
      * @return boolean indicating success or failure of the operation
      * @throws ResourceNotFoundException if the user is not found
      * @throws EmployeePasswordUpdationFailedException if the password update fails
+     * @throws ResourceUnableToCreate 
      */
     @PostMapping("/forgotpassword") // Maps POST requests to /api/authentication/forgotpassword
-    public boolean forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto) throws ResourceNotFoundException, EmployeePasswordUpdationFailedException {
+    public boolean forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto) throws ResourceNotFoundException, EmployeePasswordUpdationFailedException, ResourceUnableToCreate {
         // Calls the AuthService to process the password recovery request
         return authService.forgotPassword(forgotPasswordDto); // Return the result of the operation
     }

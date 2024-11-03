@@ -333,6 +333,14 @@ public class Employee {
 		
 	}
 
+	public Employee(long id, String name, String email) {
+		// TODO Auto-generated constructor stub
+		this.employeeId=id;
+		this.employeeName=name;
+		this.employeeEmail=email;
+	}
+
+	
 	
 	
 
