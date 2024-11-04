@@ -32,6 +32,9 @@ public class QuestionService {
         if (question.getQuestionDescription() == null || question.getQuestionDescription().trim().isEmpty()) {
             throw new ResourceUnableToCreate("Question", "Description cannot be empty","Empty Description");
         }
+        if(question.getQuestionDescription().length()==0) {
+            throw new ResourceUnableToCreate("Question", "Description cannot be empty","Empty Description");
+        }
 
         // Check for existing question with the same description
         Optional<Question> existingQuestion = questionRepository.findByDescription(question.getQuestionDescription());

@@ -389,4 +389,9 @@ public class FeedbackService {
 
         return feedbackCounts; // Return the list of feedback counts
     }
+
+	public boolean checkFeedbackIntegrity(String feedbackText) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

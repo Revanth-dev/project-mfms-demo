@@ -1,6 +1,7 @@
 package com.payswiff.mfmsproject.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,13 +30,14 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
+    
     private Long questionId;
 
     /**
      * A unique identifier for the question, used for reference purposes.
      * This field must be provided and must be unique.
      */
-    @Column(name = "question_uuid", nullable = false, unique = true)
+    @Column(name = "question_uuid", nullable = true, unique = true)
     private String questionUuid;
 
     /**
