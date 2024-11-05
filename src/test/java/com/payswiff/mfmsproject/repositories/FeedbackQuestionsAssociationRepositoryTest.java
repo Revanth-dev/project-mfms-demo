@@ -159,8 +159,16 @@ class FeedbackQuestionsAssociationRepositoryTest {
     void testExistsByFeedbackAndQuestion_InvalidFeedback() {
         // Create a new Feedback that doesn't exist in the repository
         Feedback invalidFeedback = new Feedback();
+        invalidFeedback.setFeedbackId(Integer.MAX_VALUE);
         invalidFeedback.setFeedback("Invalid feedback");
-
+        
+        invalidFeedback.setFeedbackDevice(feedback.getFeedbackDevice());
+        invalidFeedback.setFeedbackEmployee(feedback.getFeedbackEmployee());
+        invalidFeedback.setFeedbackMerchant(feedback.getFeedbackMerchant());
+        invalidFeedback.setFeedbackImage1("https://www.google.com");
+        invalidFeedback.setFeedbackRating(4.6);
+        invalidFeedback.setFeedbackUuid(UUID.randomUUID().toString());
+        
         // Act: Check if the association exists with invalid feedback
         boolean exists = repository.existsByFeedbackAndQuestion(invalidFeedback, question);
 
@@ -173,16 +181,19 @@ class FeedbackQuestionsAssociationRepositoryTest {
      */
     @Test
     void testExistsByFeedbackAndQuestion_InvalidQuestion() {
-        // Create a new Question that doesn't exist in the repository
+        // Create a Question object with a non-existent ID
         Question invalidQuestion = new Question();
+        invalidQuestion.setQuestionId(Long.MAX_VALUE);  // Use a high ID that doesn’t exist in the database
         invalidQuestion.setQuestionDescription("Invalid question");
         invalidQuestion.setQuestionUuid(UUID.randomUUID().toString());
+        
         // Act: Check if the association exists with invalid question
         boolean exists = repository.existsByFeedbackAndQuestion(feedback, invalidQuestion);
 
         // Assert: Verify that the association does not exist
         assertFalse(exists, "Association should not exist for an invalid question.");
     }
+
 
     /**
      * Negative test case: Test non-existence of an association with both invalid feedback and question.
@@ -191,11 +202,13 @@ class FeedbackQuestionsAssociationRepositoryTest {
     void testExistsByFeedbackAndQuestion_InvalidFeedbackAndQuestion() {
         // Create new instances of Feedback and Question that don't exist
         Feedback invalidFeedback = new Feedback();
+        invalidFeedback.setFeedbackId(Integer.MAX_VALUE);
         invalidFeedback.setFeedback("Invalid feedback");
         
         Question invalidQuestion = new Question();
+        invalidQuestion.setQuestionId(Long.MAX_VALUE);
         invalidQuestion.setQuestionDescription("Invalid question");
-
+        invalidQuestion.setQuestionUuid(UUID.randomUUID().toString());
         // Act: Check if the association exists with invalid feedback and question
         boolean exists = repository.existsByFeedbackAndQuestion(invalidFeedback, invalidQuestion);
 
@@ -222,9 +235,15 @@ class FeedbackQuestionsAssociationRepositoryTest {
      */
     @Test
     void testFindByFeedback_NonExistentFeedback() {
-        // Create a new Feedback that doesn't exist in the repository
+        // Create a Feedback object with a non-existent ID
         Feedback nonExistentFeedback = new Feedback();
+        nonExistentFeedback.setFeedbackId(Integer.MAX_VALUE);  // Assuming this ID doesn’t exist in the database
         nonExistentFeedback.setFeedback("Non-existent feedback");
+        nonExistentFeedback.setFeedbackDevice(feedback.getFeedbackDevice());
+        nonExistentFeedback.setFeedbackEmployee(feedback.getFeedbackEmployee());
+        nonExistentFeedback.setFeedbackMerchant(feedback.getFeedbackMerchant());
+        nonExistentFeedback.setFeedbackImage1("https://www.google.com");
+        nonExistentFeedback.setFeedbackRating(4.6);
 
         // Act: Find associations by non-existent feedback
         List<FeedbackQuestionsAssociation> associations = repository.findByFeedback(nonExistentFeedback);
@@ -233,4 +252,5 @@ class FeedbackQuestionsAssociationRepositoryTest {
         assertNotNull(associations, "The list of associations should not be null.");
         assertTrue(associations.isEmpty(), "The list of associations should be empty for non-existent feedback.");
     }
+
 }

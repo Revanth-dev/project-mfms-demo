@@ -19,21 +19,28 @@ public class FeedbackQuestionsAssociationController {
 
     @Autowired
     private FeedbackQuestionsAssociationService feedbackQuestionsAssociationService;
+   
 
     /**
      * Endpoint to retrieve feedback questions by feedback ID.
      *
      * @param feedbackId The ID of the feedback.
      * @return A ResponseEntity containing a list of FeedbackQuestionDTOs or an error message.
-     * @throws ResourceUnableToCreate 
+     * @throws ResourceUnableToCreate if feedbackId is null.
      */
     @GetMapping("/feedback/questions/{feedbackId}")
     public ResponseEntity<List<FeedbackQuestionDTO>> getFeedbackQuestionsByFeedbackId(@PathVariable Integer feedbackId) throws ResourceUnableToCreate {
+        if (feedbackId == null) {
+            throw new ResourceUnableToCreate("Feedback ID cannot be null.","","");
+        }
+
         try {
             List<FeedbackQuestionDTO> feedbackQuestions = feedbackQuestionsAssociationService.getFeedbackQuestionsByFeedbackId(feedbackId);
             return new ResponseEntity<>(feedbackQuestions, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (RuntimeException e) { // Catch unexpected runtime exceptions
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

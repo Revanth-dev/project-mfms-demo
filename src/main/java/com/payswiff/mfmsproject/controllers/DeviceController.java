@@ -52,6 +52,9 @@ public class DeviceController {
      */
     @GetMapping("/get") // Endpoint to get a device by its model
     public ResponseEntity<Device> getDeviceByModel(@RequestParam("model") String model) throws ResourceNotFoundException {
+    	if (model == null) { // Null check for model parameter
+            throw new IllegalArgumentException("Model parameter cannot be null");
+        }
         // Call the service method to retrieve the device and return the response
         return deviceService.getDeviceByModel(model);
     }
