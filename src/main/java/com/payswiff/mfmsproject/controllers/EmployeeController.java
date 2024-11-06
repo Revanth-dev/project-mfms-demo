@@ -44,6 +44,10 @@ public class EmployeeController {
     @PostMapping("/create") // Endpoint to create a new employee
     public ResponseEntity<Employee> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) 
             throws ResourceAlreadyExists, ResourceNotFoundException, UnableSentEmail, ResourceUnableToCreate {
+    	//check null
+    	if(request==null) {
+    		throw new ResourceUnableToCreate("Null Request Employee can not create", null, null);
+    	}
         // Convert CreateEmployeeRequest to Employee model
         Employee employee = request.toEmployee();
         // Save the employee using the service and return the created employee
@@ -60,19 +64,31 @@ public class EmployeeController {
      * @param email The email of the employee to retrieve (optional).
      * @return ResponseEntity containing the found employee.
      * @throws ResourceNotFoundException if no employee is found with the provided details.
+     * @throws ResourceUnableToCreate 
      */
     @GetMapping("/get") // Endpoint to get an employee by Payswiff ID, phone number, or email
     public ResponseEntity<Employee> getEmployee(
             @RequestParam(required = false) String payswiffId, 
             @RequestParam(required = false) String phoneNumber, 
             @RequestParam(required = false) String email) 
-            throws ResourceNotFoundException {
+            throws ResourceNotFoundException, ResourceUnableToCreate {
+        
+        // Check if all parameters are null or empty
+        if ((payswiffId == null || payswiffId.isEmpty()) &&
+            (phoneNumber == null || phoneNumber.isEmpty()) &&
+            (email == null || email.isEmpty())) {
+            
+            throw new ResourceNotFoundException("Unable to get the resource Employee. At least one parameter must be provided.", null, null);
+        }
+     
         // Call the service method to retrieve the employee based on provided parameters
         Employee employee = employeeService.getEmployee(payswiffId, phoneNumber, email);
+        
         // Return the found employee with 200 OK status
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
-    
+
+
     /**
      * Retrieves all Employees.
      *

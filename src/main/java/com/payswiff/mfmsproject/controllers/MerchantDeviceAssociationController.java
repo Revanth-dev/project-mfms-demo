@@ -39,6 +39,10 @@ public class MerchantDeviceAssociationController {
     @PostMapping("/assign")
     public ResponseEntity<MerchantDeviceAssociation> assignDeviceToMerchant(
             @RequestBody MerchantDeviceAssociationRequest request) throws ResourceNotFoundException, ResourceUnableToCreate {
+    	//check null
+    	if(request==null) {
+    		throw new ResourceUnableToCreate("NULL request for devicemerchnat association", null, null);
+    	}
         // Create the association using the service layer
         MerchantDeviceAssociation createdAssociation = associationService
                 .assignDeviceToMerchant(request.getMerchantId(), request.getDeviceId());
@@ -55,7 +59,11 @@ public class MerchantDeviceAssociationController {
      */
     @GetMapping("/get/merchantdeviceslist")
     public ResponseEntity<List<Device>> getMerchantDevicesList(@RequestParam Long merchantId) throws ResourceNotFoundException, ResourceUnableToCreate {
-        // Get the list of devices associated with the specified merchant
+        //check null
+    	if(merchantId==null) {
+    		throw new ResourceNotFoundException("Merchnat ", "ID", null);
+    	}
+    	// Get the list of devices associated with the specified merchant
         List<Device> devices = associationService.getDevicesByMerchantId(merchantId);
         return new ResponseEntity<>(devices, HttpStatus.OK); // Return the list of devices with HTTP 200 OK status
     }
@@ -73,6 +81,10 @@ public class MerchantDeviceAssociationController {
     public ResponseEntity<Boolean> checkMerchantDeviceAssociation(
             @RequestParam Long merchantId,
             @RequestParam Long deviceId) throws ResourceNotFoundException, ResourceUnableToCreate {
+    	//check null
+    	 if (merchantId == null || deviceId == null) {
+    	        throw new ResourceNotFoundException("merchantDevice", "merchnatId or DeviceId", null); // Return 400 if any ID is null
+    	    }
         // Check if the specified device is associated with the specified merchant
         boolean exists = associationService.isDeviceAssociatedWithMerchant(merchantId, deviceId);
         return new ResponseEntity<>(exists, HttpStatus.OK); // Return the association status with HTTP 200 OK status

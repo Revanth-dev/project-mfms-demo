@@ -11,6 +11,7 @@ import com.payswiff.mfmsproject.dtos.DeviceFeedbackCountDTO; // Importing DTO fo
 import com.payswiff.mfmsproject.dtos.EmployeeFeedbackCountDto; // Importing DTO for employee feedback count.
 import com.payswiff.mfmsproject.dtos.FeedbackQuestionAnswerAssignDto; // Importing DTO for question-answer pairs in feedback.
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException; // Importing exception for handling resource not found errors.
+import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
 
 import java.util.List; // Importing List for handling collections of feedback and DTOs.
 
@@ -41,6 +42,10 @@ public class FeedbackController {
     @PostMapping("/create")
     public ResponseEntity<HttpStatus> createFeedback(
             @Valid @RequestBody FeedbackRequestWrapper requestWrapper) throws Exception {
+    	//check null
+    	if(requestWrapper==null){
+    		throw new ResourceUnableToCreate("Feedback can not be created with null request", null, null);
+    	}
 
         // Extracting the feedback request and question answers from the wrapper
         CreateFeedbackRequest feedbackRequest = requestWrapper.getFeedbackRequest();
@@ -75,6 +80,11 @@ public class FeedbackController {
             @RequestParam(required = false) Long deviceId,
             @RequestParam(required = false) Integer rating,
             @RequestParam(required = false) Long merchantId) throws ResourceNotFoundException {
+    	
+    	// Check if all parameters are null or empty
+        if (employeeId == null && deviceId == null && rating == null && merchantId == null) {
+            throw new ResourceNotFoundException("At least one filter parameter (employeeId, deviceId, rating, or merchantId) must be provided.", null, null);
+        }
         
         // Fetch feedbacks based on the provided filters from the service
         List<Feedback> feedbacks = feedbackService.getFeedbacksByFilters(employeeId, deviceId, rating, merchantId);

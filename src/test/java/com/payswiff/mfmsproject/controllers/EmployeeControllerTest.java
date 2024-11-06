@@ -5,12 +5,14 @@ import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
 import com.payswiff.mfmsproject.exceptions.UnableSentEmail;
 import com.payswiff.mfmsproject.models.Employee;
+import com.payswiff.mfmsproject.models.EmployeeType;
 import com.payswiff.mfmsproject.reuquests.CreateEmployeeRequest;
 import com.payswiff.mfmsproject.services.EmployeeService;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
@@ -47,7 +49,7 @@ class EmployeeControllerTest {
     void testCreateEmployee_Success() throws ResourceAlreadyExists, ResourceNotFoundException, UnableSentEmail, ResourceUnableToCreate {
         // Arrange
         CreateEmployeeRequest request = new CreateEmployeeRequest(12345, "John Doe", "john@example.com", "1234567890","Dev","employee","passowrd");
-        Employee createdEmployee = new Employee(null,UUID.randomUUID().toString(),"Payswiff ID", "John Doe", "john@example.com", "1234567890","Dev","employee","passowrd",null,null);
+        Employee createdEmployee = new Employee(null,UUID.randomUUID().toString(),"Payswiff ID", "John Doe", "john@example.com","password","1234567890","dev",EmployeeType.employee, null, null, null);
         
         when(employeeService.saveEmployee(any(Employee.class))).thenReturn(createdEmployee); // Mocking service response
 
@@ -66,14 +68,14 @@ class EmployeeControllerTest {
     @Test
     void testCreateEmployee_AlreadyExists() throws ResourceAlreadyExists, ResourceNotFoundException, UnableSentEmail, ResourceUnableToCreate {
         // Arrange
-        CreateEmployeeRequest request = new CreateEmployeeRequest("Payswiff ID", "Jane Doe", "jane@example.com", "0987654321");
-        when(employeeService.saveEmployee(any(Employee.class))).thenThrow(new ResourceAlreadyExists("Employee already exists"));
+        CreateEmployeeRequest request = new CreateEmployeeRequest(12345, "John Doe", "john@example.com", "1234567890","Dev","employee","passowrd");
+        when(employeeService.saveEmployee(any(Employee.class))).thenThrow(new ResourceAlreadyExists("Employee already exists","",""));
 
         // Act & Assert
         ResourceAlreadyExists exception = assertThrows(ResourceAlreadyExists.class, () -> {
             employeeController.createEmployee(request);
         });
-        assertEquals("Employee already exists", exception.getMessage()); // Validate exception message
+        assertEquals("Employee already exists with :  already exists.", exception.getMessage()); // Validate exception message
     }
 
     /**
@@ -83,14 +85,14 @@ class EmployeeControllerTest {
     @Test
     void testCreateEmployee_EmailSendingFailure() throws ResourceAlreadyExists, ResourceNotFoundException, UnableSentEmail, ResourceUnableToCreate {
         // Arrange
-        CreateEmployeeRequest request = new CreateEmployeeRequest("Payswiff ID", "Jake Doe", "jake@example.com", "1122334455");
+        CreateEmployeeRequest request =new CreateEmployeeRequest(12345, "John Doe", "john@example.com", "1234567890","Dev","employee","passowrd");
         when(employeeService.saveEmployee(any(Employee.class))).thenThrow(new UnableSentEmail("Email sending failed"));
 
         // Act & Assert
         UnableSentEmail exception = assertThrows(UnableSentEmail.class, () -> {
             employeeController.createEmployee(request);
         });
-        assertEquals("Email sending failed", exception.getMessage()); // Validate exception message
+        assertEquals("Email is unable to send to Email sending failed", exception.getMessage()); // Validate exception message
     }
 
     /**
@@ -111,12 +113,13 @@ class EmployeeControllerTest {
     /**
      * Test method for retrieving an employee by Payswiff ID.
      * Verifies that the controller returns the employee with a 200 OK response.
+     * @throws ResourceUnableToCreate 
      */
     @Test
-    void testGetEmployee_ByPayswiffId_Success() throws ResourceNotFoundException {
+    void testGetEmployee_ByPayswiffId_Success() throws ResourceNotFoundException, ResourceUnableToCreate {
         // Arrange
         String payswiffId = "Payswiff ID";
-        Employee employee = new Employee(payswiffId, "John Doe", "john@example.com", "1234567890");
+        Employee employee = new Employee(null,UUID.randomUUID().toString(),"Payswiff ID", "John Doe", "john@example.com","password","1234567890","dev",EmployeeType.employee, null, null, null);
         when(employeeService.getEmployee(payswiffId, null, null)).thenReturn(employee); // Mocking service response
 
         // Act
@@ -130,12 +133,13 @@ class EmployeeControllerTest {
     /**
      * Test method for retrieving an employee by email.
      * Verifies that the controller returns the employee with a 200 OK response.
+     * @throws ResourceUnableToCreate 
      */
     @Test
-    void testGetEmployee_ByEmail_Success() throws ResourceNotFoundException {
+    void testGetEmployee_ByEmail_Success() throws ResourceNotFoundException, ResourceUnableToCreate {
         // Arrange
         String email = "john@example.com";
-        Employee employee = new Employee("Payswiff ID", "John Doe", email, "1234567890");
+        Employee employee = new Employee(null, UUID.randomUUID().toString(),"Payswiff ID", "John Doe", email,"password", "1234567890","dev",EmployeeType.employee, null, null, null );
         when(employeeService.getEmployee(null, null, email)).thenReturn(employee); // Mocking service response
 
         // Act
@@ -149,9 +153,10 @@ class EmployeeControllerTest {
     /**
      * Test method for retrieving an employee that does not exist.
      * Verifies that the controller throws ResourceNotFoundException.
+     * @throws ResourceNotFoundException 
      */
     @Test
-    void testGetEmployee_NotFound() {
+    void testGetEmployee_NotFound() throws ResourceNotFoundException {
         // Arrange
         String email = "notfound@example.com";
         when(employeeService.getEmployee(null, null, email)).thenThrow(new ResourceNotFoundException("Employee not found","",""));
@@ -160,7 +165,7 @@ class EmployeeControllerTest {
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             employeeController.getEmployee(null, null, email);
         });
-        assertEquals("Employee not found", exception.getMessage()); // Validate exception message
+        assertEquals("Employee not found with :  is not found!!", exception.getMessage()); // Validate exception message
     }
 
     /**
@@ -182,8 +187,8 @@ class EmployeeControllerTest {
     @Test
     void testGetAllEmployees_Success() {
         // Arrange
-        Employee employee1 = new Employee("Payswiff ID 1", "John Doe", "john@example.com", "1234567890",);
-        Employee employee2 = new Employee("Payswiff ID 2", "Jane Doe", "jane@example.com", "0987654321");
+        Employee employee1 =new Employee(null,UUID.randomUUID().toString(),"Payswiff ID", "John Doe", "john@example.com","password","1234567890","dev",EmployeeType.employee, null, null, null);
+        Employee employee2 =new Employee(null,UUID.randomUUID().toString(),"Payswiff ID2", "John Doe", "john2@example.com","password","1234567899","dev",EmployeeType.employee, null, null, null);
         List<Employee> employeeList = Arrays.asList(employee1, employee2);
         when(employeeService.getAllEmployees()).thenReturn(employeeList); // Mocking service response
 
@@ -240,48 +245,67 @@ class EmployeeControllerTest {
         });
     }
 
+  
     /**
-     * Test method for checking behavior when an employee's Payswiff ID is null during retrieval.
-     * Verifies that the controller throws ResourceNotFoundException.
+     * Test when all parameters are null or empty, expect ResourceNotFoundException.
      */
     @Test
-    void testGetEmployee_NullPayswiffId() {
-        // Act & Assert
+    void testGetEmployee_AllParametersNull() {
         assertThrows(ResourceNotFoundException.class, () -> {
-            employeeController.getEmployee(null, "1234567890", null); // Expect exception for null Payswiff ID
+            employeeController.getEmployee(null, null, null);
         });
     }
 
     /**
-     * Test method for checking behavior when an employee's phone number is null during retrieval.
-     * Verifies that the controller throws ResourceNotFoundException.
+     * Test when only Payswiff ID is provided, expect successful employee retrieval.
      */
     @Test
-    void testGetEmployee_NullPhoneNumber() {
-        // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> {
-            employeeController.getEmployee("Payswiff ID", null, null); // Expect exception for null phone number
-        });
+    void testGetEmployee_OnlyPayswiffIdProvided() throws ResourceNotFoundException, ResourceUnableToCreate {
+        when(employeeService.getEmployee("validPayswiffId", null, null)).thenReturn(new Employee());
+        
+        ResponseEntity<Employee> response = employeeController.getEmployee("validPayswiffId", null, null);
+        
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     /**
-     * Test method for checking behavior when an employee's email is null during retrieval.
-     * Verifies that the controller throws ResourceNotFoundException.
+     * Test when only phone number is provided, expect successful employee retrieval.
      */
     @Test
-    void testGetEmployee_NullEmail() {
-        // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> {
-            employeeController.getEmployee(null, null, "john@example.com"); // Expect exception for null email
-        });
+    void testGetEmployee_OnlyPhoneNumberProvided() throws ResourceNotFoundException, ResourceUnableToCreate {
+        when(employeeService.getEmployee(null, "1234567890", null)).thenReturn(new Employee());
+        
+        ResponseEntity<Employee> response = employeeController.getEmployee(null, "1234567890", null);
+        
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     /**
-     * Test method for verifying the EmployeeController class is correctly instantiated.
+     * Test when only email is provided, expect successful employee retrieval.
      */
     @Test
-    void testEmployeeControllerInstantiation() {
-        // Act & Assert
-        assertNotNull(employeeController); // Ensure the EmployeeController is instantiated
+    void testGetEmployee_OnlyEmailProvided() throws ResourceNotFoundException, ResourceUnableToCreate {
+        when(employeeService.getEmployee(null, null, "test@example.com")).thenReturn(new Employee());
+        
+        ResponseEntity<Employee> response = employeeController.getEmployee(null, null, "test@example.com");
+        
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
+
+    /**
+     * Test when multiple parameters are provided, expect successful employee retrieval.
+     */
+    @Test
+    void testGetEmployee_MultipleParametersProvided() throws ResourceNotFoundException, ResourceUnableToCreate {
+        when(employeeService.getEmployee("validPayswiffId", "1234567890", "test@example.com")).thenReturn(new Employee());
+        
+        ResponseEntity<Employee> response = employeeController.getEmployee("validPayswiffId", "1234567890", "test@example.com");
+        
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
+
 }
