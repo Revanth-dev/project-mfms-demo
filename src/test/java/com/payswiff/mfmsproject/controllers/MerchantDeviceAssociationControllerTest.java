@@ -50,7 +50,7 @@ class MerchantDeviceAssociationControllerTest {
     @Test
     void testAssignDeviceToMerchant_Success() throws ResourceNotFoundException, ResourceUnableToCreate {
         // Prepare mock request
-        MerchantDeviceAssociationRequest request = new MerchantDeviceAssociationRequest(1L, 1L);
+        MerchantDeviceAssociationRequest request = new MerchantDeviceAssociationRequest(1L,1L);
 
         // Mock the service method
         MerchantDeviceAssociation association = new MerchantDeviceAssociation();

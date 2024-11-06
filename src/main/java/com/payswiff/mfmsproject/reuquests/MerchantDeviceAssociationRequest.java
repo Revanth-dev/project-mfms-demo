@@ -43,4 +43,15 @@ public class MerchantDeviceAssociationRequest {
 	public void setDeviceId(Long deviceId) {
 		this.deviceId = deviceId;
 	}
+
+	/**
+	 * @param merchantId
+	 * @param deviceId
+	 */
+	public MerchantDeviceAssociationRequest(Long merchantId, Long deviceId) {
+		super();
+		this.merchantId = merchantId;
+		this.deviceId = deviceId;
+	}
+	
 }

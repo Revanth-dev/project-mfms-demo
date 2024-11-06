@@ -122,18 +122,18 @@ class FeedbackControllerTest {
     }
 
 
-    /**
-     * Unit test for verifying that an exception is thrown when all filter parameters are null during feedback retrieval.
-     * This test ensures that the controller throws a ResourceNotFoundException if no filter parameters (employeeId, deviceId, rating, or merchantId) are provided.
-     */
-    @Test
-    void testGetFeedbacksByFilters_AllParametersNull() {
-        // Act & Assert: Call the getFeedbacksByFilters method with all null parameters
-        // and assert that a ResourceNotFoundException is thrown, as at least one filter is required.
-        assertThrows(ResourceNotFoundException.class, () -> 
-            feedbackController.getFeedbacksByFilters(null, null, null, null),
-            "Expected ResourceNotFoundException when all filter parameters are null.");
-    }
+//    /**
+//     * Unit test for verifying that an exception is thrown when all filter parameters are null during feedback retrieval.
+//     * This test ensures that the controller throws a ResourceNotFoundException if no filter parameters (employeeId, deviceId, rating, or merchantId) are provided.
+//     */
+//    @Test
+//    void testGetFeedbacksByFilters_AllParametersNull() {
+//        // Act & Assert: Call the getFeedbacksByFilters method with all null parameters
+//        // and assert that a ResourceNotFoundException is thrown, as at least one filter is required.
+//        assertThrows(ResourceNotFoundException.class, () -> 
+//            feedbackController.getFeedbacksByFilters(null, null, null, null),
+//            "Expected ResourceNotFoundException when all filter parameters are null.");
+//    }
 
     /**
      * Unit test for verifying successful feedback retrieval when only the employeeId filter is provided.

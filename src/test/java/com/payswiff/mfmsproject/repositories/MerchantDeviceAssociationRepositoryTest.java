@@ -1,5 +1,7 @@
 package com.payswiff.mfmsproject.repositories;
 
+import com.payswiff.mfmsproject.dtos.RandomEmailGenerator;
+import com.payswiff.mfmsproject.dtos.RandomPhoneNumberGenerator;
 import com.payswiff.mfmsproject.models.Device;
 import com.payswiff.mfmsproject.models.Merchant;
 import com.payswiff.mfmsproject.models.MerchantDeviceAssociation;
@@ -35,10 +37,12 @@ class MerchantDeviceAssociationRepositoryTest {
 
     @BeforeEach
     void setUp() {
+    	String randomEmail = RandomEmailGenerator.generateRandomEmail();
+    	String phoneNumber=RandomPhoneNumberGenerator.generateRandomPhoneNumber();
         // Create and save the Merchant and Device entities first
-        testMerchant = new Merchant(null, UUID.randomUUID().toString(), "TestMerchantName", "test@example.com", 
-                                    "1234567890", "TestBusiness", "Retail", null, null);
-        testDevice = new Device(null,  UUID.randomUUID().toString(), "DeviceModelX", "DeviceCo", null, null);
+        testMerchant = new Merchant(null, UUID.randomUUID().toString(), "TestMerchantName", randomEmail, 
+                                    phoneNumber, "TestBusiness", "Retail", null, null);
+        testDevice = new Device(null,  UUID.randomUUID().toString(), randomEmail, "DeviceCo", null, null);
 
         // Persist the Merchant and Device
         testMerchant = merchantRepository.save(testMerchant);
@@ -62,6 +66,9 @@ class MerchantDeviceAssociationRepositoryTest {
      */
     @Test
     void testFindAllByMerchant() {
+    	
+//    	testMerchant.setMerchantEmail("test6@gmail.com");
+
         List<MerchantDeviceAssociation> associations = merchantDeviceAssociationRepository.findAllByMerchant(testMerchant);
         assertNotNull(associations, "Associations list should not be null");
         assertFalse(associations.isEmpty(), "Associations list should not be empty for the test merchant");
@@ -73,6 +80,8 @@ class MerchantDeviceAssociationRepositoryTest {
      */
     @Test
     void testExistsByMerchantAndDevice() {
+    	
+//    	testMerchant.setMerchantEmail("test5@gmail.com");
         boolean exists = merchantDeviceAssociationRepository.existsByMerchantAndDevice(testMerchant, testDevice);
         assertTrue(exists, "The association should exist for the test merchant and device");
     }
@@ -94,7 +103,9 @@ class MerchantDeviceAssociationRepositoryTest {
      */
     @Test
     void testCountDevicesByMerchant_MultipleMerchants() {
-        
+    	
+//    	testMerchant.setMerchantEmail("test4@gmail.com");
+
         merchantDeviceAssociationRepository.save(new MerchantDeviceAssociation(testMerchant, testDevice));
         
         List<Object[]> results = merchantDeviceAssociationRepository.countDevicesByMerchant();
@@ -108,9 +119,9 @@ class MerchantDeviceAssociationRepositoryTest {
     @Test
     void testExistsByMerchantAndDevice_NonExistent() {
         Merchant nonExistentMerchant = new Merchant(null,  UUID.randomUUID().toString(), "NonExistent", 
-                                                    "nonexistent@example.com", "1112223333", 
+                                                   RandomEmailGenerator.generateRandomEmail(),RandomPhoneNumberGenerator.generateRandomPhoneNumber(), 
                                                     "NonBiz", "NonCategory", null, null);
-        Device nonExistentDevice = new Device(null,  UUID.randomUUID().toString(), "NonModel", "NonManufacturer", null, null);
+        Device nonExistentDevice = new Device(null,  UUID.randomUUID().toString(), RandomEmailGenerator.generateRandomEmail(), "NonManufacturer", null, null);
         merchantRepository.save(nonExistentMerchant);
         deviceRepository.save(nonExistentDevice);
         boolean exists = merchantDeviceAssociationRepository.existsByMerchantAndDevice(nonExistentMerchant, nonExistentDevice);
@@ -141,7 +152,8 @@ class MerchantDeviceAssociationRepositoryTest {
     @Test
     void testFindAllByMerchant_MultipleMerchants() {
         
-        
+//    	testMerchant.setMerchantEmail("test3@gmail.com");
+
         merchantDeviceAssociationRepository.save(new MerchantDeviceAssociation(testMerchant,testDevice));
         
         List<MerchantDeviceAssociation> associations1 = merchantDeviceAssociationRepository.findAllByMerchant(testMerchant);
@@ -187,7 +199,8 @@ class MerchantDeviceAssociationRepositoryTest {
     @Test
     void testFindAllByMerchant_NoAssociationsExist() {
         merchantDeviceAssociationRepository.deleteAll();
-        
+//    	testMerchant.setMerchantEmail("test2@gmail.com");
+
         List<MerchantDeviceAssociation> associations = merchantDeviceAssociationRepository.findAllByMerchant(testMerchant);
         assertTrue(associations.isEmpty(), "No associations should be found if none exist in the repository");
     }
@@ -210,7 +223,7 @@ class MerchantDeviceAssociationRepositoryTest {
      */
     @Test
     void testSaveUniqueMerchantDeviceAssociation() {
-      
+//    	testMerchant.setMerchantEmail("test1@gmail.com");
         MerchantDeviceAssociation association = new MerchantDeviceAssociation(testMerchant, testDevice);
         MerchantDeviceAssociation savedAssociation = merchantDeviceAssociationRepository.save(association);
         

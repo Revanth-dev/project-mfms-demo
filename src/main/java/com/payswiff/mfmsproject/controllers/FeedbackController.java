@@ -81,11 +81,11 @@ public class FeedbackController {
             @RequestParam(required = false) Integer rating,
             @RequestParam(required = false) Long merchantId) throws ResourceNotFoundException {
     	
-    	// Check if all parameters are null or empty
-        if (employeeId == null && deviceId == null && rating == null && merchantId == null) {
-            throw new ResourceNotFoundException("At least one filter parameter (employeeId, deviceId, rating, or merchantId) must be provided.", null, null);
-        }
-        
+//    	// Check if all parameters are null or empty
+//        if (employeeId == null && deviceId == null && rating == null && merchantId == null) {
+//            throw new ResourceNotFoundException("At least one filter parameter (employeeId, deviceId, rating, or merchantId) must be provided.", null, null);
+//        }
+//        
         // Fetch feedbacks based on the provided filters from the service
         List<Feedback> feedbacks = feedbackService.getFeedbacksByFilters(employeeId, deviceId, rating, merchantId);
         
