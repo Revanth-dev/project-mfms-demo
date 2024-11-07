@@ -15,6 +15,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/FeedbackQuestions")
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
+
 public class FeedbackQuestionsAssociationController {
 
     @Autowired

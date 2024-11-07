@@ -16,7 +16,8 @@ import com.payswiff.mfmsproject.services.EmailService; // Importing EmailService
  */
 @RestController // Indicates that this class is a REST controller
 @RequestMapping("/api/email") // Base URL for all email-related APIs
-@CrossOrigin(origins = "http://localhost:5173") // Allow CORS for specified origin (frontend URL)
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
+
 public class EmailController {
 
     @Autowired // Automatically inject the EmailService bean

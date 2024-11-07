@@ -20,7 +20,7 @@ import com.payswiff.mfmsproject.services.DeviceService; // Importing service for
  */
 @RestController // Indicates that this class is a REST controller
 @RequestMapping("/api/devices") // Base URL for all device-related APIs
-@CrossOrigin(origins = "http://localhost:5173") // Allow CORS for specified origin (frontend URL)
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
 public class DeviceController {
 
     @Autowired // Automatically inject the DeviceService bean

@@ -23,7 +23,8 @@ import com.payswiff.mfmsproject.services.EmployeeService; // Importing service f
  */
 @RestController // Indicates that this class is a REST controller
 @RequestMapping("/api/authentication") // Base URL for all authentication-related endpoints
-@CrossOrigin(origins = "http://localhost:5173") // Allow CORS for specified origin (frontend URL)
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
+
 public class AuthController {
     
     @Autowired // Automatically inject the AuthService bean
