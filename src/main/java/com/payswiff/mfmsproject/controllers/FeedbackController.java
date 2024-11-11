@@ -1,79 +1,98 @@
 package com.payswiff.mfmsproject.controllers;
 
-import com.payswiff.mfmsproject.models.Feedback; // Importing the Feedback model for handling feedback data.
-import com.payswiff.mfmsproject.reuquests.CreateFeedbackRequest; // Importing the request object for creating feedback.
-import com.payswiff.mfmsproject.reuquests.FeedbackRequestWrapper; // Importing the wrapper for feedback requests.
-import com.payswiff.mfmsproject.services.FeedbackService; // Importing the service layer for business logic related to feedback.
+import com.payswiff.mfmsproject.models.Feedback; // Importing model class for feedback data
+import com.payswiff.mfmsproject.reuquests.CreateFeedbackRequest; // Importing request structure for feedback creation
+import com.payswiff.mfmsproject.reuquests.FeedbackRequestWrapper; // Importing wrapper for feedback requests
+import com.payswiff.mfmsproject.services.FeedbackService; // Service class to handle feedback business logic
 
-import jakarta.validation.Valid; // Importing annotation for validating request bodies.
-import com.payswiff.mfmsproject.dtos.AverageRatingResponseDTO; // Importing DTO for average rating responses.
-import com.payswiff.mfmsproject.dtos.DeviceFeedbackCountDTO; // Importing DTO for device feedback count.
-import com.payswiff.mfmsproject.dtos.EmployeeFeedbackCountDto; // Importing DTO for employee feedback count.
-import com.payswiff.mfmsproject.dtos.FeedbackQuestionAnswerAssignDto; // Importing DTO for question-answer pairs in feedback.
-import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException; // Importing exception for handling resource not found errors.
-import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
+import jakarta.validation.Valid; // Validation library for input validation annotations
+import com.payswiff.mfmsproject.dtos.AverageRatingResponseDTO; // DTO for average rating response
+import com.payswiff.mfmsproject.dtos.DeviceFeedbackCountDTO; // DTO for device feedback count
+import com.payswiff.mfmsproject.dtos.EmployeeFeedbackCountDto; // DTO for employee feedback count
+import com.payswiff.mfmsproject.dtos.FeedbackQuestionAnswerAssignDto; // DTO for feedback question-answer assignment
+import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException; // Custom exception for resources not found
+import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate; // Custom exception for feedback creation failure
 
-import java.util.List; // Importing List for handling collections of feedback and DTOs.
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired; // Importing annotation for dependency injection.
-import org.springframework.http.HttpStatus; // Importing HTTP status codes for responses.
-import org.springframework.http.ResponseEntity; // Importing ResponseEntity for building HTTP responses.
-import org.springframework.web.bind.annotation.*; // Importing Spring MVC annotations for RESTful web services.
+import java.util.List; // Import List for handling collections
+
+import org.springframework.beans.factory.annotation.Autowired; // Dependency injection
+import org.springframework.http.HttpStatus; // HTTP status codes
+import org.springframework.http.ResponseEntity; // Building HTTP responses
+import org.springframework.web.bind.annotation.*; // RESTful web service annotations
 
 /**
- * FeedbackController handles requests related to feedback management,
- * including creating feedback and retrieving feedback based on various filters.
+ * The FeedbackController handles all HTTP requests related to feedback management.
+ * Provides endpoints for:
+ * - Creating feedback records
+ * - Fetching feedback based on employee, device, rating, and merchant
+ * - Retrieving feedback count and average rating grouped by various criteria
+ * Relies on {@link FeedbackService} to execute business logic, while handling request validation, error handling, and logging.
  */
 @RestController
 @RequestMapping("/api/feedback")
 @CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
-
 public class FeedbackController {
 
+    private static final Logger logger = LogManager.getLogger(FeedbackController.class); // Logger for this class
+
     @Autowired
-    private FeedbackService feedbackService; // Injecting the FeedbackService for business logic
+    private FeedbackService feedbackService; // Injecting FeedbackService for business logic operations
 
     /**
-     * Creates feedback based on the provided request wrapper.
+     * Endpoint to create a new feedback entry.
+     * Validates that the request is non-null and contains exactly 10 question-answer pairs.
      *
-     * @param requestWrapper The wrapper containing feedback request and question answers.
-     * @return ResponseEntity with HTTP status indicating the result of the creation process.
-     * @throws Exception If an error occurs during feedback creation.
+     * @param requestWrapper The wrapper containing feedback request data and question-answer pairs.
+     * @return ResponseEntity with HTTP status indicating the result of the creation.
+     * @throws ResourceUnableToCreate if the request is null or incomplete.
      */
     @PostMapping("/create")
     public ResponseEntity<HttpStatus> createFeedback(
             @Valid @RequestBody FeedbackRequestWrapper requestWrapper) throws Exception {
-    	//check null
-    	if(requestWrapper==null){
-    		throw new ResourceUnableToCreate("Feedback can not be created with null request", null, null);
-    	}
 
-        // Extracting the feedback request and question answers from the wrapper
+        logger.info("Initiating feedback creation process"); // Log beginning of creation process
+
+        // Check if the requestWrapper is null
+        if (requestWrapper == null) {
+            logger.error("Feedback creation failed: Request wrapper is null"); // Log error for null request
+            throw new ResourceUnableToCreate("Feedback", "RequestWrapper", "Feedback request cannot be null");
+        }
+
+        // Extract the feedback request and question-answer list from the wrapper
         CreateFeedbackRequest feedbackRequest = requestWrapper.getFeedbackRequest();
         List<FeedbackQuestionAnswerAssignDto> questionAnswers = requestWrapper.getQuestionAnswers();
 
-        // Ensure that exactly 10 questions are provided in the feedback
+        // Validate that the feedback contains exactly 10 question-answer pairs
         if (questionAnswers.size() != 10) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Return bad request if not exactly 10 questions
+            logger.warn("Feedback creation failed: Expected 10 questions but received {}", questionAnswers.size()); // Log warning for invalid count
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Return HTTP 400 Bad Request
         }
 
-        // Attempt to create the feedback and capture the result
+        // Call the service layer to create feedback
         boolean isFeedbackCreated = feedbackService.createFeedback(feedbackRequest, questionAnswers);
 
-        // Return appropriate HTTP status based on the creation result
-        return isFeedbackCreated ? new ResponseEntity<>(HttpStatus.CREATED)
-                                 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        // Check the result of the feedback creation and log accordingly
+        if (isFeedbackCreated) {
+            logger.info("Feedback created successfully for request: {}", feedbackRequest); // Log success
+            return new ResponseEntity<>(HttpStatus.CREATED); // Return HTTP 201 Created
+        } else {
+            logger.error("Feedback creation failed due to server error for request: {}", feedbackRequest); // Log failure
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Return HTTP 500 Internal Server Error
+        }
     }
 
     /**
-     * Retrieves feedback based on provided filters such as employee ID, device ID, rating, and merchant ID.
+     * Retrieves feedback based on filter criteria, such as employee ID, device ID, rating, and merchant ID.
      *
      * @param employeeId The ID of the employee (optional).
      * @param deviceId   The ID of the device (optional).
      * @param rating     The feedback rating (optional).
      * @param merchantId The ID of the merchant (optional).
-     * @return ResponseEntity containing a list of feedback.
-     * @throws ResourceNotFoundException if any of the provided IDs do not exist.
+     * @return ResponseEntity containing a list of feedback entries matching the filters.
+     * @throws ResourceNotFoundException if no feedbacks match the provided criteria.
      */
     @GetMapping("/getallfeedbacks")
     public ResponseEntity<List<Feedback>> getFeedbacksByFilters(
@@ -81,58 +100,91 @@ public class FeedbackController {
             @RequestParam(required = false) Long deviceId,
             @RequestParam(required = false) Integer rating,
             @RequestParam(required = false) Long merchantId) throws ResourceNotFoundException {
-    	
-//    	// Check if all parameters are null or empty
-//        if (employeeId == null && deviceId == null && rating == null && merchantId == null) {
-//            throw new ResourceNotFoundException("At least one filter parameter (employeeId, deviceId, rating, or merchantId) must be provided.", null, null);
-//        }
-//        
-        // Fetch feedbacks based on the provided filters from the service
-        List<Feedback> feedbacks = feedbackService.getFeedbacksByFilters(employeeId, deviceId, rating, merchantId);
         
-        // Return the feedbacks along with HTTP OK status
+        // Log input filter parameters
+        logger.info("Retrieving feedbacks with filters - Employee ID: {}, Device ID: {}, Rating: {}, Merchant ID: {}", 
+                    employeeId, deviceId, rating, merchantId);
+
+        // Fetch feedback based on filters
+        List<Feedback> feedbacks = feedbackService.getFeedbacksByFilters(employeeId, deviceId, rating, merchantId);
+
+        // Log result based on feedback data availability
+        if (feedbacks.isEmpty()) {
+            logger.warn("No feedbacks found matching the provided filters"); // Warn if no results
+        } else {
+            logger.info("Successfully retrieved {} feedback(s) matching the filters", feedbacks.size()); // Log success with count
+        }
+
+        // Return feedback list with HTTP 200 OK status
         return new ResponseEntity<>(feedbacks, HttpStatus.OK);
     }
-    
+
     /**
-     * Retrieves the count of feedbacks for all employees.
+     * Retrieves the count of feedbacks submitted for each employee.
      *
-     * @return ResponseEntity containing a list of feedback counts for each employee.
+     * @return ResponseEntity containing a list of feedback counts per employee.
      */
     @GetMapping("/allfeedbackscount")
     public ResponseEntity<List<EmployeeFeedbackCountDto>> getAllFeedbacksCount() {
-        // Get feedback counts for all employees from the service
+        logger.info("Retrieving feedback counts for all employees"); // Log request start
+
+        // Get feedback counts from the service
         List<EmployeeFeedbackCountDto> feedbackCounts = feedbackService.countFeedbacksForAllEmployees();
-        
-        // Return the feedback counts with HTTP OK status
+
+        // Log result based on feedback count availability
+        if (feedbackCounts.isEmpty()) {
+            logger.warn("No feedback counts available for employees"); // Warn if no data
+        } else {
+            logger.info("Successfully retrieved feedback counts for {} employee(s)", feedbackCounts.size()); // Log success
+        }
+
+        // Return list of feedback counts with HTTP 200 OK
         return ResponseEntity.ok(feedbackCounts);
     }
-    
+
     /**
-     * Retrieves the average rating based on device feedback.
+     * Retrieves the average feedback rating for each device.
      *
-     * @return ResponseEntity containing a list of average ratings by device.
+     * @return ResponseEntity containing a list of average ratings grouped by device.
      */
     @GetMapping("/average-rating-by-device")
     public ResponseEntity<List<AverageRatingResponseDTO>> getAverageRatingByDevice() {
-        // Get average ratings for devices from the service
+        logger.info("Retrieving average feedback ratings grouped by device"); // Log request start
+
+        // Get average ratings by device from the service
         List<AverageRatingResponseDTO> averageRatings = feedbackService.getAverageRatingByDevice();
-        
-        // Return the average ratings with HTTP OK status
+
+        // Log result based on average ratings data availability
+        if (averageRatings.isEmpty()) {
+            logger.warn("No average ratings available for devices"); // Warn if no data
+        } else {
+            logger.info("Successfully retrieved average ratings for {} device(s)", averageRatings.size()); // Log success
+        }
+
+        // Return average ratings list with HTTP 200 OK
         return ResponseEntity.ok(averageRatings);
     }
-    
+
     /**
-     * Retrieves feedback count grouped by device.
+     * Retrieves the count of feedbacks grouped by device.
      *
-     * @return ResponseEntity containing a list of feedback counts categorized by device.
+     * @return ResponseEntity containing a list of feedback counts per device.
      */
     @GetMapping("/device-count")
     public ResponseEntity<List<DeviceFeedbackCountDTO>> getFeedbackCountByDevice() {
-        // Get feedback counts for devices from the service
+        logger.info("Retrieving feedback counts grouped by device"); // Log request start
+
+        // Get feedback counts by device from the service
         List<DeviceFeedbackCountDTO> feedbackCounts = feedbackService.getFeedbackCountByDevice();
-        
-        // Return the feedback counts with HTTP OK status
+
+        // Log result based on feedback count data availability
+        if (feedbackCounts.isEmpty()) {
+            logger.warn("No feedback counts available for devices"); // Warn if no data
+        } else {
+            logger.info("Successfully retrieved feedback counts for {} device(s)", feedbackCounts.size()); // Log success
+        }
+
+        // Return device feedback counts list with HTTP 200 OK
         return ResponseEntity.ok(feedbackCounts);
     }
 }

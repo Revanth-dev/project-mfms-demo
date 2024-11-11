@@ -126,7 +126,7 @@ public class SecurityConfig {
 
         // Add the JWT authentication filter before the UsernamePasswordAuthenticationFilter
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+        
         return httpSecurity.build(); // Build the security filter chain
     }
 }

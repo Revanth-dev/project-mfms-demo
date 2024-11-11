@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <!-- Console Appender with color support (optional) -->
+        <Console name="Console" target="SYSTEM_OUT">
+            
+            <PatternLayout pattern="%green{%d{yyyy-MM-dd HH:mm:ss}} %highlight{%-5p} %magenta{%c{1}}:%green{%L} - %m%n"/>
+            
+        </Console>
+
+       <!--  
+        <RollingFile name="EntireLogs" fileName="mfmslogs/entire-application.log"
+                     filePattern="mfmslogs/entire-application-%d{yyyy-MM-dd}.log.gz">
+            No size limit for entire logs, just appends
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</Pattern>
+            </PatternLayout>
+        </RollingFile> -->
+        
+        <!-- File Appender without colors -->
+        <File name="FileLogger" fileName="mfmslogs/mfmsapplicationlogs.log" append="true">
+            <PatternLayout>
+                <!-- Plain pattern without any color codes for file logging -->
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        
+
+        <!-- Appender for Daily Logs with Size-based Rotation -->
+        <RollingFile name="DailyLogs" fileName="mfmslogs/daily-mfms-application.log"
+                     filePattern="mfmslogs/daily-mfms-application-%d{yyyy-MM-dd}.log.gz">
+            <Policies>
+                <!-- Rotate based on size (1GB) -->
+                <SizeBasedTriggeringPolicy size="100MB"/>
+                <!-- Rotate every day (optional, if you want daily rolling regardless of size) -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</Pattern>
+            </PatternLayout>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <!-- Root Logger -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileLogger"/>
+            <AppenderRef ref="DailyLogs"/>
+        </Root>
+
+        <!-- Example Logger for a specific package -->
+        <Logger name="src/" level="debug" additivity="false">
+            <AppenderRef ref="FileLogger"/>
+            <AppenderRef ref="DailyLogs"/>
+        </Logger>
+    </Loggers>
+</Configuration>
+

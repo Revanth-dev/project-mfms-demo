@@ -13,7 +13,6 @@ import lombok.Setter;
  */
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Data
 public class MerchantDeviceAssociationRequest {
@@ -49,7 +48,7 @@ public class MerchantDeviceAssociationRequest {
 	 * @param deviceId
 	 */
 	public MerchantDeviceAssociationRequest(Long merchantId, Long deviceId) {
-		super();
+		
 		this.merchantId = merchantId;
 		this.deviceId = deviceId;
 	}

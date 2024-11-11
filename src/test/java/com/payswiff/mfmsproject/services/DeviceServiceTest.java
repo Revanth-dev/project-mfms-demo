@@ -219,7 +219,7 @@ class DeviceServiceTest {
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             deviceService.getDeviceByModel(null);
         });
-        assertEquals("Device with Model: null is not found!!", exception.getMessage());
+        assertEquals("Parameter for device  with model: null or empty is not found!!", exception.getMessage());
     }
     /**
      * Tests retrieval with an empty model.
@@ -233,7 +233,7 @@ class DeviceServiceTest {
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             deviceService.getDeviceByModel("");
         });
-        assertEquals("Device with Model:  is not found!!", exception.getMessage());
+        assertEquals("Parameter for device  with model: null or empty is not found!!", exception.getMessage());
     }
 
     // Test cases for the getAllDevices method

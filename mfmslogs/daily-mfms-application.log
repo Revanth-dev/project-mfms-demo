@@ -1,0 +1,5 @@
+2024-11-11 07:02:46 INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin:159 - Application shutdown requested.
+2024-11-11 07:02:47 INFO  Http11NioProtocol:173 - Stopping ProtocolHandler ["http-nio-8080"]
+2024-11-11 07:02:47 INFO  LocalContainerEntityManagerFactoryBean:650 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-11 07:02:47 INFO  HikariDataSource:349 - HikariPool-3 - Shutdown initiated...
+2024-11-11 07:02:47 INFO  HikariDataSource:351 - HikariPool-3 - Shutdown completed.

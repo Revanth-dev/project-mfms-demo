@@ -1,5 +1,7 @@
 package com.payswiff.mfmsproject.controllers; // Package declaration for the controllers
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired; // Importing Autowired annotation for dependency injection
 import org.springframework.http.ResponseEntity; // Importing ResponseEntity for HTTP response handling
 import org.springframework.web.bind.annotation.CrossOrigin; // Importing CrossOrigin annotation for CORS support
@@ -27,6 +29,8 @@ import com.payswiff.mfmsproject.services.EmployeeService; // Importing service f
 
 public class AuthController {
     
+	private static final Logger AuthControllerLogger = LogManager.getLogger(AuthController.class);
+	
     @Autowired // Automatically inject the AuthService bean
     private AuthService authService; // Service for authentication operations
 
@@ -41,9 +45,20 @@ public class AuthController {
     @PostMapping("/login") // Maps POST requests to /api/authentication/login
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto) throws ResourceUnableToCreate, ResourceNotFoundException {
     	//checl for null
-    	if(loginDto==null) throw new ResourceUnableToCreate("Null LoginDto", null, null);
+    	if(loginDto==null || loginDto.getEmailOrPhone().isEmpty() || loginDto.getPassword().isEmpty()) {
+    		//display login failure log
+    		AuthControllerLogger.error("Login Dto is Null: login failure ");
+    		if(loginDto==null) {
+    			throw new ResourceUnableToCreate("Null LoginDto","Login Dto",null);
+    	    }
+    		else {
+    			throw new ResourceUnableToCreate("Null LoginDto","Login Dto",loginDto.toString());
+    		}
+    	}
         // Use the AuthService to perform login and retrieve the response
         LoginResponseDto response = authService.login(loginDto); // Authenticate user and get response
+        //display login successful log
+        AuthControllerLogger.info("Login is successful - Logged-in User Email or Phone Number is: {}", loginDto.getEmailOrPhone());
         return ResponseEntity.ok(response); // Return HTTP 200 OK with the response body
     }
     
@@ -59,8 +74,25 @@ public class AuthController {
     @PostMapping("/forgotpassword") // Maps POST requests to /api/authentication/forgotpassword
     public boolean forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto) throws ResourceNotFoundException, EmployeePasswordUpdationFailedException, ResourceUnableToCreate {
         //checkl null
-    	if(forgotPasswordDto==null) throw new ResourceUnableToCreate("null request for forgotpassowrd body", null, null);
+    	if(forgotPasswordDto==null) {
+    		AuthControllerLogger.error("FogotPassword  Dto is Null: login failure ");
+
+    		throw new ResourceUnableToCreate("null request for forgotpassowrd body", null, null);
+    	}
     	// Calls the AuthService to process the password recovery request
-        return authService.forgotPassword(forgotPasswordDto); // Return the result of the operation
+        boolean results= authService.forgotPassword(forgotPasswordDto); // Return the result of the operation
+        //checking results is true or not
+        if(results) {
+        	//logging success of forgot password
+        	AuthControllerLogger.info("Forgot Password is successful - User Email or Phone Number is: {}", forgotPasswordDto.getEmailOrPhone());
+        	//return the result
+        	return results;
+        }
+        else {
+        	//logging failure of forgot password
+        	AuthControllerLogger.error("Forgot Password is Failed Due to Invalid Phoen Number of Email - User Email or Phone Number is: {}", forgotPasswordDto.getEmailOrPhone());
+        	//return the result
+        	return results;
+        }
     }
 }

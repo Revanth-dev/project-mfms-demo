@@ -36,10 +36,15 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 
 @Service
 public class FeedbackService {
+	
+    private static final Logger logger =LogManager.getLogger(FeedbackService.class); // Logger initialization
+
 
 	@Autowired
 	private FeedbackRepository feedbackRepository;
@@ -374,17 +379,31 @@ public class FeedbackService {
      * @return A list of DeviceFeedbackCountDTO containing device ID and feedback count.
      */
     public List<DeviceFeedbackCountDTO> getFeedbackCountByDevice() {
-        // Retrieve feedback counts grouped by device from the repository
-        List<Object[]> results = feedbackRepository.countFeedbacksByDevice();
+        logger.info("Fetching feedback counts grouped by device.");
+
         List<DeviceFeedbackCountDTO> feedbackCounts = new ArrayList<>();
 
-        // Iterate over the results and map them to DTOs
-        for (Object[] result : results) {
-            Long deviceId = (Long) result[0]; // Extract the device ID from the result
-            Long count = (Long) result[1]; // Extract the feedback count from the result
-            
-            // Create a new DTO and add it to the list
-            feedbackCounts.add(new DeviceFeedbackCountDTO(deviceId, count));
+        try {
+            // Retrieve feedback counts grouped by device from the repository
+            List<Object[]> results = feedbackRepository.countFeedbacksByDevice();
+            logger.info("Successfully retrieved feedback counts from repository. Results size: " + results.size());
+
+            // Iterate over the results and map them to DTOs
+            for (Object[] result : results) {
+                Long deviceId = (Long) result[0]; // Extract the device ID from the result
+                Long count = (Long) result[1]; // Extract the feedback count from the result
+
+                // Log each extracted value
+                logger.debug("Processing feedback count for deviceId: " + deviceId + ", count: " + count);
+
+                // Create a new DTO and add it to the list
+                feedbackCounts.add(new DeviceFeedbackCountDTO(deviceId, count));
+            }
+
+            logger.info("Feedback counts successfully mapped to DTOs. Total counts: " + feedbackCounts.size());
+
+        } catch (Exception e) {
+            logger.error("Error occurred while retrieving feedback counts by device.", e);
         }
 
         return feedbackCounts; // Return the list of feedback counts
