@@ -99,6 +99,9 @@ class MerchantDeviceAssociationServiceTest {
 
         assertEquals(merchant, result.getMerchant());
         assertEquals(device, result.getDevice());
+        
+        deviceRepository.deleteById(deviceId);
+        merchantRepository.deleteById(merchantId);
     }
 
     /**
@@ -147,11 +150,13 @@ class MerchantDeviceAssociationServiceTest {
         merchant.setMerchantId(1L);
         when(merchantRepository.findById(1L)).thenReturn(Optional.of(merchant));
         when(deviceRepository.findById(2L)).thenReturn(Optional.empty());
-
+        merchantRepository.deleteById(1l);
         // Should throw ResourceNotFoundException when device is missing
         assertThrows(ResourceNotFoundException.class, () -> {
             service.assignDeviceToMerchant(1L, 2L);
         });
+        
+        
     }
 
     // **************** Test Cases for getDevicesByMerchantId **************** //
@@ -186,6 +191,9 @@ class MerchantDeviceAssociationServiceTest {
         assertEquals(2, result.size());
         assertTrue(result.contains(device1));
         assertTrue(result.contains(device2));
+        
+        merchantRepository.deleteById(merchantId);
+       
     }
 
     /**

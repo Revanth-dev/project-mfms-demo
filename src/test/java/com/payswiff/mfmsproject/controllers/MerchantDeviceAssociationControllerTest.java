@@ -19,6 +19,7 @@ import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
 import com.payswiff.mfmsproject.models.Device;
 import com.payswiff.mfmsproject.models.MerchantDeviceAssociation;
+import com.payswiff.mfmsproject.repositories.DeviceRepository;
 import com.payswiff.mfmsproject.reuquests.MerchantDeviceAssociationRequest;
 import com.payswiff.mfmsproject.services.MerchantDeviceAssociationService;
 
@@ -62,6 +63,8 @@ class MerchantDeviceAssociationControllerTest {
         // Validate the response
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(association, response.getBody());
+        
+        
     }
 
     /**
@@ -95,6 +98,8 @@ class MerchantDeviceAssociationControllerTest {
         // Validate the response
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(devices, response.getBody());
+        
+        
     }
 
     /**
