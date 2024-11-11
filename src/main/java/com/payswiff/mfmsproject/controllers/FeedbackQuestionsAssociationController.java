@@ -3,6 +3,9 @@ package com.payswiff.mfmsproject.controllers;
 import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
 import com.payswiff.mfmsproject.services.FeedbackQuestionsAssociationService;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +19,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/FeedbackQuestions")
 @CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
-
 public class FeedbackQuestionsAssociationController {
+
+    private static final Logger logger = LogManager.getLogger(FeedbackQuestionsAssociationController.class);
 
     @Autowired
     private FeedbackQuestionsAssociationService feedbackQuestionsAssociationService;
-   
 
     /**
      * Endpoint to retrieve feedback questions by feedback ID.
@@ -32,16 +35,24 @@ public class FeedbackQuestionsAssociationController {
      */
     @GetMapping("/feedback/questions/{feedbackId}")
     public ResponseEntity<List<FeedbackQuestionDTO>> getFeedbackQuestionsByFeedbackId(@PathVariable Integer feedbackId) throws ResourceUnableToCreate {
+        logger.info("Received request to get feedback questions for feedback ID: " + feedbackId);
+        
+        // Validate feedbackId: cannot be null
         if (feedbackId == null) {
-            throw new ResourceUnableToCreate("Feedback ID cannot be null.","","");
+            logger.error("Feedback ID is null.");
+            throw new ResourceUnableToCreate("Feedback ID cannot be null.", "", "");
         }
 
         try {
+            logger.info("Attempting to retrieve feedback questions for feedback ID: " + feedbackId);
             List<FeedbackQuestionDTO> feedbackQuestions = feedbackQuestionsAssociationService.getFeedbackQuestionsByFeedbackId(feedbackId);
+            logger.info("Successfully retrieved " + feedbackQuestions.size() + " feedback questions for feedback ID: " + feedbackId);
             return new ResponseEntity<>(feedbackQuestions, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
+            logger.error("Feedback questions not found for feedback ID: " + feedbackId, e);
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) { // Catch unexpected runtime exceptions
+            logger.error("Unexpected error occurred while retrieving feedback questions for feedback ID: " + feedbackId, e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
