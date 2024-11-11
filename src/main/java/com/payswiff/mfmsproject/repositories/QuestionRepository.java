@@ -8,10 +8,15 @@ import org.springframework.stereotype.Repository;
 import com.payswiff.mfmsproject.models.Question;
 
 import java.util.Optional;
-
 /**
  * Repository interface for managing {@link Question} entities.
- * This interface extends JpaRepository to provide basic CRUD operations.
+ * This interface extends JpaRepository to provide basic CRUD operations 
+ * and additional custom query methods for Question-related data access.
+ * <p>Spring Data JPA will automatically implement this interface, providing methods for standard CRUD operations 
+ * and custom queries specific to the Question entity.</p>
+ * 
+ * @author Revanth K
+ * @version MFMS_0.0.1
  */
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {

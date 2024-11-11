@@ -20,7 +20,19 @@ import com.payswiff.mfmsproject.services.MerchantService; // Importing the servi
 /**
  * MerchantController handles requests related to merchant management,
  * including creating new merchants and retrieving existing merchants.
+ * Provides endpoints for:
+ * - Creating merchants
+ * - Retrieving merchants by email or phone number
+ * - Retrieving all merchants
+ * <p>
+ * Relies on {@link MerchantService} for executing business logic, handling exception scenarios,
+ * and managing the retrieval and creation of merchant data.
+ * </p>
+ *
+ * @version MFMS_0.0.1
+ * @author Ruchitha Guttikonda
  */
+
 @RestController
 @RequestMapping("/api/merchants")
 @CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})

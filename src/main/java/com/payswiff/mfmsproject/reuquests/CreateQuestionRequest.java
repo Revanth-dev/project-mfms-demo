@@ -15,6 +15,8 @@ import org.modelmapper.ModelMapper;
 /**
  * Represents a request to create a new Question.
  * This class holds the necessary information to create a Question entity.
+ * @author Revanth K
+ * @version MFMS_0.0.1
  */
 @Data
 //@AllArgsConstructor

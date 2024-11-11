@@ -9,7 +9,11 @@ import lombok.Setter;
 /**
  * JwtAuthResponseDto is a Data Transfer Object used to encapsulate 
  * the response of a JWT (JSON Web Token) authentication.
+ * 
+ * @version MFMS_0.0.1
+ * @author Chatla Sarika
  */
+
 @NoArgsConstructor  // No-argument constructor for deserialization
 @Getter             // Lombok annotation to generate getter methods
 @Setter             // Lombok annotation to generate setter methods

@@ -11,6 +11,24 @@ import lombok.NoArgsConstructor;
  * Represents the details of an error response in the system.
  * This class is used to encapsulate error information returned to the client
  * in case of exceptions or issues during API calls.
+ * <p>
+ * This class contains the following fields:
+ * <ul>
+ *     <li><b>timeStamp</b>: The timestamp when the error occurred.</li>
+ *     <li><b>message</b>: A message describing the error.</li>
+ *     <li><b>statusCode</b>: The status code of the HTTP response, indicating the type of error.</li>
+ *     <li><b>details</b>: Additional details about the error, such as stack traces or error codes.</li>
+ * </ul>
+ * </p>
+ * 
+ * <p>
+ * This class provides a structure for returning detailed error information in a standardized
+ * format, which helps both the client and developers to better understand and diagnose
+ * issues that occur during API interactions.
+ * </p>
+ * 
+ * @author Gopi Bapanapalli
+ * @version MFMS_0.0.1
  */
 //@AllArgsConstructor
 //@NoArgsConstructor

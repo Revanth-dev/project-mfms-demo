@@ -11,14 +11,20 @@ import java.util.UUID;
 
 import com.payswiff.mfmsproject.models.Employee;
 
+
 /**
  * Represents a request to create feedback.
- * This class captures all the necessary information required to create feedback.
+ * <p>This class captures all the necessary information required to create feedback, 
+ * including the employee's ID, merchant's ID, device's ID, feedback image, rating, and the feedback text.</p>
+ * 
+ * @author Chatla Sarika
+ * @version MFMS_0.0.1
  */
 @Data
 @Builder
 //@AllArgsConstructor
 //@NoArgsConstructor
+
 @Getter
 @Setter
 public class CreateFeedbackRequest {

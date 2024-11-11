@@ -1,3 +1,5 @@
+
+
 package com.payswiff.mfmsproject.configs; // Package declaration for configuration classes
 
 import org.springframework.beans.factory.annotation.Autowired; // Importing the Autowired annotation for dependency injection
@@ -26,8 +28,27 @@ import com.payswiff.mfmsproject.security.JwtTokenProvider; // Importing custom J
 
 /**
  * Security configuration class for the MFMS Project.
- * This class configures web security for the application, including authentication and authorization rules.
+ * <p>
+ * This class provides the configuration for web-based security in the MFMS application. 
+ * It configures authentication and authorization rules, integrating JWT-based authentication 
+ * to secure API endpoints. The class defines which HTTP requests can be accessed based on user roles 
+ * (e.g., 'admin', 'employee') and specifies the rules for securing access to various resources in the system.
+ * </p>
+ * <p>
+ * The class includes settings for:
+ * <ul>
+ *   <li>Disabling CSRF protection for stateless authentication.</li>
+ *   <li>Defining access control for different HTTP endpoints based on roles.</li>
+ *   <li>Setting up JWT authentication filters and entry points.</li>
+ *   <li>Enabling basic authentication.</li>
+ *   <li>Managing stateless session policy for RESTful APIs.</li>
+ * </ul>
+ * </p>
+ *
+ * @version MFMF_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 @Configuration // Annotation that indicates this class provides Spring configuration
 @EnableMethodSecurity // Enables method-level security
 public class SecurityConfig {

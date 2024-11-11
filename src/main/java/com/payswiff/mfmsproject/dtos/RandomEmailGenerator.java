@@ -1,7 +1,17 @@
 package com.payswiff.mfmsproject.dtos;
 
 import java.util.Random;
-
+/**
+ * RandomEmailGenerator is a utility class that provides a method to generate 
+ * a random email address.
+ * <p>
+ * The class contains a static method to generate an email address by randomly
+ * selecting characters for the username and choosing from a predefined list of domains.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
+ */
 public class RandomEmailGenerator {
 
     // Method to generate random email address

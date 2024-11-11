@@ -1,9 +1,17 @@
 package com.payswiff.mfmsproject.exceptions;
 
 /**
- * Custom exception class that represents a "Resource Not Found" exception.
- * This exception is thrown when a requested resource (e.g., a Device or Merchant) 
- * is not found in the database.
+ * ResourceNotFoundException is a custom exception class that is thrown when a requested resource 
+ * (e.g., Device, Merchant) cannot be found in the system or database.
+ * It provides detailed information about the missing resource, the field used for searching, 
+ * and the value that was sought.
+ * <p>
+ * This exception helps in identifying scenarios where a particular resource, such as a device 
+ * or merchant, does not exist or cannot be retrieved based on the search criteria.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
 public class ResourceNotFoundException extends Exception {
 

@@ -50,6 +50,8 @@ import jakarta.validation.Valid;
  * Logging:
  * Detailed logging is implemented for tracing the flow of requests and troubleshooting.
  * </p>
+ * @version MFMS_0.0.1
+ * @author Revanth K
  */
 @RestController
 @RequestMapping("/api/employees")

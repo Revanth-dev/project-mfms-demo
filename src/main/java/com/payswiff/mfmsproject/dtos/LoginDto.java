@@ -9,6 +9,13 @@ import lombok.Setter;
 /**
  * LoginDto is a Data Transfer Object used to encapsulate the data 
  * required for user login.
+ * 
+ * <p>This DTO is used to transfer login details such as email/phone and password 
+ * between layers in an application. It allows for easy handling and validation 
+ * of user login information.</p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
 @NoArgsConstructor  // No-argument constructor for deserialization or default instantiation
 @Builder            // Lombok annotation to enable the builder pattern for object creation

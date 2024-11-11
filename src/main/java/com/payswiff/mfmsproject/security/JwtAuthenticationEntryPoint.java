@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Custom implementation of the AuthenticationEntryPoint interface.
  * This class handles unauthorized access attempts and sends appropriate HTTP error responses.
+ * @authorGopi Bapanapalli
+ * @version MFMS_0.0.1
  */
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {

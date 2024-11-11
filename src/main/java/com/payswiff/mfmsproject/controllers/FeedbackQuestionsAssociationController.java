@@ -15,7 +15,16 @@ import java.util.List;
 
 /**
  * Controller for managing Feedback Questions Associations.
+ * Provides an endpoint for retrieving feedback questions by feedback ID.
+ * <p>
+ * Relies on {@link FeedbackQuestionsAssociationService} to execute business logic, 
+ * while handling error logging and exceptions for resource management.
+ * </p>
+ *
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 @RestController
 @RequestMapping("/api/FeedbackQuestions")
 @CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})

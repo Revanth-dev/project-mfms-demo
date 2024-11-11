@@ -39,7 +39,13 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
-
+/**
+ * feedback service class
+ * create feedback
+ * get feedbacks
+ * @author Gopi Bapanapalli
+ * @version MFMS_0.0.1
+ * */
 @Service
 public class FeedbackService {
 

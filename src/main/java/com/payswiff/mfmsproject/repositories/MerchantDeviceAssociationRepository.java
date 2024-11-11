@@ -10,9 +10,16 @@ import com.payswiff.mfmsproject.models.Device;
 import com.payswiff.mfmsproject.models.Merchant;
 import com.payswiff.mfmsproject.models.MerchantDeviceAssociation;
 
+
 /**
  * Repository interface for managing {@link MerchantDeviceAssociation} entities.
- * This interface extends JpaRepository to provide basic CRUD operations.
+ * This interface extends JpaRepository to provide basic CRUD operations and additional custom query methods
+ * for managing associations between merchants and devices.
+ * <p>Spring Data JPA will automatically implement this interface, providing methods for standard CRUD operations
+ * and custom queries specific to the MerchantDeviceAssociation entity.</p>
+ * 
+ * @author Chatla Sarika
+ * @version MFMS_0.0.1
  */
 @Repository
 public interface MerchantDeviceAssociationRepository extends JpaRepository<MerchantDeviceAssociation, Integer> {

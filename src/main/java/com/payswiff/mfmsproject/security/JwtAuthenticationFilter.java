@@ -19,7 +19,9 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * A filter that processes JWT authentication for incoming requests.
  * This class extends OncePerRequestFilter to ensure that the filter is
- * invoked once per request.
+ * invoked once per request. 
+ *  @authorGopi Bapanapalli
+ * @version MFMS_0.0.1
  */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

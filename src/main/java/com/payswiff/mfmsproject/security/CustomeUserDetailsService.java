@@ -18,6 +18,8 @@ import com.payswiff.mfmsproject.repositories.EmployeeRepository;
 /**
  * Custom UserDetailsService implementation that retrieves user-specific data
  * from the database and converts it into a UserDetails object used by Spring Security.
+ *  @authorGopi Bapanapalli
+ * @version MFMS_0.0.1
  */
 @Service
 public class CustomeUserDetailsService implements UserDetailsService {

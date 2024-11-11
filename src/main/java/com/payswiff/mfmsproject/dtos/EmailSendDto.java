@@ -3,7 +3,16 @@ package com.payswiff.mfmsproject.dtos;
 /**
  * EmailSendDto is a Data Transfer Object that encapsulates the information
  * required to send an email.
+ * <p>
+ * This class stores the necessary details for sending an email, such as the recipient's email 
+ * address, subject line, and body content of the email.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+
+ * @author Gopi Bapanapalli
  */
+
 public class EmailSendDto {
     
     private String to;       // Recipient's email address

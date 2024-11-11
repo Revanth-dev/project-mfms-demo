@@ -23,6 +23,8 @@ import com.payswiff.mfmsproject.repositories.MerchantRepository;
  * This class provides methods to associate devices with merchants,
  * retrieve devices by merchant, check device association status, and 
  * get counts of devices for each merchant.
+ * @author Ruchitha Guttikonda
+ * @version MFMS_0.0.1
  */
 @Service
 public class MerchantDeviceAssociationService {

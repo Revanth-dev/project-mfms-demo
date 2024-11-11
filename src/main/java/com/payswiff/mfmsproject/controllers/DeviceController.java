@@ -17,7 +17,15 @@ import com.payswiff.mfmsproject.services.DeviceService;
 
 /**
  * REST controller for managing device-related operations.
- * This includes creating new devices and retrieving device information.
+ * <p>
+ * This class provides REST endpoints for creating new devices and retrieving device information.
+ * The operations include device creation (with validation to ensure no duplicates) and fetching 
+ * details of individual devices or a list of all devices. The controller leverages the 
+ * `DeviceService` for business logic and interacts with the underlying data model.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Ruchitha Guttikonda
  */
 @RestController
 @RequestMapping("/api/devices")

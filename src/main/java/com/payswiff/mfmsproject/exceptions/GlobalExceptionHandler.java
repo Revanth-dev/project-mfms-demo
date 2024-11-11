@@ -11,10 +11,18 @@ import com.payswiff.mfmsproject.models.ErrorDetails;
 import java.util.Date;
 
 /**
- * Global exception handler for the application.
- * This class handles specific exceptions and provides
- * structured error responses for clients.
+ * GlobalExceptionHandler is a central exception handler that handles various types of exceptions thrown
+ * during the execution of the application and provides structured error responses.
+ * <p>
+ * This class uses the @ControllerAdvice annotation to globally handle exceptions and map them to appropriate
+ * HTTP responses. The exception handlers return detailed error information, including timestamps, error messages,
+ * and HTTP status codes.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

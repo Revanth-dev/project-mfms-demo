@@ -20,6 +20,13 @@ import org.modelmapper.spi.MappingContext;
 /**
  * Represents a request to create a new Employee.
  * This class holds the necessary information to create an Employee entity.
+ * <p>It contains fields for the employee's personal information, such as 
+ * Payswiff ID, name, email, phone number, and designation. Additionally, 
+ * it includes a method to convert the request into an Employee entity, 
+ * with a randomly generated UUID for the employee.</p>
+ * 
+ * @author Chatla Sarika
+ * @version MFMS_0.0.1
  */
 @Data
 @Getter

@@ -18,9 +18,35 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * Represents an Employee entity in the system. This class is mapped to the
- * 'employee' table in the database.
+ * Represents an Employee entity in the system. This class is mapped to the 'employee' table in the database
+ * and holds information about a specific employee. The employee has attributes like unique UUID, Payswiff ID,
+ * name, email, password, phone number, designation, employee type, creation time, and last updated time. 
+ * The entity supports automatic timestamping for creation and updates.
+ * <p>
+ * This class uses Lombok annotations for reducing boilerplate code:
+ * <ul>
+ *     <li>@Getter and @Setter: Automatically generates getter and setter methods for all fields.</li>
+ *     <li>@Builder: Provides a builder pattern to create instances of the class.</li>
+ *     <li>@Data: Generates getter, setter, toString, equals, and hashCode methods for the class.</li>
+ *     <li>@AllArgsConstructor: Generates a constructor with all fields as parameters.</li>
+ *     <li>@NoArgsConstructor: Generates a no-arguments constructor.</li>
+ * </ul>
+ * </p>
+ * 
+ * @Entity Marks the class as a JPA entity to be mapped to a database table.
+ * @Table(name = "employee") Specifies the table name in the database.
+ * @Id Denotes the primary key field of the entity.
+ * @GeneratedValue(strategy = GenerationType.IDENTITY) Automatically generates the primary key value.
+ * @Column Specifies the database column mapping for each field.
+ * @CreationTimestamp Automatically sets the creation timestamp when the employee record is created.
+ * @UpdateTimestamp Automatically updates the timestamp when the employee record is updated.
+ * @ManyToMany Establishes a many-to-many relationship with the Role entity.
+ * 
+ * @author Revanth K
+ * @version MFMS_0.0.1
  */
+
+
 @Entity
 @Table(name = "employee") // Specifies the name of the table in the database
 @Data // Generates getter and setter methods, toString, equals, and hashCode

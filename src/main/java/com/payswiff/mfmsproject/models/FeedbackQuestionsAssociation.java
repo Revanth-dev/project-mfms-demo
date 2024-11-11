@@ -13,7 +13,25 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+/**
+ * Represents the association between feedback and questions in the system.
+ * This class is used to store the answers given by employees to specific questions
+ * related to feedback. It links the feedback with the respective question and the employee's answer.
+ * 
+ * <p>This class contains the following fields:</p>
+ * <ul>
+ *     <li><b>id</b>: A unique identifier for the association entry (auto-increment).</li>
+ *     <li><b>feedback</b>: A reference to the feedback entity that the question is associated with.</li>
+ *     <li><b>question</b>: A reference to the question that is associated with the feedback.</li>
+ *     <li><b>answer</b>: The answer given by the employee to the respective question.</li>
+ * </ul>
+ * 
+ * <p>This class enables the system to capture detailed responses to feedback-related questions and links
+ * the feedback with the corresponding questions and answers, ensuring traceability of responses.</p>
+ * 
+ * @author Gopi Bapanapalli
+ * @version MFMS_0.0.1
+ */
 @Entity
 @Table(name = "feedback_questions_association")
 //@AllArgsConstructor

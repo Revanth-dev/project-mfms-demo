@@ -13,7 +13,18 @@ import com.payswiff.mfmsproject.repositories.MerchantRepository;
 
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * Service class for handling merchant-related operations.
+ * <p>This service provides methods to create, retrieve, and manage merchants within the application.
+ * It includes operations such as creating a new merchant, checking if a merchant exists by email or phone,
+ * retrieving all merchants, and checking for the existence of a merchant by ID. The service ensures that no 
+ * merchant with duplicate email or phone can be created, and validates input data to maintain integrity.</p>
+ *
+ * <p>It also logs important events such as success, warnings, and errors during execution.</p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Ruchitha Guttikonda
+ * */
 @Service
 public class MerchantService {
 

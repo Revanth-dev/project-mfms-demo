@@ -6,7 +6,25 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer; // Im
 
 /**
  * Configuration class for setting up CORS (Cross-Origin Resource Sharing) settings.
- * This class implements WebMvcConfigurer to customize the default Spring MVC settings.
+ * <p>
+ * This class implements {@link WebMvcConfigurer} to customize the default Spring MVC 
+ * settings, specifically for handling Cross-Origin Resource Sharing (CORS) configurations.
+ * CORS allows restricted resources on a web server to be requested from another domain outside 
+ * the domain from which the resource originated. This configuration is important for enabling 
+ * the frontend application to interact with the backend API securely and efficiently.
+ * </p>
+ *
+ * The CORS settings defined in this class:
+ * <ul>
+ *   <li>Allow all endpoints in the application ("/**").</li>
+ *   <li>Allow requests from specific origins, such as frontend URLs (e.g., "http://localhost:5173").</li>
+ *   <li>Allow specific HTTP methods including GET, POST, PUT, DELETE, and OPTIONS.</li>
+ *   <li>Allow all headers to be sent in requests.</li>
+ *   <li>Enable credentials (cookies, authorization headers) to be included in cross-origin requests.</li>
+ * </ul>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
 @Configuration // Annotation indicating that this class provides Spring configuration
 public class WebConfig implements WebMvcConfigurer {

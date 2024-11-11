@@ -8,6 +8,13 @@ import lombok.Setter;
 /**
  * LoginResponseDto is a Data Transfer Object used to encapsulate the 
  * response data returned upon successful user login.
+ * 
+ * <p>This DTO is designed to contain the user's essential details such as email/phone, 
+ * role, token, and user ID that are returned as part of the login response. It provides 
+ * the necessary data to authenticate and identify the user in subsequent requests.</p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
 @NoArgsConstructor  // No-argument constructor for deserialization or default instantiation
 @Getter             // Lombok annotation to generate getter methods for the fields

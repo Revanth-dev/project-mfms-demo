@@ -3,7 +3,15 @@ package com.payswiff.mfmsproject.dtos;
 /**
  * DeviceFeedbackCountDTO is a Data Transfer Object that encapsulates 
  * the count of feedback associated with a specific device.
+ * <p>
+ * This class is used to transfer information about the feedback count for 
+ * a device between different layers of the application, typically in API responses.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Revanth K
  */
+
 public class DeviceFeedbackCountDTO {
 
     private Long deviceId; // The unique identifier for the device

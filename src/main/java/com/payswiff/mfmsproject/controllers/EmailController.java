@@ -15,6 +15,14 @@ import com.payswiff.mfmsproject.services.EmailService;
 /**
  * REST controller for handling email-related operations such as sending emails
  * and generating One-Time Passwords (OTPs).
+ * <p>
+ * This controller provides endpoints for sending emails with custom subject and text,
+ * and generating and sending OTPs to a specified email address. The operations 
+ * leverage the `EmailService` to handle email sending and OTP generation.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
 @RestController
 @RequestMapping("/api/email")

@@ -13,9 +13,27 @@ import org.springframework.context.annotation.Bean; // Importing the Bean annota
 import org.springframework.context.annotation.Configuration; // Importing the Configuration annotation for configuration classes
 
 /**
- * Swagger configuration class for the Merchant Feedback Management System.
- * This class configures Swagger documentation for the API, including metadata and security settings.
+ * Swagger configuration class for the Merchant Feedback Management System (MFMS).
+ * <p>
+ * This class configures the Swagger API documentation for the MFMS application, 
+ * setting up various metadata, licensing, and security schemes. The class defines the 
+ * OpenAPI documentation, including API information (title, version, contact details) 
+ * and sets up the security configuration for JWT-based authentication. It also provides 
+ * the option to group API paths for organizational purposes.
+ * </p>
+ * <p>
+ * Key configurations include:
+ * <ul>
+ *   <li>API metadata such as title, description, version, contact, and license information.</li>
+ *   <li>Security scheme definition for JWT authentication with a bearer token.</li>
+ *   <li>Grouping of API endpoints for better organization and filtering.</li>
+ * </ul>
+ * </p>
+ *
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 @Configuration // Annotation that indicates this class provides Spring configuration
 public class SwaggerConfig {
 

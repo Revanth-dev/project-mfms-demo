@@ -9,7 +9,19 @@ import com.payswiff.mfmsproject.models.Device;
 
 /**
  * Repository interface for managing Device entities.
- * This interface provides methods to perform CRUD operations on the 'device' table.
+ * This interface extends JpaRepository and provides methods to perform CRUD operations 
+ * on the 'device' table in the database.
+ * It includes a custom query method for retrieving a Device entity by its model.
+ * 
+ * <p>This interface allows interaction with the database to manage device records, 
+ * including searching devices by their model.</p>
+ * 
+ * <p>Spring Data JPA automatically implements this interface, providing methods for standard operations like 
+ * saving, updating, deleting, and finding entities. In addition, custom query methods can be defined 
+ * to cater to specific needs, like searching for devices based on a particular attribute (e.g., device model).</p>
+ * 
+ * @author Ruchitha Guttikonda
+ * @version MFMS_0.0.1
  */
 @Repository // Indicates that this interface is a Spring Data repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {

@@ -14,8 +14,32 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * Represents a device entity in the system.
- * This class maps to the 'device' table in the database.
+ * This class is mapped to the 'device' table in the database and holds information about
+ * a specific device in the system. The device has attributes like unique UUID, model, 
+ * manufacturer, creation time, and last updated time. The entity supports automatic 
+ * timestamping for creation and updates.
+ * <p>
+ * This class uses Lombok annotations for reducing boilerplate code:
+ * <ul>
+ *     <li>@Getter and @Setter: Automatically generates getter and setter methods for all fields.</li>
+ *     <li>@Builder: Provides a builder pattern to create instances of the class.</li>
+ *     <li>@AllArgsConstructor: Generates a constructor with all fields as parameters.</li>
+ *     <li>@NoArgsConstructor: Generates a no-arguments constructor.</li>
+ * </ul>
+ * </p>
+ * 
+ * @Entity Marks the class as a JPA entity to be mapped to a database table.
+ * @Table(name = "device") Specifies the table name in the database.
+ * @Id Denotes the primary key field of the entity.
+ * @GeneratedValue(strategy = GenerationType.IDENTITY) Automatically generates the primary key value.
+ * @Column Specifies the database column mapping for each field.
+ * @CreationTimestamp Automatically sets the creation timestamp when the device is created.
+ * @UpdateTimestamp Automatically updates the timestamp when the device is updated.
+ * 
+ * @author Ruchitha Guttikonda
+ * @version MFMS_0.0.1
  */
+
 @Entity
 @Getter
 @Setter

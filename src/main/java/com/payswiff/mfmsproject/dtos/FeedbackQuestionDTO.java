@@ -1,11 +1,13 @@
 package com.payswiff.mfmsproject.dtos;
-
 /**
  * Data Transfer Object (DTO) for Feedback Question Association.
  * <p>
  * This DTO is used to transfer only the necessary fields related to feedback questions
  * in the API response, minimizing the data exposure and improving performance.
  * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Ruchitha Guttikonda
  */
 public class FeedbackQuestionDTO {
 

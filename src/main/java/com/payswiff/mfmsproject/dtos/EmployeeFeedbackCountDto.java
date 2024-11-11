@@ -3,7 +3,14 @@ package com.payswiff.mfmsproject.dtos;
 /**
  * EmployeeFeedbackCountDto is a Data Transfer Object that represents the feedback count
  * for an employee, including their ID, name, and the count of feedback received.
+ * <p>
+ * This class provides the necessary details regarding an employee's feedback count,
+ * including their unique ID, name, and the total number of feedback entries they have received.
+ * </p>
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 public class EmployeeFeedbackCountDto {
 
     private Long employeeId;        // Unique identifier for the employee

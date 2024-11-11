@@ -18,8 +18,29 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * Represents a merchant in the system.
- * This class is mapped to the 'merchant' table in the database.
+ * Represents a merchant entity in the system.
+ * This class is mapped to the 'merchant' table in the database and is used to store
+ * information about a merchant, including their contact details, business information,
+ * and timestamps for when the merchant was created or updated.
+ * 
+ * <p>This class contains the following fields:</p>
+ * <ul>
+ *     <li><b>merchantId</b>: A unique identifier for the merchant (auto-incremented).</li>
+ *     <li><b>merchantUuid</b>: A unique UUID used to identify the merchant across systems.</li>
+ *     <li><b>merchantName</b>: The name of the merchant (used for communication and identification).</li>
+ *     <li><b>merchantEmail</b>: The email address of the merchant, which must be unique.</li>
+ *     <li><b>merchantPhone</b>: The phone number of the merchant, which must be unique.</li>
+ *     <li><b>merchantBusinessName</b>: The business name under which the merchant operates.</li>
+ *     <li><b>merchantBusinessType</b>: The type of business the merchant is engaged in (used for categorization).</li>
+ *     <li><b>merchantCreationTime</b>: The timestamp of when the merchant was created in the system.</li>
+ *     <li><b>merchantUpdationTime</b>: The timestamp of when the merchant's details were last updated.</li>
+ * </ul>
+ * 
+ * <p>This class ensures that the system can store and manage merchant information and supports features
+ * such as unique identification via UUIDs and timestamps for creation and updates.</p>
+ * 
+ * @author Ruchitha Guttikonda
+ * @version MFMS_0.0.1
  */
 @Entity
 @Table(name = "merchant")

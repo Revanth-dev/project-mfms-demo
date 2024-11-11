@@ -16,6 +16,12 @@ import lombok.Setter;
 /**
  * Represents a request to create a new Device.
  * This class holds the necessary information to create a Device entity.
+ * <p>It contains fields for device model and manufacturer, which are used to create a new device.</p>
+ * <p>Additionally, it includes a method to convert the request into a Device entity, 
+ * with a randomly generated UUID for the device.</p>
+ * 
+ * @author Chatla Sarika
+ * @version MFMS_0.0.1
  */
 @Data
 @Builder

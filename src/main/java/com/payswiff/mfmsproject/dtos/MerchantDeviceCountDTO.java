@@ -1,8 +1,14 @@
 package com.payswiff.mfmsproject.dtos;
-
 /**
  * MerchantDeviceCountDTO is a Data Transfer Object that encapsulates
  * the number of devices associated with a specific merchant.
+ * 
+ * <p>This DTO is used to transfer the merchant's unique identifier and the count of 
+ * devices associated with that merchant. It provides a structured way to share this 
+ * data in API responses or requests.</p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
 public class MerchantDeviceCountDTO {
 	

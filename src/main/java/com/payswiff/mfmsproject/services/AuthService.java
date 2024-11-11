@@ -27,13 +27,25 @@ import com.payswiff.mfmsproject.security.CustomeUserDetailsService;
 import com.payswiff.mfmsproject.security.JwtAuthenticationEntryPoint;
 import com.payswiff.mfmsproject.security.JwtAuthenticationFilter;
 import com.payswiff.mfmsproject.security.JwtTokenProvider;
-
+/**
+ * Service class responsible for handling authentication-related operations like login, 
+ * and password reset. It includes logic for authenticating users, generating JWT tokens, 
+ * and handling password reset requests.
+ * 
+ * <p>
+ * Version: 0.0.1
+ * </p>
+ * <p>
+ * Author: Gopi Bapanapalli
+ * </p>
+ */
 @Service
 public class AuthService {
 	
 	private static final Logger AuthServiceLogger = LogManager.getLogger(AuthService.class);
 
     @Autowired
+    
     private AuthenticationManager authenticationManager;
 
     @Autowired

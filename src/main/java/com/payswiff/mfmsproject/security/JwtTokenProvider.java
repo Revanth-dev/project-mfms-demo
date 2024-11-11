@@ -18,7 +18,18 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
+/**
+ * Represents a request to create a new Merchant.
+ * <p>This class is used to encapsulate the data required for creating a new Merchant entity in the system. 
+ * It contains the merchant's email, name, phone number, business name, and business type. 
+ * The data collected through this request can then be used to create a new Merchant instance.</p>
+ * 
+ * <p>Note: This class leverages Lombok annotations for boilerplate code reduction and includes a 
+ * method for converting the request into a Merchant entity with a generated UUID.</p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bpanapalli
+ */
 @Component
 public class JwtTokenProvider {
 

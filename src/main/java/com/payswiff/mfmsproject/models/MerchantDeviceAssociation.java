@@ -16,7 +16,24 @@ import lombok.Setter;
 
 /**
  * Represents the association between a merchant and a device.
- * This class is mapped to the 'merchant_device_association' table in the database.
+ * This class maps to the 'merchant_device_association' table in the database, 
+ * linking a merchant with a device in the system. The class establishes 
+ * a many-to-one relationship between the merchant and the device, where a merchant can have multiple devices.
+ * 
+ * <p>This class contains the following fields:</p>
+ * <ul>
+ *     <li><b>id</b>: A unique identifier for the association (auto-incremented).</li>
+ *     <li><b>merchant</b>: A reference to the merchant associated with the device, 
+ *         establishing a relationship with the Merchant entity.</li>
+ *     <li><b>device</b>: A reference to the device associated with the merchant, 
+ *         establishing a relationship with the Device entity.</li>
+ * </ul>
+ * 
+ * <p>This class helps to manage the relationship between merchants and the devices they are linked to, 
+ * enabling the system to associate each device with a specific merchant.</p>
+ * 
+ * @author Gopi Bapanapalli
+ * @version MFMS_0.0.1
  */
 @Entity
 @Table(name = "merchant_device_association")

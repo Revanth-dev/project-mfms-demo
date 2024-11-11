@@ -1,8 +1,10 @@
 package com.payswiff.mfmsproject.dtos;
-
 /**
  * ForgotPasswordDto is a Data Transfer Object used for handling 
  * the information required to reset a user's password.
+ * 
+ * @version MFMS_0.0.1
+ * @author Ruchitha Guttikonda
  */
 public class ForgotPasswordDto {
 	

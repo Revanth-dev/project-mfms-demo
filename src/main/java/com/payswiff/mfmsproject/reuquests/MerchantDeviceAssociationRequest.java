@@ -10,6 +10,8 @@ import lombok.Setter;
 /**
  * Represents a request to associate a device with a merchant.
  * This class holds the necessary information required for the association.
+ * @author Revanth K
+ * @version MFMS_0.0.1
  */
 
 @NoArgsConstructor

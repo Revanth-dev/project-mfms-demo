@@ -15,7 +15,17 @@ import com.payswiff.mfmsproject.exceptions.ResourceNotFoundException;
 import com.payswiff.mfmsproject.exceptions.ResourceUnableToCreate;
 import com.payswiff.mfmsproject.models.Device;
 import com.payswiff.mfmsproject.repositories.DeviceRepository;
-
+/**
+ * Service class responsible for handling the business logic related to Device entities.
+ * Provides methods to save, retrieve, and check the existence of devices in the system.
+ * 
+ * <p>
+ * Version: 0.0.1
+ * </p>
+ * <p>
+ * Author: Ruchitha Guttikonda
+ * </p>
+ */
 @Service
 public class DeviceService {
 
@@ -26,6 +36,7 @@ public class DeviceService {
 
     /**
      * Saves a new device if no existing device with the same model already exists.
+     *
      *
      * @param device The Device entity to be saved. Must not be null and the device model 
      *               must not be empty.

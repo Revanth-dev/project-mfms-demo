@@ -3,7 +3,15 @@ package com.payswiff.mfmsproject.dtos;
 /**
  * FeedbackQuestionAnswerAssignDto is a Data Transfer Object that represents
  * the association between a feedback question and its corresponding answer.
+ * <p>
+ * This class stores the relationship between a feedback question (identified by 
+ * its unique ID) and the answer provided to that question.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Ruchitha Guttikonda
  */
+
 public class FeedbackQuestionAnswerAssignDto {
 	
 	private long questionId;        // Unique identifier for the feedback question

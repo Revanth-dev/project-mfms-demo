@@ -19,7 +19,21 @@ import com.payswiff.mfmsproject.services.QuestionService; // Importing service l
 /**
  * QuestionController handles requests related to questions, including creation, retrieval, 
  * and listing of questions in the application.
+ * <p>
+ * Provides the following endpoints:
+ * - Creating a new question
+ * - Retrieving a question by its ID
+ * - Retrieving a question by its description
+ * - Retrieving all questions
+ * </p>
+ * 
+ * This controller relies on {@link QuestionService} for handling the business logic related to 
+ * question management.
+ * 
+ * @version MFMS_0.0.1
+ * @author Revanth K
  */
+
 @RestController
 @RequestMapping("/api/questions")
 @CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})

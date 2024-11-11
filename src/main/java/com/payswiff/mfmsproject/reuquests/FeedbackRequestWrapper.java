@@ -7,6 +7,8 @@ import com.payswiff.mfmsproject.dtos.FeedbackQuestionAnswerAssignDto;
 /**
  * A wrapper class that encapsulates a feedback request along with
  * a list of associated question-answer pairs.
+ * @author Revanth K
+ * @version MFMS_0.0.1
  */
 public class FeedbackRequestWrapper {
     

@@ -1,10 +1,19 @@
 package com.payswiff.mfmsproject.exceptions;
 
 /**
- * Exception thrown when a merchant device is not assigned.
- * This exception captures details about the resources involved
- * in the assignment failure.
+ * MerchantDeviceNotAssignedException is an exception that is thrown when a merchant device 
+ * is not assigned as expected. It captures specific details about the failure related to 
+ * the resources involved in the assignment process.
+ * <p>
+ * This exception includes information about two resources, their fields, and the associated values
+ * that are involved in the failure to assign a device to a merchant. The exception message is formatted
+ * to provide clear details about the cause of the failure.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 public class MerchantDeviceNotAssignedException extends Exception {
 
     private String resourceOne;  // The first resource involved in the exception

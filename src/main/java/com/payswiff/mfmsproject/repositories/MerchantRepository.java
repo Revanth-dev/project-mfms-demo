@@ -8,7 +8,13 @@ import com.payswiff.mfmsproject.models.Merchant;
 
 /**
  * Repository interface for managing {@link Merchant} entities.
- * This interface extends JpaRepository to provide basic CRUD operations.
+ * This interface extends JpaRepository to provide basic CRUD operations 
+ * and additional custom query methods for Merchant-related data access.
+ * <p>Spring Data JPA will automatically implement this interface, providing methods for standard CRUD operations 
+ * and custom queries specific to the Merchant entity.</p>
+ * 
+ * @author Ruchitha Guttikonda
+ * @version MFMS_0.0.1
  */
 @Repository
 public interface MerchantRepository extends JpaRepository<Merchant, Long> {

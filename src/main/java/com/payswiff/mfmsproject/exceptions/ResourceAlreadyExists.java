@@ -1,9 +1,18 @@
 package com.payswiff.mfmsproject.exceptions;
 
 /**
- * Exception thrown when an attempt is made to create a resource that already exists.
- * This exception captures details about the resource involved in the conflict.
+ * ResourceAlreadyExists is an exception thrown when an attempt is made to create a resource 
+ * that already exists. It captures detailed information about the conflicting resource, 
+ * the specific field causing the conflict, and the value that already exists in the system.
+ * <p>
+ * This exception is used to indicate that a particular resource, such as a user or device, 
+ * cannot be created because a record with the same identifier or field value already exists.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 public class ResourceAlreadyExists extends Exception {
     
     // Serial version UID for serialization compatibility

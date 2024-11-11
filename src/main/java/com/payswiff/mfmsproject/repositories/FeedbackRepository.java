@@ -13,8 +13,13 @@ import com.payswiff.mfmsproject.models.Merchant;
 
 /**
  * Repository interface for managing {@link Feedback} entities.
- * This interface extends JpaRepository to provide basic CRUD operations
- * and additional custom query methods for handling feedback data.
+ * This interface extends JpaRepository to provide basic CRUD operations and additional custom query methods
+ * for handling feedback data.
+ * <p>Spring Data JPA will automatically implement this interface, providing methods for standard CRUD operations 
+ * and custom queries specific to the Feedback entity.</p>
+ * 
+ * @author Gopi Bapanapalli
+ * @version MFMS_0.0.1
  */
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 

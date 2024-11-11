@@ -22,15 +22,20 @@ import org.springframework.beans.factory.annotation.Autowired; // Dependency inj
 import org.springframework.http.HttpStatus; // HTTP status codes
 import org.springframework.http.ResponseEntity; // Building HTTP responses
 import org.springframework.web.bind.annotation.*; // RESTful web service annotations
-
 /**
  * The FeedbackController handles all HTTP requests related to feedback management.
  * Provides endpoints for:
  * - Creating feedback records
  * - Fetching feedback based on employee, device, rating, and merchant
  * - Retrieving feedback count and average rating grouped by various criteria
+ * <p>
  * Relies on {@link FeedbackService} to execute business logic, while handling request validation, error handling, and logging.
+ * </p>
+ *
+ * @version MFMS_0.0.1
+ * @author Chatla Sarika
  */
+
 @RestController
 @RequestMapping("/api/feedback")
 @CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})

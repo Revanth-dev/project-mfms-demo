@@ -3,7 +3,16 @@ package com.payswiff.mfmsproject.dtos;
 /**
  * EmailResponseDto is a Data Transfer Object that encapsulates the response
  * details of an email sending operation.
+ * <p>
+ * This class is used to transfer information related to the result of sending an email, 
+ * including whether the email was successfully sent and the HTTP status code representing 
+ * the outcome of the email operation.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 public class EmailResponseDto {
     
     private boolean emailSent; // Indicates if the email was successfully sent

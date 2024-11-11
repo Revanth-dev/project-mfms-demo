@@ -20,8 +20,23 @@ import com.payswiff.mfmsproject.services.MerchantDeviceAssociationService; // Im
 /**
  * MerchantDeviceAssociationController handles requests related to the 
  * association between merchants and devices, including assigning devices 
- * to merchants and checking existing associations.
+ * to merchants, checking existing associations, and retrieving device counts 
+ * for merchants.
+ * <p>
+ * Provides the following endpoints:
+ * - Assigning devices to merchants
+ * - Retrieving the list of devices associated with a merchant
+ * - Checking if a device is associated with a merchant
+ * - Retrieving the count of devices associated with each merchant
+ * </p>
+ * 
+ * This controller relies on {@link MerchantDeviceAssociationService} for handling 
+ * the business logic related to merchant-device associations.
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 @RestController
 @RequestMapping("/api/MerchantDeviceAssociation")
 @CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})

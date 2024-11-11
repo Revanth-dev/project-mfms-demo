@@ -21,8 +21,18 @@ import com.payswiff.mfmsproject.services.EmployeeService; // Importing service f
 
 /**
  * REST controller for handling authentication-related operations.
- * This includes login and password recovery functionalities.
+ * <p>
+ * This class provides endpoints for user authentication, including login and password recovery 
+ * functionalities. It is responsible for accepting authentication requests from clients, performing 
+ * the necessary operations through service layers, and responding with the appropriate results. 
+ * The authentication operations are secured and perform necessary validations such as ensuring that 
+ * provided credentials are valid and processing password recovery requests.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 @RestController // Indicates that this class is a REST controller
 @RequestMapping("/api/authentication") // Base URL for all authentication-related endpoints
 @CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})

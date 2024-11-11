@@ -19,7 +19,31 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
+/**
+ * Represents a feedback entity in the system.
+ * This class is used to capture feedback provided by employees about merchants, devices, or services.
+ * The feedback contains details such as the rating, feedback text, images, and timestamps for creation and updates.
+ * 
+ * <p>This class contains the following fields:</p>
+ * <ul>
+ *     <li><b>feedbackId</b>: A unique identifier for the feedback entry (auto-increment).</li>
+ *     <li><b>feedbackUuid</b>: A unique UUID for the feedback entry.</li>
+ *     <li><b>feedbackEmployee</b>: A reference to the employee who provided the feedback.</li>
+ *     <li><b>feedbackMerchant</b>: A reference to the merchant the feedback is about.</li>
+ *     <li><b>feedbackDevice</b>: A reference to the device the feedback is related to.</li>
+ *     <li><b>feedbackImage1</b>: A URL or path to an image associated with the feedback.</li>
+ *     <li><b>feedbackCreationTime</b>: The timestamp when the feedback was created.</li>
+ *     <li><b>feedbackUpdationTime</b>: The timestamp when the feedback was last updated.</li>
+ *     <li><b>feedbackRating</b>: The rating given in the feedback (e.g., 1 to 5 stars).</li>
+ *     <li><b>feedback</b>: Additional feedback text provided by the employee.</li>
+ * </ul>
+ * 
+ * <p>This class allows the system to store detailed information about feedback provided by employees and ensures 
+ * that feedback is related to specific employees, merchants, and devices.</p>
+ * 
+ * @author Chatla Sarika
+ * @version MFMS_0.0.1
+ */
 @Entity
 @Table(name = "feedback")
 @Builder

@@ -2,6 +2,17 @@
  * Exception thrown when an employee's password update fails.
  */
 package com.payswiff.mfmsproject.exceptions;
+/**
+ * EmployeePasswordUpdationFailedException is thrown when an employee's password update fails.
+ * <p>
+ * This exception is thrown to indicate that an error occurred while attempting to update or change
+ * an employee's password, which could be due to various reasons such as invalid credentials, system issues,
+ * or other failures.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
+ */
 
 public class EmployeePasswordUpdationFailedException extends Exception {
 

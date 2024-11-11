@@ -3,7 +3,16 @@ package com.payswiff.mfmsproject.dtos;
 /**
  * EmailOtpResponseDto is a Data Transfer Object that encapsulates the response 
  * details of an email OTP (One-Time Password) request.
+ * <p>
+ * This class is used to transfer information related to the status of sending an OTP 
+ * via email, including whether the email was sent successfully, the OTP generated, 
+ * and the status code of the operation.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Revanth K
  */
+
 public class EmailOtpResponseDto {
     
     private boolean emailSent; // Indicates if the OTP email was successfully sent

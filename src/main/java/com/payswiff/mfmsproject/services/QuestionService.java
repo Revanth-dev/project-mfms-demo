@@ -14,7 +14,18 @@ import com.payswiff.mfmsproject.repositories.QuestionRepository;
 
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * Service class for handling operations related to Questions.
+ * <p>This service provides methods for saving, retrieving, and managing question data within the application. 
+ * It includes operations for adding new questions, fetching questions by ID or description, 
+ * and retrieving all questions from the repository. The service performs validations 
+ * to ensure data integrity, such as checking for existing questions with the same description.</p>
+ * 
+ * <p>It also logs important events and errors during the execution of these operations.</p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Revanth K
+ */
 @Service
 public class QuestionService {
 

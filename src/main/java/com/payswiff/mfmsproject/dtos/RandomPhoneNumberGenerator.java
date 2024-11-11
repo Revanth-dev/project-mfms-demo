@@ -1,7 +1,17 @@
 package com.payswiff.mfmsproject.dtos;
 
 import java.util.Random;
-
+/**
+ * RandomPhoneNumberGenerator is a utility class that provides a method to generate
+ * a random phone number.
+ * <p>
+ * The class contains a static method to generate a random 10-digit phone number
+ * in the format (XXX) XXX-XXXX, where each part of the number is randomly generated.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
+ */
 public class RandomPhoneNumberGenerator {
 
     // Method to generate a random phone number

@@ -34,6 +34,8 @@ import java.util.Set;
  * This service interacts with the {@link EmployeeRepository} and {@link RoleRepository}
  * to access and manage employee and role data, and leverages {@link EmailService} for
  * sending notifications. All critical operations are logged for success and error tracking.
+ * @author Reavnth K
+ * @version MFMS_0.0.1
  */
 @Service
 public class EmployeeService {

@@ -18,11 +18,16 @@ import org.modelmapper.ModelMapper;
 
 /**
  * Represents a request to create a new Merchant.
- * This class holds the necessary information to create a Merchant entity.
+ * <p>This class holds the necessary information required to create a Merchant entity, 
+ * such as the merchant's email, name, phone number, business name, and business type.</p>
+ * 
+ * @author Revanth K
+ * @version MFMS_0.0.1
  */
 @Data
 @Getter
 @Setter
+
 //@AllArgsConstructor
 //@NoArgsConstructor
 public class CreateMerchantRequest {

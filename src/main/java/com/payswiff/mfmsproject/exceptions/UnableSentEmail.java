@@ -1,9 +1,15 @@
 package com.payswiff.mfmsproject.exceptions;
 
 /**
- * Exception thrown when an email fails to send.
- * This exception provides information about the email address
- * to which the sending attempt was made.
+ * UnableSentEmail is a custom exception that is thrown when an attempt to send an email fails.
+ * This exception provides information about the email address to which the sending attempt was made,
+ * allowing the system to handle email-related failures gracefully.
+ * <p>
+ * The exception captures the email address that was targeted, helping to identify which email failed to be sent.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
 public class UnableSentEmail extends Exception {
 

@@ -1,9 +1,18 @@
 package com.payswiff.mfmsproject.exceptions;
 
 /**
- * Exception thrown when a resource creation attempt fails.
- * This exception provides details about the resource that could not be created.
+ * ResourceUnableToCreate is a custom exception class that is thrown when an attempt to create a resource 
+ * (e.g., User, Product) fails. The exception captures details about the resource, the field involved, 
+ * and the value that was attempted to be created, providing a structured way to handle resource creation failures.
+ * <p>
+ * This exception helps in identifying and managing errors that occur when trying to create a resource that 
+ * cannot be successfully created at a given moment.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Gopi Bapanapalli
  */
+
 public class ResourceUnableToCreate extends Exception {
     
     // Serial version UID for serialization compatibility

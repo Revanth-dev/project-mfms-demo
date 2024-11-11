@@ -3,6 +3,13 @@ package com.payswiff.mfmsproject.dtos;
 /**
  * AverageRatingResponseDTO is a Data Transfer Object that encapsulates 
  * the average rating of a device along with its identifier.
+ * <p>
+ * This class is used to transfer information about a device's average rating 
+ * between different layers of the application, typically in API responses.
+ * </p>
+ * 
+ * @version MFMS_0.0.1
+ * @author Revanth K
  */
 public class AverageRatingResponseDTO {
     private Long deviceId; // The unique identifier for the device
