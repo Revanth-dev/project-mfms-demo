@@ -29,7 +29,7 @@ import com.payswiff.mfmsproject.services.DeviceService;
  */
 @RestController
 @RequestMapping("/api/devices")
-@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.7:5173"})
 public class DeviceController {
 
     private static final Logger deviceControllerLogger = LogManager.getLogger(DeviceController.class);
@@ -59,10 +59,10 @@ public class DeviceController {
             deviceControllerLogger.info("Device created successfully with model: {}", savedDevice.getDeviceModel());
             return savedDevice;
         } catch (ResourceAlreadyExists ex) {
-            deviceControllerLogger.error("Device with the same model already exists: {}", request.getDeviceModel(), ex);
+            deviceControllerLogger.error("Device with the same model already exists: {}",ex);
             throw ex; // Re-throw exception after logging
         } catch (ResourceUnableToCreate ex) {
-            deviceControllerLogger.error("Failed to create device with model: {}", request.getDeviceModel(), ex);
+            deviceControllerLogger.error("Failed to create device with model: {}", ex);
             throw ex; // Re-throw exception after logging
         }
     }

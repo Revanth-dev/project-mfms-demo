@@ -55,7 +55,7 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api/employees")
-@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.7:5173"})
 public class EmployeeController {
 
     private static final Logger logger = LogManager.getLogger(EmployeeController.class);

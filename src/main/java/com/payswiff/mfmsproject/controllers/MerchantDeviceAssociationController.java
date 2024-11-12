@@ -39,7 +39,7 @@ import com.payswiff.mfmsproject.services.MerchantDeviceAssociationService; // Im
 
 @RestController
 @RequestMapping("/api/MerchantDeviceAssociation")
-@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.7:5173"})
 public class MerchantDeviceAssociationController {
 
     private static final Logger logger = LogManager.getLogger(MerchantDeviceAssociationController.class); // Initializing logger

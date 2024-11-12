@@ -35,7 +35,7 @@ import com.payswiff.mfmsproject.services.MerchantService; // Importing the servi
 
 @RestController
 @RequestMapping("/api/merchants")
-@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.7:5173"})
 public class MerchantController {
 
     private static final Logger logger = LogManager.getLogger(MerchantController.class); // Initializing logger

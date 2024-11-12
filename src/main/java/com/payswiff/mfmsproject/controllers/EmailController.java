@@ -26,7 +26,7 @@ import com.payswiff.mfmsproject.services.EmailService;
  */
 @RestController
 @RequestMapping("/api/email")
-@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.7:5173"})
 public class EmailController {
 
     private static final Logger emailControllerLogger = LogManager.getLogger(EmailController.class);

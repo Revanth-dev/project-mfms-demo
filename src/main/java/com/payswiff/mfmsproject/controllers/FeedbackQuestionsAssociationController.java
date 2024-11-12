@@ -27,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/FeedbackQuestions")
-@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.4:5173"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.7:5173"})
 public class FeedbackQuestionsAssociationController {
 
     private static final Logger logger = LogManager.getLogger(FeedbackQuestionsAssociationController.class);
