@@ -52,6 +52,7 @@ import org.springframework.stereotype.Service;
  * }
  * </pre>
  * </p>
+ * @author Gopi Bapanapalli
  */
 @Service
 public class EmailService {

@@ -18,7 +18,7 @@ import com.payswiff.mfmsproject.models.Merchant;
  * <p>Spring Data JPA will automatically implement this interface, providing methods for standard CRUD operations 
  * and custom queries specific to the Feedback entity.</p>
  * 
- * @author Gopi Bapanapalli
+ * @author Chatla Sarika
  * @version MFMS_0.0.1
  */
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {

@@ -15,7 +15,7 @@ import com.payswiff.mfmsproject.models.Question;
  * <p>Spring Data JPA will automatically implement this interface, providing methods for standard CRUD operations 
  * as well as custom queries for managing the associations between Feedback and Question entities.</p>
  * 
- * @author Gopi Bapanapalli
+ * @author Chatla Sarika
  * @version MFMS_0.0.1
  */
 public interface FeedbackQuestionsAssociationRepository extends JpaRepository<FeedbackQuestionsAssociation, Integer> {

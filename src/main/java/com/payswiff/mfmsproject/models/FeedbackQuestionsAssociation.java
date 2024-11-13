@@ -29,7 +29,7 @@ import lombok.Setter;
  * <p>This class enables the system to capture detailed responses to feedback-related questions and links
  * the feedback with the corresponding questions and answers, ensuring traceability of responses.</p>
  * 
- * @author Gopi Bapanapalli
+ * @author Chatla Sarika
  * @version MFMS_0.0.1
  */
 @Entity

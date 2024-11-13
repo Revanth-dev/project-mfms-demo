@@ -34,7 +34,7 @@ import com.payswiff.mfmsproject.services.MerchantDeviceAssociationService; // Im
  * the business logic related to merchant-device associations.
  * 
  * @version MFMS_0.0.1
- * @author Gopi Bapanapalli
+ * @author Ruchitha Guttikonda
  */
 
 @RestController

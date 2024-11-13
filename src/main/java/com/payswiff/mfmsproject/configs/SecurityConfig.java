@@ -45,7 +45,7 @@ import com.payswiff.mfmsproject.security.JwtTokenProvider; // Importing custom J
  * </ul>
  * </p>
  *
- * @version MFMF_0.0.1
+ * @version MFMS_0.0.1
  * @author Gopi Bapanapalli
  */
 

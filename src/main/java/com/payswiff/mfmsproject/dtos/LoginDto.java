@@ -15,7 +15,7 @@ import lombok.Setter;
  * of user login information.</p>
  * 
  * @version MFMS_0.0.1
- * @author Gopi Bapanapalli
+ * @author Chatla Sarika
  */
 @NoArgsConstructor  // No-argument constructor for deserialization or default instantiation
 @Builder            // Lombok annotation to enable the builder pattern for object creation

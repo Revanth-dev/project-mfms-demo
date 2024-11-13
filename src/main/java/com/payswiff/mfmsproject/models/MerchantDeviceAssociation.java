@@ -32,7 +32,7 @@ import lombok.Setter;
  * <p>This class helps to manage the relationship between merchants and the devices they are linked to, 
  * enabling the system to associate each device with a specific merchant.</p>
  * 
- * @author Gopi Bapanapalli
+ * @author Ruchitha Guttikonda
  * @version MFMS_0.0.1
  */
 @Entity

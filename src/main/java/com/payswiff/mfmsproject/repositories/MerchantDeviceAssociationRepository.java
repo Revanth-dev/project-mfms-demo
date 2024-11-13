@@ -18,7 +18,7 @@ import com.payswiff.mfmsproject.models.MerchantDeviceAssociation;
  * <p>Spring Data JPA will automatically implement this interface, providing methods for standard CRUD operations
  * and custom queries specific to the MerchantDeviceAssociation entity.</p>
  * 
- * @author Chatla Sarika
+ * @author Ruchitha G
  * @version MFMS_0.0.1
  */
 @Repository

@@ -43,7 +43,7 @@ import org.modelmapper.ModelMapper;
  * feedback service class
  * create feedback
  * get feedbacks
- * @author Gopi Bapanapalli
+ * @author Chatla Sarika
  * @version MFMS_0.0.1
  * */
 @Service

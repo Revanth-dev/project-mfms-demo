@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 /**
  * Service class to handle operations related to Feedback-Question Associations.
- * @author Gopi Bapanapalli
+ * @author Chatla Sarika
  * @version MFMS_0.0.1
  */
 @Service
