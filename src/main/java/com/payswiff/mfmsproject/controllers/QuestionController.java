@@ -37,7 +37,6 @@ import com.payswiff.mfmsproject.services.QuestionService; // Importing service l
 @RestController
 @RequestMapping("/api/questions")
 @CrossOrigin(origins = {"http://localhost:5173", "http://192.168.2.7:5173"})
-
 public class QuestionController {
 
     private static final Logger logger = LogManager.getLogger(QuestionController.class); // Initializing logger
