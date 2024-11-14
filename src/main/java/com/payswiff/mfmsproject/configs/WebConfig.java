@@ -24,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer; // Im
  * </ul>
  * 
  * @version MFMS_0.0.1
- * @author Gopi Bapanapalli
+ * @author Revanth K
  */
 @Configuration // Annotation indicating that this class provides Spring configuration
 public class WebConfig implements WebMvcConfigurer {

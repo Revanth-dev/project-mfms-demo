@@ -2,12 +2,16 @@ package com.payswiff.mfmsproject; // Package declaration for the application
 
 import org.springframework.boot.SpringApplication; // Importing the SpringApplication class to run the application
 import org.springframework.boot.autoconfigure.SpringBootApplication; // Importing the SpringBootApplication annotation
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * The entry point for the MFMS Project application.
  * This class contains the main method which is the starting point of the Spring Boot application.
  */
 @SpringBootApplication // Annotation that enables auto-configuration, component scanning, and Spring Boot's configuration support
+@EnableJpaRepositories(basePackages = "com.payswiff.mfmsproject")
+@EntityScan(basePackages = "com.payswiff.mfmsproject")
 public class MfmsProjectApplication {
 
     /**
