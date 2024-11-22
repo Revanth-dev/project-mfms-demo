@@ -110,6 +110,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/authentication/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/authentication/forgotpassword").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/employees/create").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/employees/exists").permitAll()
 
                         // Allow access to admin-only endpoints with 'admin' role
                         .requestMatchers(HttpMethod.POST, "/api/devices/create").hasRole("admin")

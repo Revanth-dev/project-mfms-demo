@@ -222,4 +222,12 @@ public class EmployeeService {
         logger.info("Retrieving all employees from the database");
         return employeeRepository.findAll();
     }
+    
+    /*
+     * check employee exists with email or not*/
+    public boolean existsByEmail(String email) {
+    	
+    	return employeeRepository.existsByEmployeeEmail(email);
+    }
+    
 }

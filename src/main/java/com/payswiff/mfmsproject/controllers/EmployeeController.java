@@ -154,4 +154,17 @@ public class EmployeeController {
         // Return the list of employees with 200 OK status
         return ResponseEntity.ok(employees);
     }
+    /**
+     * get api for employee exits with email id
+     * @return true if employee exits else false
+     * */
+    @GetMapping("/exists")
+    public boolean employeeExitsOrNot(@RequestParam("email") String email) {
+    	
+    	if(!email.isEmpty() && !email.isBlank() && email!=null) {
+    		return employeeService.existsByEmail(email);
+    	}
+    	return false;
+    }
+   
 }

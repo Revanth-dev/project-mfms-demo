@@ -176,6 +176,23 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>7.0.0</version> <!-- Use the latest version -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<format>JSON</format>  <!-- Specify JSON output format -->
+					<outputDirectory>target/dependency-check-report</outputDirectory>  <!--
+					Output directory -->
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
